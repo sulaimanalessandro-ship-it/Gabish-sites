@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GABISH | Zurich Global Technology</title>
+    <title>GABISH | Zurich Elite Technology</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@100;300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* GABISH OFFICIAL DESIGN SYSTEM v4.0 
-           Headquarters: Bahnhofstrasse, Zurich
-           Owners: Alessandro & Ramez
+        /* GABISH OFFICIAL DESIGN SYSTEM v5.0 
+           Founders: Alessandro & Ramez
+           Location: Bahnhofstrasse, Zurich
         */
 
         :root {
@@ -19,17 +19,16 @@
             --card-surface: #0a0a0f;
             --text-pure: #ffffff;
             --text-dim: #888888;
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --error: #ff4d4d;
+            --success: #00ff88;
+            --glass: rgba(255, 255, 255, 0.05);
             --neon-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-            --transition-hq: 0.6s cubic-bezier(0.2, 1, 0.2, 1);
+            --transition: 0.5s cubic-bezier(0.2, 1, 0.2, 1);
         }
 
-        /* RESET & BASE */
+        /* RESET GENERALE */
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--dark-core); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
+        html { scroll-behavior: smooth; }
         body {
             background-color: var(--dark-core);
             color: var(--text-pure);
@@ -38,7 +37,7 @@
             line-height: 1.6;
         }
 
-        /* CANVAS PER EFFETTO DIGITAL RAIN */
+        /* BACKGROUND ANIMATO MATRIX */
         #matrix-bg {
             position: fixed;
             top: 0;
@@ -46,18 +45,38 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.15;
+            opacity: 0.12;
         }
 
-        /* --- LA BARRIERA (HEADER) --- */
+        /* --- NOTIFICHE TOAST --- */
+        #toast-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 11000;
+        }
+        .toast {
+            background: var(--card-surface);
+            border-left: 4px solid var(--primary);
+            padding: 15px 25px;
+            margin-bottom: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateX(120%);
+            transition: 0.4s;
+            font-family: 'Orbitron';
+            font-size: 12px;
+        }
+        .toast.show { transform: translateX(0); }
+
+        /* --- HEADER & NAVIGATION --- */
         header {
             position: fixed;
             top: 0;
             width: 100%;
             height: 90px;
-            background: rgba(2, 2, 3, 0.85);
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(2, 2, 3, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -65,374 +84,411 @@
             z-index: 10000;
         }
 
-        .brand-unit { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .brand-logo {
-            width: 50px; height: 50px; border: 3px solid var(--primary);
+        .brand { display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none; }
+        .brand-icon {
+            width: 48px; height: 48px; border: 2px solid var(--primary);
             display: flex; align-items: center; justify-content: center;
             font-family: 'Orbitron'; font-weight: 900; color: var(--primary);
             box-shadow: var(--neon-shadow); font-size: 20px;
         }
-        .brand-name { font-family: 'Orbitron'; font-size: 28px; letter-spacing: 6px; font-weight: 700; color: #fff; }
+        .brand-text { font-family: 'Orbitron'; font-size: 26px; letter-spacing: 5px; color: #fff; }
 
-        nav.desktop-nav { display: flex; gap: 35px; }
-        nav.desktop-nav a {
-            color: var(--text-pure); text-decoration: none; font-size: 12px;
+        nav.main-nav { display: flex; gap: 30px; }
+        nav.main-nav a {
+            color: var(--text-pure); text-decoration: none; font-size: 11px;
             text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
-            transition: 0.3s; opacity: 0.6;
+            transition: 0.3s; opacity: 0.5;
         }
-        nav.desktop-nav a:hover { opacity: 1; color: var(--primary); }
+        nav.main-nav a:hover { opacity: 1; color: var(--primary); }
 
-        .action-zone { display: flex; align-items: center; gap: 20px; }
         .cart-trigger {
-            background: none; border: 1px solid var(--primary); color: var(--primary);
-            padding: 10px 20px; cursor: pointer; font-family: 'Orbitron';
-            font-size: 11px; font-weight: 700; transition: 0.4s;
+            background: var(--primary); color: #000; padding: 12px 25px;
+            border: none; cursor: pointer; font-family: 'Orbitron';
+            font-size: 12px; font-weight: 900; transition: 0.3s;
         }
-        .cart-trigger:hover { background: var(--primary); color: #000; box-shadow: var(--neon-shadow); }
+        .cart-trigger:hover { background: #fff; box-shadow: var(--neon-shadow); }
 
         /* --- SIDEBAR CARRELLO --- */
-        #cart-panel {
+        #cart-sidebar {
             position: fixed; right: -450px; top: 0; width: 420px; height: 100vh;
             background: #08080c; border-left: 1px solid var(--primary);
-            z-index: 10001; transition: var(--transition-hq); padding: 60px 40px;
+            z-index: 10001; transition: var(--transition); padding: 50px 40px;
             display: flex; flex-direction: column;
         }
-        #cart-panel.open { right: 0; }
-        .close-trigger { cursor: pointer; color: var(--primary); font-family: 'Orbitron'; text-align: right; margin-bottom: 40px; }
-        #cart-list { flex-grow: 1; overflow-y: auto; }
-        .item-row { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #1a1a1a; padding-bottom: 15px; }
+        #cart-sidebar.open { right: 0; }
+        .close-sidebar { text-align: right; cursor: pointer; color: var(--primary); font-family: 'Orbitron'; margin-bottom: 40px; }
+        
+        #cart-items-container { flex-grow: 1; overflow-y: auto; }
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #1a1a1a;
+        }
+        .remove-btn { 
+            color: var(--error); border: 1px solid var(--error); 
+            padding: 4px 10px; cursor: pointer; font-size: 10px; font-weight: bold; 
+            transition: 0.3s;
+        }
+        .remove-btn:hover { background: var(--error); color: #fff; }
 
         /* --- HERO SECTION --- */
-        .hero-engine {
-            height: 100vh; display: flex; flex-direction: column;
+        .hero {
+            height: 90vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
             padding: 0 5%;
         }
-        .hero-engine h1 { 
-            font-family: 'Orbitron'; font-size: clamp(3rem, 12vw, 7rem); 
-            line-height: 0.9; margin-bottom: 25px; font-weight: 900;
-            background: linear-gradient(to bottom, #fff 40%, var(--primary));
+        .hero h1 { 
+            font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 7rem); 
+            line-height: 1; margin-bottom: 20px; font-weight: 900;
+            background: linear-gradient(to bottom, #fff, var(--primary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .hero-engine p { color: var(--text-dim); font-size: 1.4rem; max-width: 800px; font-weight: 300; margin-bottom: 40px; }
+        .hero p { color: var(--text-dim); font-size: 1.3rem; max-width: 800px; margin-bottom: 40px; }
 
-        /* --- SEZIONE SHOP --- */
-        .page-width { max-width: 1400px; margin: 0 auto; padding: 120px 5%; }
-        .section-tag { font-family: 'Orbitron'; color: var(--primary); font-size: 14px; letter-spacing: 5px; text-transform: uppercase; display: block; text-align: center; margin-bottom: 15px; }
-        .main-title { font-family: 'Orbitron'; font-size: 45px; text-align: center; margin-bottom: 80px; }
-
-        .shop-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .p-card {
-            background: var(--card-surface); padding: 40px; border: 1px solid var(--glass-border);
-            transition: var(--transition-hq); position: relative;
+        /* --- SHOP SECTION --- */
+        .section-title { 
+            font-family: 'Orbitron'; font-size: 35px; text-align: center; 
+            margin-bottom: 80px; letter-spacing: 5px; 
         }
-        .p-card:hover { border-color: var(--primary); transform: scale(1.02); background: #0e0e16; }
-        .p-card img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 30px; border-radius: 2px; }
-        .p-price { font-size: 32px; font-weight: 800; color: var(--primary); display: block; margin: 20px 0; }
-        .btn-buy {
+        .grid-container { 
+            max-width: 1400px; margin: 0 auto; padding: 100px 5%; 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px;
+        }
+
+        .product-card {
+            background: var(--card-surface); padding: 40px; border: 1px solid var(--glass);
+            transition: var(--transition); position: relative;
+        }
+        .product-card:hover { border-color: var(--primary); transform: translateY(-10px); background: #0c0c14; }
+        .product-card img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 30px; }
+        
+        .product-info h3 { font-family: 'Orbitron'; font-size: 22px; margin-bottom: 10px; }
+        .product-info p { color: var(--text-dim); font-size: 14px; margin-bottom: 20px; }
+        .price { font-size: 32px; color: var(--primary); font-weight: 800; display: block; margin-bottom: 25px; }
+
+        .action-button {
             background: var(--primary); color: #000; width: 100%; padding: 18px;
-            border: none; font-weight: 900; font-family: 'Orbitron'; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 2px;
+            border: none; font-family: 'Orbitron'; font-weight: 900; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+        }
+        .action-button:hover { background: #fff; box-shadow: var(--neon-shadow); }
+
+        /* --- FOUNDERS SECTION --- */
+        .founders { background: #050508; padding: 120px 5%; border-top: 1px solid #111; }
+        .founders-grid { 
+            display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; margin-top: 60px;
+        }
+        .founder-card {
+            border: 1px solid var(--primary); padding: 50px; width: 320px; text-align: center;
+            background: rgba(0, 212, 255, 0.02);
+        }
+        .founder-card h2 { font-family: 'Orbitron'; font-size: 28px; margin-bottom: 10px; color: var(--primary); }
+        .founder-card span { text-transform: uppercase; letter-spacing: 4px; color: var(--text-dim); font-size: 12px; }
+
+        /* --- NEWSLETTER SECTION --- */
+        .newsletter {
+            padding: 100px 5%; text-align: center; 
+            background: radial-gradient(circle at center, #001a33 0%, var(--dark-core) 100%);
+        }
+        .news-box { max-width: 600px; margin: 40px auto; display: flex; gap: 10px; }
+        .news-input { 
+            flex-grow: 1; background: rgba(0,0,0,0.5); border: 1px solid #333; 
+            padding: 18px; color: #fff; font-family: 'Inter'; 
+        }
+        #news-status { margin-top: 20px; font-family: 'Orbitron'; font-size: 14px; color: var(--primary); display: none; }
+
+        /* --- CAREERS SECTION --- */
+        .careers { padding: 100px 5%; max-width: 1000px; margin: 0 auto; }
+        .job-box { 
+            background: #0c0c12; padding: 30px; margin-bottom: 20px; 
+            border-left: 4px solid var(--primary); display: flex; 
+            justify-content: space-between; align-items: center;
         }
 
-        /* --- MISSION & VALUES (NEW) --- */
-        .mission-box { background: #050508; padding: 150px 5%; border-top: 1px solid var(--glass-border); }
-        .valori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; margin-top: 60px; }
-        .v-item h3 { font-family: 'Orbitron'; color: var(--primary); margin-bottom: 15px; }
-        .v-item p { color: var(--text-dim); font-size: 15px; }
-
-        /* --- TEAM HQ --- */
-        .team-section { padding: 120px 5%; text-align: center; }
-        .boss-wrap { display: flex; justify-content: center; gap: 100px; flex-wrap: wrap; margin-top: 50px; }
-        .boss-card { position: relative; padding: 40px; border: 1px solid var(--primary); width: 300px; }
-        .boss-card h2 { font-family: 'Orbitron'; font-size: 24px; margin-bottom: 10px; }
-        .boss-card span { text-transform: uppercase; color: var(--text-dim); font-size: 12px; letter-spacing: 3px; }
-
-        /* --- FAQ ACCORDION --- */
-        .faq-wrap { max-width: 800px; margin: 50px auto; }
-        .faq-box { background: #0c0c12; margin-bottom: 15px; padding: 25px; cursor: pointer; border-left: 4px solid var(--primary); }
-        .faq-box h4 { font-family: 'Orbitron'; font-size: 16px; margin-bottom: 10px; }
-
-        /* --- FOOTER E LEGALE --- */
+        /* --- FOOTER --- */
         footer { background: #000; padding: 100px 5% 50px; border-top: 2px solid #111; }
-        .footer-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 60px; }
-        .f-title { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 30px; color: #fff; }
-        .f-links { list-style: none; }
-        .f-links li { margin-bottom: 15px; color: #555; font-size: 14px; cursor: pointer; transition: 0.3s; }
-        .f-links li:hover { color: var(--primary); padding-left: 5px; }
-
-        .newsletter { margin-top: 50px; background: var(--card-surface); padding: 40px; text-align: center; border: 1px solid var(--glass-border); }
-        .news-input { background: #000; border: 1px solid #333; color: #fff; padding: 15px; width: 300px; font-family: 'Inter'; }
-
-        .legal-notice {
-            margin-top: 100px; text-align: center; font-size: 10px; color: #222;
-            line-height: 2; border-top: 1px solid #080808; padding-top: 40px; text-transform: uppercase;
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 60px; }
+        .footer-col h4 { font-family: 'Orbitron'; margin-bottom: 30px; color: var(--primary); font-size: 18px; }
+        .footer-col p, .footer-col li { color: #555; font-size: 14px; list-style: none; margin-bottom: 15px; }
+        
+        .legal {
+            margin-top: 100px; text-align: center; font-size: 11px; color: #222;
+            border-top: 1px solid #080808; padding-top: 50px; text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* PAYPAL BUTTON CUSTOM */
-        #paypal-button {
-            background: #ffc439; color: #111; padding: 22px; border: none;
+        /* CHECKOUT PAYPAL */
+        #paypal-button-container {
+            background: #ffc439; color: #000; padding: 22px; border: none;
             width: 100%; font-weight: 900; cursor: pointer; margin-top: 30px;
-            display: none; font-size: 15px; font-family: 'Orbitron'; clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            display: none; font-family: 'Orbitron'; font-size: 15px;
         }
     </style>
 </head>
 <body>
 
     <canvas id="matrix-bg"></canvas>
+    <div id="toast-container"></div>
 
     <header>
-        <div class="brand-unit">
-            <div class="brand-logo">GB</div>
-            <span class="brand-name">GABISH</span>
-        </div>
-        <nav class="desktop-nav">
-            <a href="#home">Inizio</a>
-            <a href="#store">Hardware</a>
-            <a href="#mission">Missione</a>
-            <a href="#team">Esecutivi</a>
-            <a href="#contact">Contatti</a>
+        <a href="#home" class="brand">
+            <div class="brand-icon">GB</div>
+            <span class="brand-text">GABISH</span>
+        </a>
+        <nav class="main-nav">
+            <a href="#home">Home</a>
+            <a href="#shop">Store</a>
+            <a href="#about">Founders</a>
+            <a href="#careers">Careers</a>
+            <a href="#contact">Contact</a>
         </nav>
-        <div class="action-zone">
-            <button class="cart-trigger" onclick="toggleCart()">BAG [<span id="cart-total-count">0</span>]</button>
-        </div>
+        <button class="cart-trigger" onclick="toggleCart()">BAG [<span id="cart-count">0</span>]</button>
     </header>
 
-    <div id="cart-panel">
-        <div class="close-trigger" onclick="toggleCart()">ESC // CLOSE</div>
-        <h2 style="font-family: 'Orbitron'; letter-spacing: 2px; margin-bottom: 30px; color: var(--primary);">IL TUO ORDINE</h2>
-        <div id="cart-list">
+    <div id="cart-sidebar">
+        <div class="close-sidebar" onclick="toggleCart()">ESC // CLOSE</div>
+        <h2 style="font-family: 'Orbitron'; margin-bottom: 30px;">MY BAG</h2>
+        <div id="cart-items-container">
             </div>
-        <div style="border-top: 1px solid #222; padding-top: 30px;">
+        <div style="border-top: 1px solid var(--primary); padding-top: 30px;">
             <p style="font-size: 28px; display: flex; justify-content: space-between; font-family: 'Orbitron';">
-                <span>TOTAL:</span> <span id="cart-sum">0</span> CHF
+                <span>TOTAL:</span> <span id="cart-total-value">0</span> CHF
             </p>
-            <button id="paypal-button" onclick="checkout()">INITIATE PAYPAL SECURE</button>
+            <button id="paypal-button-container" onclick="handleCheckout()">PROCESS SECURE PAYMENT</button>
         </div>
     </div>
 
-    <section class="hero-engine" id="home">
-        <span class="section-tag" style="margin-bottom: 20px;">Zurich Technology Systems</span>
-        <h1>NEXT GEN<br>EVOLUTION</h1>
-        <p>Gabish ridefinisce l'interazione uomo-macchina. Benvenuti nel futuro dell'hardware svizzero ad alte prestazioni.</p>
-        <div style="margin-top: 40px;">
-            <button class="btn-buy" style="width: auto; padding: 20px 50px;" onclick="location.href='#store'">Esplora lo Store</button>
-        </div>
+    <section class="hero" id="home">
+        <h1>THE GABISH<br>STANDARD</h1>
+        <p>Premium hardware for the digital elite. From the heart of Zurich to the edge of the future.</p>
+        <button class="action-button" style="width: auto; padding: 20px 60px; margin-top: 20px;" onclick="location.href='#shop'">Enter Store</button>
     </section>
 
-    <section class="page-width" id="store">
-        <span class="section-tag">Elite Hardware</span>
-        <h2 class="main-title">Dispositivi 2026</h2>
-        <div class="shop-container">
-            <div class="p-card">
+    <section id="shop">
+        <h2 class="section-title">2026 HARDWARE</h2>
+        <div class="grid-container">
+            <div class="product-card">
                 <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800">
-                <h3 style="font-family: 'Orbitron'; font-size: 22px;">Titan Workstation G1</h3>
-                <p style="color:#666; margin-top:10px;">Processore quantistico, 256GB RAM, Raffreddamento a liquido.</p>
-                <span class="p-price">2'500 CHF</span>
-                <button class="btn-buy" onclick="addToBag('Titan Workstation G1', 2500)">Acquista Ora</button>
+                <div class="product-info">
+                    <h3>TITAN G-1</h3>
+                    <p>The world's most powerful personal workstation. Neural-cooling enabled.</p>
+                    <span class="price">2'500 CHF</span>
+                    <button class="action-button" onclick="addToCart('Titan G-1', 2500)">Add to Bag</button>
+                </div>
             </div>
-            <div class="p-card">
+            <div class="product-card">
                 <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800">
-                <h3 style="font-family: 'Orbitron'; font-size: 22px;">Phone Z-Series Gen 3</h3>
-                <p style="color:#666; margin-top:10px;">Display olografico, Batteria a stato solido, Camera 400MP.</p>
-                <span class="p-price">1'150 CHF</span>
-                <button class="btn-buy" onclick="addToBag('Phone Z-Series Gen 3', 1150)">Acquista Ora</button>
+                <div class="product-info">
+                    <h3>PHONE Z-ULTRA</h3>
+                    <p>Saphire glass, titanium frame, and the G-OS secure ecosystem.</p>
+                    <span class="price">1'150 CHF</span>
+                    <button class="action-button" onclick="addToCart('Phone Z-Ultra', 1150)">Add to Bag</button>
+                </div>
             </div>
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1526509867162-5b0c00234b35?w=800">
-                <h3 style="font-family: 'Orbitron'; font-size: 22px;">Neural Audio X</h3>
-                <p style="color:#666; margin-top:10px;">Cancellazione del rumore AI attiva, Audio spaziale 360°.</p>
-                <span class="p-price">400 CHF</span>
-                <button class="btn-buy" onclick="addToBag('Neural Audio X', 400)">Acquista Ora</button>
-            </div>
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800">
-                <h3 style="font-family: 'Orbitron'; font-size: 22px;">Tablet Air Gabish</h3>
-                <p style="color:#666; margin-top:10px;">Ultra sottile, Supporto penna neurale, 24h autonomia.</p>
-                <span class="p-price">950 CHF</span>
-                <button class="btn-buy" onclick="addToBag('Tablet Air Gabish', 950)">Acquista Ora</button>
-            </div>
-            <div class="p-card">
-                <img src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=800">
-                <h3 style="font-family: 'Orbitron'; font-size: 22px;">Laptop Vision 16</h3>
-                <span class="p-price">1'900 CHF</span>
-                <button class="btn-buy" onclick="addToBag('Laptop Vision 16', 1900)">Acquista Ora</button>
-            </div>
-            <div class="p-card">
+            <div class="product-card">
                 <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800">
-                <h3 style="font-family: 'Orbitron'; font-size: 22px;">Watch Alpha</h3>
-                <span class="p-price">350 CHF</span>
-                <button class="btn-add" onclick="addToBag('Watch Alpha', 350)">Acquista Ora</button>
+                <div class="product-info">
+                    <h3>WATCH ALPHA</h3>
+                    <p>Health monitoring reinvented. 30 days of battery life.</p>
+                    <span class="price">350 CHF</span>
+                    <button class="action-button" onclick="addToCart('Watch Alpha', 350)">Add to Bag</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="mission-box" id="mission">
-        <span class="section-tag">Nostra Filosofia</span>
-        <h2 class="main-title">Perché Gabish?</h2>
-        <div class="valori-grid">
-            <div class="v-item">
-                <h3>Innovazione Zurich</h3>
-                <p>Nati nella Bahnhofstrasse, portiamo il rigore svizzero nella tecnologia globale del domani.</p>
-            </div>
-            <div class="v-item">
-                <h3>Privacy Totale</h3>
-                <p>I nostri sistemi operativi G-OS sono criptati end-to-end per proteggere ogni tuo dato.</p>
-            </div>
-            <div class="v-item">
-                <h3>Ecosistema Unico</h3>
-                <p>Ogni dispositivo Gabish comunica istantaneamente con l'altro tramite tecnologia Neural-Link.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="team-section" id="team">
-        <span class="section-tag">Governance</span>
-        <h2 class="main-title">Esecutivi Gabish</h2>
-        <div class="boss-wrap">
-            <div class="boss-card">
+    <section class="founders" id="about">
+        <h2 class="section-title">EXECUTIVE BOARD</h2>
+        <div class="founders-grid">
+            <div class="founder-card">
                 <h2>ALESSANDRO</h2>
                 <span>Founder & CEO</span>
             </div>
-            <div class="boss-card">
+            <div class="founder-card">
                 <h2>RAMEZ</h2>
-                <span>Chief Operations Officer</span>
+                <span>Co-Founder & COO</span>
             </div>
         </div>
     </section>
 
-    <section class="page-width" id="faq-sec">
-        <h2 class="main-title">Supporto Clienti</h2>
-        <div class="faq-wrap">
-            <div class="faq-box">
-                <h4>Come traccio il mio ordine?</h4>
-                <p>Riceverai un codice G-Track via email entro 12 ore dall'acquisto.</p>
+    <section class="careers" id="careers">
+        <h2 class="section-title">JOIN THE TEAM</h2>
+        <div class="job-box">
+            <div>
+                <h4 style="font-family:'Orbitron'">AI Hardware Architect</h4>
+                <p style="color:#555">Zurich, Switzerland / Full-time</p>
             </div>
-            <div class="faq-box">
-                <h4>Sede fisica a Zurigo?</h4>
-                <p>Sì, il nostro Flagship Store si trova in Bahnhofstrasse, Zurigo.</p>
+            <span style="color:var(--primary); font-size:12px; cursor:pointer;">APPLY →</span>
+        </div>
+        <div class="job-box">
+            <div>
+                <h4 style="font-family:'Orbitron'">G-OS Security Engineer</h4>
+                <p style="color:#555">Remote / Full-time</p>
             </div>
-            <div class="faq-box">
-                <h4>Contatto Assistenza?</h4>
-                <p>Scrivici a: <b>gabishtechnology@gmail.com</b></p>
-            </div>
+            <span style="color:var(--primary); font-size:12px; cursor:pointer;">APPLY →</span>
         </div>
     </section>
 
-    <div class="newsletter">
-        <h3 style="font-family: 'Orbitron'; margin-bottom: 20px;">UNISCITI ALL'ELITE</h3>
-        <p style="color: #666; margin-bottom: 20px;">Ricevi sconti esclusivi sui nuovi lanci hardware.</p>
-        <input type="email" class="news-input" placeholder="Inserisci la tua email">
-        <button class="btn-buy" style="width: auto; padding: 15px 30px; margin-left: 10px;">Iscriviti</button>
-    </div>
+    <section class="newsletter">
+        <h2 class="section-title">GET THE INTEL</h2>
+        <p style="color:var(--text-dim)">Be the first to know about upcoming drops and system updates.</p>
+        <div class="news-box">
+            <input type="email" id="news-email" class="news-input" placeholder="Enter your email">
+            <button class="action-button" style="width: auto; padding: 0 30px;" onclick="subscribeNews()">Subscribe</button>
+        </div>
+        <p id="news-status">Registration successful. Welcome to the elite.</p>
+    </section>
 
     <footer id="contact">
-        <div class="footer-top">
-            <div class="f-col">
-                <h4 class="f-title">GABISH TECH</h4>
-                <p>Zurich, Switzerland<br>Bahnhofstrasse Dist.<br>Email: gabishtechnology@gmail.com</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>GABISH HQ</h4>
+                <p>Bahnhofstrasse, Zurich<br>Switzerland</p>
+                <p><b>Support:</b> gabishtechnology@gmail.com</p>
             </div>
-            <div class="f-col">
-                <h4 class="f-title">PRODOTTI</h4>
-                <ul class="f-links">
-                    <li>Workstations</li>
-                    <li>Mobile Devices</li>
-                    <li>Audio Systems</li>
-                    <li>Home Intelligence</li>
+            <div class="footer-col">
+                <h4>NETWORKS</h4>
+                <ul>
+                    <li>Instagram / @gabish_tech</li>
+                    <li>TikTok / @gabish_corp</li>
+                    <li>LinkedIn / Gabish-International</li>
                 </ul>
             </div>
-            <div class="f-col">
-                <h4 class="f-title">SOCIAL</h4>
-                <ul class="f-links">
-                    <li>Instagram / Gabish</li>
-                    <li>TikTok / Gabish_Tech</li>
-                    <li>YouTube / Gabish_Zurich</li>
+            <div class="footer-col">
+                <h4>POLICIES</h4>
+                <ul>
+                    <li>Security Protocol</li>
+                    <li>Privacy Shield</li>
+                    <li>Zurich Tech Agreement</li>
                 </ul>
             </div>
         </div>
-
-        <div class="legal-notice">
-            GABISH GLOBAL SOLUTIONS ZURICH &bull; P.IVA: CH-102.394.001 &bull; FOUNDERS: ALESSANDRO & RAMEZ <br>
-            TUTTE LE TRANSAZIONI SONO PROTETTE DA CRITTOGRAFIA RSA A 4096 BIT. <br>
-            CONTATTO AMMINISTRATIVO: SULAIMANALESSANDRO@GMAIL.COM <br>
-            TERMINI: I PREZZI SONO ESPRESSI IN FRANCHI SVIZZERI (CHF). LA CONSEGNA STANDARD È GRATUITA IN TUTTA EUROPA.
+        <div class="legal">
+            GABISH TECHNOLOGY GROUP &bull; ALL RIGHTS RESERVED 2026 &bull; CH-VAT: 99.888.777 <br>
+            ADMIN CONTACT: SULAIMANALESSANDRO@GMAIL.COM <br>
+            DESIGNED FOR THE NEXT CIVILIZATION.
         </div>
     </footer>
 
     <script>
-        // --- GESTIONE CARRELLO ---
-        let bagItems = [];
-        let bagTotal = 0;
+        // --- LOGICA CARRELLO ---
+        let cart = [];
+        let total = 0;
 
         function toggleCart() {
-            document.getElementById('cart-panel').classList.toggle('open');
+            document.getElementById('cart-sidebar').classList.toggle('open');
         }
 
-        function addToBag(name, price) {
-            bagItems.push({name, price});
-            bagTotal += price;
-            updateCartDisplay();
+        function addToCart(name, price) {
+            const id = Date.now();
+            cart.push({ name, price, id });
+            total += price;
             
-            // Auto-apertura carrello per feedback visivo
-            if(!document.getElementById('cart-panel').classList.contains('open')) {
+            showToast(`Added ${name} to bag`);
+            updateUI();
+            
+            if(!document.getElementById('cart-sidebar').classList.contains('open')) {
                 toggleCart();
             }
         }
 
-        function updateCartDisplay() {
-            document.getElementById('cart-total-count').innerText = bagItems.length;
-            document.getElementById('cart-sum').innerText = bagTotal;
-            
-            const list = document.getElementById('cart-list');
-            if(bagItems.length === 0) {
-                list.innerHTML = '<p style="color:#444">Nessun hardware nel sistema.</p>';
-            } else {
-                list.innerHTML = bagItems.map(item => `
-                    <div class="item-row">
-                        <span>${item.name}</span>
-                        <b style="color:var(--primary)">${item.price} CHF</b>
-                    </div>
-                `).join('');
-                document.getElementById('paypal-button').style.display = 'block';
+        function removeFromCart(id) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index > -1) {
+                total -= cart[index].price;
+                cart.splice(index, 1);
+                updateUI();
             }
         }
 
-        function checkout() {
-            const paypalEmail = "sulaimanalessandro@gmail.com";
-            const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${paypalEmail}&currency_code=CHF&amount=${bagTotal}&item_name=Ordine_Gabish_Systems_2026`;
+        function updateUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-total-value').innerText = total;
+            
+            const container = document.getElementById('cart-items-container');
+            if(cart.length === 0) {
+                container.innerHTML = '<p style="color:#333; font-size:14px; margin-top:20px;">Your bag is empty.</p>';
+                document.getElementById('paypal-button-container').style.display = 'none';
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <p style="font-weight:bold; font-size:14px;">${item.name}</p>
+                            <p style="color:var(--primary); font-size:12px;">${item.price} CHF</p>
+                        </div>
+                        <span class="remove-btn" onclick="removeFromCart(${item.id})">REMOVE</span>
+                    </div>
+                `).join('');
+                document.getElementById('paypal-button-container').style.display = 'block';
+            }
+        }
+
+        function handleCheckout() {
+            const myEmail = "sulaimanalessandro@gmail.com";
+            const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${myEmail}&currency_code=CHF&amount=${total}&item_name=GABISH_SYSTEM_ORDER_2026`;
             window.location.href = url;
         }
 
-        // --- EFFETTO MATRIX BACKGROUND ---
+        // --- SISTEMA TOAST ---
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = message;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // --- NEWSLETTER ---
+        function subscribeNews() {
+            const email = document.getElementById('news-email').value;
+            if(email.includes('@')) {
+                document.getElementById('news-status').style.display = 'block';
+                document.getElementById('news-email').value = '';
+            } else {
+                alert('Please enter a valid business email.');
+            }
+        }
+
+        // --- MATRIX BACKGROUND EFFECT ---
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
         const fontSize = 16;
         const columns = canvas.width / fontSize;
-        const drops = Array.from({ length: columns }).fill(1);
+        const rainDrops = Array.from({ length: columns }).fill(1);
 
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00d4ff";
-            ctx.font = fontSize + "px monospace";
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.alphabet));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
+            ctx.fillStyle = '#00d4ff';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
                 }
-                drops[i]++;
+                rainDrops[i]++;
             }
-        }
-        setInterval(drawMatrix, 50);
+        };
 
-        // Resize canvas se l'utente cambia finestra
+        setInterval(draw, 30);
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
