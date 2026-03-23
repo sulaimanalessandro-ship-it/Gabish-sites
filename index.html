@@ -2,455 +2,1196 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="GABISH - Zurich's Premier Hardware and Neural Systems">
-    <meta name="theme-color" content="#010102">
-    <title>GABISH | Zurich Sovereign Tech</title>
+    <meta name="theme-color" content="#020203">
+    <title>GABISH | Zurich Infinity Tech</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* GABISH CSS ARCHITECTURE v16.0 
-           STYLING LAYER: NEO-MINIMALIST ZURICH DARK
+        /* GABISH CSS FRAMEWORK v12.0
+           Designed specifically for High-End Displays.
         */
 
         :root {
-            /* COLOR PALETTE */
             --primary: #00d4ff;
             --primary-rgb: 0, 212, 255;
             --secondary: #0055ff;
             --accent: #ff00ff;
             --success: #00ff88;
-            --danger: #ff5f56;
-            --warning: #ffbd2e;
-            
-            /* BACKGROUNDS */
-            --bg-ultra: #010102;
+            --warning: #ffc439;
+            --danger: #ff3333;
+            --bg-ultra-dark: #010102;
             --bg-main: #020203;
             --bg-card: #0a0a0f;
-            --bg-nav: rgba(2, 2, 3, 0.95);
-            
-            /* TEXT COLORS */
+            --bg-nav: rgba(2, 2, 3, 0.98);
             --text-pure: #ffffff;
             --text-dim: #666666;
             --text-mid: #999999;
-            
-            /* UI ELEMENTS */
-            --border-subtle: rgba(255, 255, 255, 0.05);
             --border-glow: rgba(0, 212, 255, 0.3);
+            --border-subtle: rgba(255, 255, 255, 0.05);
             --header-h: 100px;
             --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-fast: 0.3s ease;
-            --glow-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
 
-        /* --- BASE RESET --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; overflow-x: hidden; background-color: var(--bg-ultra); }
-        body { background-color: var(--bg-main); color: var(--text-pure); font-family: 'Inter', sans-serif; line-height: 1.8; font-weight: 300; overflow-x: hidden; }
+        /* RESET AND BASE ARCHITECTURE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            cursor: default;
+        }
 
-        /* --- BACKGROUND MATRIX CANVAS --- */
-        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; pointer-events: none; }
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            background-color: var(--bg-ultra-dark);
+        }
 
-        /* --- HEADER ARCHITECTURE --- */
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-pure);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        a, button {
+            cursor: pointer !important;
+        }
+
+        /* BACKGROUND MATRIX CANVAS ENGINE */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* CUSTOM SCROLLBAR DESIGN */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-ultra-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 0px;
+        }
+
+        /* HEADER & BRANDING CORE */
         header {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);
-            background: var(--bg-nav); backdrop-filter: blur(40px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-h);
+            background: var(--bg-nav);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
             border-bottom: 1px solid var(--border-subtle);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            z-index: 9000;
         }
 
-        /* LOGO: PURE SYMBOL ONLY */
-        .brand-logo {
-            width: 55px; height: 55px; border: 2px solid var(--primary);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Orbitron'; font-weight: 900; color: var(--primary);
-            font-size: 24px; box-shadow: var(--glow-shadow);
-            text-decoration: none; transition: var(--transition-fast);
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
         }
-        .brand-logo:hover { background: var(--primary); color: #000; box-shadow: 0 0 40px var(--primary); }
 
-        /* HAMBURGER BUTTON (MOBILE ONLY) */
-        .ham-btn {
-            display: none; width: 30px; height: 20px;
-            flex-direction: column; justify-content: space-between;
-            cursor: pointer; z-index: 10001;
+        .gabish-symbol {
+            width: 55px;
+            height: 55px;
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            color: var(--primary);
+            font-size: 26px;
+            box-shadow: 0 0 25px var(--border-glow);
+            background: rgba(var(--primary-rgb), 0.05);
+            transition: var(--transition-fast);
         }
-        .ham-btn span { display: block; width: 100%; height: 2px; background: var(--primary); transition: 0.4s; box-shadow: 0 0 5px var(--primary); }
-        .ham-btn.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-        .ham-btn.active span:nth-child(2) { opacity: 0; }
-        .ham-btn.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-        /* DESKTOP NAV */
-        .desktop-nav { display: flex; gap: 40px; }
+        .brand-logo-container:hover .gabish-symbol {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 40px var(--primary);
+        }
+
+        .brand-name-text {
+            font-family: 'Orbitron';
+            font-size: 32px;
+            letter-spacing: 8px;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        /* NAVIGATION ARCHITECTURE */
+        .desktop-nav {
+            display: flex;
+            gap: 40px;
+        }
+
         .desktop-nav a {
-            text-decoration: none; color: #fff; font-size: 11px;
-            text-transform: uppercase; letter-spacing: 4px; font-weight: 700;
-            opacity: 0.4; transition: 0.3s;
-        }
-        .desktop-nav a:hover { opacity: 1; color: var(--primary); }
-
-        /* MOBILE MENU OVERLAY */
-        .mobile-overlay {
-            position: fixed; top: 0; left: -100%; width: 100%; height: 100vh;
-            background: #000; z-index: 10000; transition: var(--transition-slow);
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px;
-        }
-        .mobile-overlay.active { left: 0; }
-        .mobile-overlay a { font-family: 'Orbitron'; font-size: 28px; color: #fff; text-decoration: none; letter-spacing: 8px; }
-
-        /* CART ICON ENGINE */
-        .cart-trigger { position: relative; cursor: pointer; padding: 10px; }
-        .cart-icon-svg { width: 30px; height: 30px; fill: none; stroke: var(--primary); stroke-width: 1.8; transition: 0.3s; }
-        .cart-trigger:hover .cart-icon-svg { stroke: #fff; transform: scale(1.1); }
-        .cart-count-badge {
-            position: absolute; top: 0; right: 0; background: var(--primary);
-            color: #000; font-family: 'Orbitron'; font-size: 10px; font-weight: 900;
-            width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 700;
+            opacity: 0.4;
+            transition: var(--transition-fast);
+            position: relative;
         }
 
-        /* --- HERO SECTION --- */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 10%; }
-        .hero-tag { font-family: 'Orbitron'; color: var(--primary); letter-spacing: 12px; font-size: 14px; margin-bottom: 30px; text-transform: uppercase; }
-        .hero-title { font-family: 'Orbitron'; font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; line-height: 0.85; margin-bottom: 40px; }
-        .hero-line { width: 1px; height: 120px; background: linear-gradient(to bottom, var(--primary), transparent); margin-top: 50px; }
-
-        /* --- INVENTORY GRID --- */
-        .section-padding { padding: 150px 8%; }
-        .section-title { font-family: 'Orbitron'; font-size: 45px; letter-spacing: 10px; text-align: center; margin-bottom: 100px; text-transform: uppercase; }
-        .inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 50px; }
-        
-        .product-card {
-            background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 50px;
-            transition: var(--transition-slow); position: relative;
+        .desktop-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary);
+            transition: var(--transition-fast);
         }
-        .product-card:hover { border-color: var(--primary); transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
-        .product-card h3 { font-family: 'Orbitron'; font-size: 28px; margin-bottom: 15px; }
-        .product-card p { color: var(--text-dim); font-size: 14px; margin-bottom: 30px; }
-        .product-price { font-family: 'JetBrains Mono'; font-size: 32px; color: var(--primary); font-weight: 800; display: block; margin-bottom: 30px; }
-        
-        .buy-btn {
-            width: 100%; padding: 22px; background: var(--primary); color: #000; border: none;
-            font-family: 'Orbitron'; font-weight: 900; cursor: pointer; letter-spacing: 4px;
-            clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 100%, 0 100%); transition: 0.3s;
+
+        .desktop-nav a:hover {
+            opacity: 1;
+            color: var(--primary);
         }
-        .buy-btn:hover { background: #fff; transform: scale(1.02); }
 
-        /* --- FOUNDER BOARD --- */
-        .board-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .board-card { border: 1px solid var(--primary); padding: 80px 40px; text-align: center; background: rgba(0, 212, 255, 0.02); }
-        .board-card h3 { font-family: 'Orbitron'; font-size: 32px; letter-spacing: 5px; margin-bottom: 10px; }
-        .board-card p { color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: 3px; }
-
-        /* --- FOUNDER TERMINAL --- */
-        .terminal-wrap { background: #000; padding: 120px 8%; }
-        .terminal-box { background: #050507; border: 1px solid #1a1a1f; padding: 50px; font-family: 'JetBrains Mono'; position: relative; }
-        .term-badge { display: inline-block; padding: 4px 12px; font-size: 10px; font-weight: 900; border: 1px solid var(--danger); color: var(--danger); margin-bottom: 30px; }
-        .term-badge.unlocked { border-color: var(--success); color: var(--success); }
-        .term-out { height: 350px; overflow-y: auto; color: var(--primary); font-size: 14px; margin-bottom: 30px; line-height: 1.8; }
-        .term-input-row { display: flex; gap: 15px; align-items: center; border-top: 1px solid #111; padding-top: 25px; }
-        .term-prompt { color: var(--accent); font-weight: 900; }
-        .term-field { background: transparent; border: none; color: #fff; width: 100%; font-size: 16px; font-family: inherit; }
-
-        /* --- SIDE BAG --- */
-        #side-bag {
-            position: fixed; top: 0; right: -500px; width: 480px; height: 100vh;
-            background: #050508; border-left: 1px solid var(--primary); z-index: 10002;
-            padding: 70px 50px; transition: var(--transition-slow); display: flex; flex-direction: column;
+        .desktop-nav a:hover::after {
+            width: 100%;
         }
-        #side-bag.open { right: 0; }
-        .bag-items { flex-grow: 1; overflow-y: auto; margin: 40px 0; }
-        .bag-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #111; }
-        .bag-total-row { font-family: 'Orbitron'; font-size: 30px; display: flex; justify-content: space-between; margin-bottom: 40px; border-top: 1px solid var(--primary); padding-top: 20px; }
 
-        /* --- RESPONSIVE ADJUSTMENTS --- */
+        /* ACTION AREA */
+        .action-group {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .cart-trigger-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 14px 28px;
+            font-family: 'Orbitron';
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            transition: var(--transition-fast);
+        }
+
+        .cart-trigger-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 30px var(--border-glow);
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .hamburger-menu span {
+            width: 35px;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition-fast);
+        }
+
+        /* HERO SECTION - GENESIS */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+            background: radial-gradient(circle at center, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+        }
+
+        .hero-tagline {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            letter-spacing: 12px;
+            font-size: 14px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero-main-title {
+            font-family: 'Orbitron';
+            font-size: clamp(3.5rem, 12vw, 9.5rem);
+            line-height: 0.9;
+            font-weight: 900;
+            margin-bottom: 30px;
+            background: linear-gradient(to bottom, #fff 30%, #333 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            max-width: 900px;
+            font-size: 1.5rem;
+            color: var(--text-mid);
+            margin-bottom: 60px;
+            font-weight: 200;
+        }
+
+        .hero-cta-btn {
+            background: var(--primary);
+            color: #000;
+            padding: 25px 80px;
+            border: none;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 16px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            transition: var(--transition-slow);
+            box-shadow: 0 0 0 rgba(var(--primary-rgb), 0);
+        }
+
+        .hero-cta-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 50px var(--border-glow);
+            transform: scale(1.05);
+        }
+
+        /* SHARED SECTION STYLES */
+        .content-block {
+            padding: 160px 8%;
+        }
+
+        .section-header-box {
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .section-mini-label {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            letter-spacing: 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .section-main-title {
+            font-family: 'Orbitron';
+            font-size: 55px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* GRID SYSTEM ARCHITECTURE */
+        .product-inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+        }
+
+        .gabish-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            padding: 60px;
+            transition: var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gabish-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: 0.6s;
+        }
+
+        .gabish-card:hover::before {
+            left: 100%;
+        }
+
+        .gabish-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-20px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+        }
+
+        .card-image-wrapper {
+            width: 100%;
+            height: 400px;
+            margin-bottom: 45px;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .card-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.4);
+            transition: var(--transition-slow);
+        }
+
+        .gabish-card:hover .card-image-wrapper img {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+
+        .card-category {
+            font-family: 'Orbitron';
+            font-size: 10px;
+            color: var(--primary);
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card-title {
+            font-family: 'Orbitron';
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .card-specs {
+            color: var(--text-dim);
+            font-size: 14px;
+            margin-bottom: 30px;
+            min-height: 50px;
+        }
+
+        .card-price-tag {
+            font-family: 'JetBrains Mono';
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 40px;
+        }
+
+        .add-to-system-btn {
+            width: 100%;
+            padding: 24px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: var(--transition-fast);
+        }
+
+        .add-to-system-btn:hover {
+            background: #fff;
+            box-shadow: 0 0 30px var(--border-glow);
+        }
+
+        /* FOUNDERS BOARD DESIGN */
+        .executive-board-sec {
+            background-color: #040406;
+            padding: 160px 8%;
+        }
+
+        .board-layout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .founder-profile-card {
+            border: 1px solid var(--primary);
+            padding: 100px 50px;
+            text-align: center;
+            background: rgba(var(--primary-rgb), 0.01);
+            transition: var(--transition-fast);
+        }
+
+        .founder-profile-card:hover {
+            background: rgba(var(--primary-rgb), 0.08);
+            box-shadow: 0 0 50px var(--border-glow);
+        }
+
+        .founder-name {
+            font-family: 'Orbitron';
+            font-size: 38px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+        }
+
+        .founder-role {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        /* G-OS TERMINAL SIMULATOR ENGINE */
+        .terminal-container-block {
+            background: #000;
+            padding: 100px 8%;
+            border-top: 1px solid #111;
+        }
+
+        .terminal-window {
+            background: #050507;
+            border: 1px solid #1a1a1f;
+            border-radius: 8px;
+            padding: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 50px 100px rgba(0,0,0,1);
+        }
+
+        .terminal-header-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .terminal-output-area {
+            height: 450px;
+            overflow-y: auto;
+            color: var(--primary);
+            font-size: 15px;
+            margin-bottom: 30px;
+            scrollbar-width: none;
+        }
+
+        .terminal-output-area::-webkit-scrollbar { display: none; }
+
+        .terminal-line-entry {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .terminal-prompt {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .terminal-input-field {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 15px;
+            width: 100%;
+        }
+
+        /* CART SLIDEOUT SYSTEM */
+        #side-bag-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 480px;
+            height: 100vh;
+            background: #050508;
+            border-left: 1px solid var(--primary);
+            z-index: 10000;
+            transition: var(--transition-slow);
+            padding: 70px 50px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -50px 0 100px rgba(0,0,0,1);
+        }
+
+        #side-bag-panel.active {
+            right: 0;
+        }
+
+        .bag-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .bag-header-row h2 {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            font-size: 28px;
+            letter-spacing: 4px;
+        }
+
+        .close-bag-btn {
+            font-size: 35px;
+            color: var(--text-mid);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-bag-btn:hover { color: #fff; }
+
+        #bag-items-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 40px;
+        }
+
+        .bag-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            border-bottom: 1px solid #111;
+        }
+
+        .bag-item-details h4 {
+            font-family: 'Orbitron';
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .bag-item-details p {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .remove-item-trigger {
+            color: var(--danger);
+            font-size: 11px;
+            font-weight: 900;
+            cursor: pointer;
+            border: 1px solid var(--danger);
+            padding: 6px 14px;
+            text-transform: uppercase;
+        }
+
+        .bag-checkout-footer {
+            border-top: 1px solid var(--primary);
+            padding-top: 40px;
+        }
+
+        .total-price-display {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Orbitron';
+            font-size: 34px;
+            font-weight: 900;
+            margin-bottom: 40px;
+        }
+
+        .paypal-checkout-btn {
+            width: 100%;
+            background: #ffc439;
+            color: #000;
+            padding: 25px;
+            border: none;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.4s;
+            display: none;
+        }
+
+        /* FAQ & SUPPORT ACCORDION */
+        .support-knowledge-base {
+            padding: 160px 8%;
+            background: var(--bg-ultra-dark);
+        }
+
+        .faq-accordion-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-node {
+            border-bottom: 1px solid #111;
+            padding: 40px 0;
+            cursor: pointer;
+        }
+
+        .faq-question {
+            font-family: 'Orbitron';
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition-fast);
+            color: var(--text-mid);
+            font-size: 16px;
+            margin-top: 0;
+        }
+
+        .faq-node.active .faq-answer {
+            max-height: 500px;
+            margin-top: 25px;
+        }
+
+        .faq-node.active .faq-question::after {
+            content: '-';
+        }
+
+        /* TOAST SYSTEM STYLES */
+        #notification-portal {
+            position: fixed;
+            top: 120px;
+            right: 30px;
+            z-index: 11000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .toast-engine-message {
+            background: var(--bg-card);
+            border-left: 5px solid var(--primary);
+            padding: 25px 40px;
+            font-family: 'Orbitron';
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            transform: translateX(150%);
+            transition: var(--transition-slow);
+        }
+
+        .toast-engine-message.active {
+            transform: translateX(0);
+        }
+
+        /* FOOTER DESIGN */
+        footer {
+            background: #000;
+            padding: 140px 8% 60px;
+            border-top: 1px solid #080808;
+        }
+
+        .footer-grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 100px;
+            margin-bottom: 120px;
+        }
+
+        .footer-column h4 {
+            font-family: 'Orbitron';
+            color: var(--primary);
+            font-size: 22px;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .footer-column p, .footer-column li {
+            color: #444;
+            font-size: 15px;
+            list-style: none;
+            margin-bottom: 18px;
+            transition: 0.3s;
+        }
+
+        .footer-column li:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .final-copyright-bar {
+            text-align: center;
+            border-top: 1px solid #050505;
+            padding-top: 60px;
+            color: #1a1a1a;
+            font-size: 11px;
+            font-family: 'Orbitron';
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /* MOBILE RESPONSIVE OVERRIDES */
         @media (max-width: 1024px) {
             .desktop-nav { display: none; }
-            .ham-btn { display: flex; }
-            #side-bag { width: 100%; right: -100%; }
-            .hero-title { font-size: 5rem; }
+            .hamburger-menu { display: flex; }
+            #side-bag-panel { width: 100%; right: -100%; }
+            .section-main-title { font-size: 40px; }
+            .hero-main-title { font-size: 4rem; }
         }
-
-        footer { padding: 100px 8%; text-align: center; color: #1a1a1a; font-family: 'Orbitron'; font-size: 10px; letter-spacing: 12px; border-top: 1px solid #080808; }
-
     </style>
 </head>
-<body onload="initGabishRuntime()">
+<body onload="initializeGabishCore()">
 
     <canvas id="matrix-canvas"></canvas>
+    <div id="notification-portal"></div>
 
     <header>
-        <div class="ham-btn" id="ham-trigger" onclick="toggleMobileNav()">
-            <span></span><span></span><span></span>
-        </div>
-
-        <a href="#home" class="brand-logo">GB</a>
+        <a href="#genesis" class="brand-logo-container">
+            <div class="gabish-symbol">GB</div>
+            <span class="brand-name-text">GABISH</span>
+        </a>
 
         <nav class="desktop-nav">
-            <a href="#home">Home</a>
-            <a href="#inventory">Hardware</a>
-            <a href="#board">The Board</a>
-            <a href="#marketing">Lockdown</a>
+            <a href="#genesis">Genesis</a>
+            <a href="#hardware">Sistemi</a>
+            <a href="#accessories">Accessori</a>
+            <a href="#future">Laboratorio</a>
+            <a href="#board">Board</a>
+            <a href="#support">Supporto</a>
         </nav>
 
-        <div class="cart-trigger" onclick="toggleBag()">
-            <svg class="cart-icon-svg" viewBox="0 0 24 24">
-                <path d="M2 2h3.5l1.5 13h12l2-9H6.5" stroke-linecap="square"/>
-                <circle cx="10" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/>
-            </svg>
-            <span class="cart-count-badge" id="cart-ui-count">0</span>
+        <div class="action-group">
+            <button class="cart-trigger-btn" onclick="toggleBagVisibility()">
+                MY BAG [<span id="ui-bag-count">0</span>]
+            </button>
+            <div class="hamburger-menu" onclick="toggleMobileInterface()">
+                <span></span><span></span><span></span>
+            </div>
         </div>
     </header>
 
-    <div class="mobile-overlay" id="mobile-menu">
-        <a href="#home" onclick="toggleMobileNav()">HOME</a>
-        <a href="#inventory" onclick="toggleMobileNav()">HARDWARE</a>
-        <a href="#board" onclick="toggleMobileNav()">BOARD</a>
-        <a href="#marketing" onclick="toggleMobileNav()">LOCKDOWN</a>
-    </div>
+    <div id="side-bag-panel">
+        <div class="bag-header-row">
+            <h2>ORDER CORE</h2>
+            <div class="close-bag-btn" onclick="toggleBagVisibility()">✕</div>
+        </div>
+        
+        <div id="bag-items-list">
+            </div>
 
-    <div id="side-bag">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-family:'Orbitron'; color:var(--primary); letter-spacing:5px;">BAG</h2>
-            <div style="font-size:30px; cursor:pointer;" onclick="toggleBag()">✕</div>
+        <div class="bag-checkout-footer">
+            <div class="total-price-display">
+                <span>TOTAL:</span>
+                <span style="color: var(--primary);"><span id="ui-bag-total">0</span> CHF</span>
+            </div>
+            <button id="paypal-final-action" class="paypal-checkout-btn" onclick="executePayPalRedirection()">
+                EXECUTE PAYPAL CHECKOUT
+            </button>
         </div>
-        <div id="bag-list" class="bag-items"></div>
-        <div class="bag-total-row">
-            <span>TOTAL:</span>
-            <span id="bag-ui-total">0</span>
-        </div>
-        <button class="buy-btn" style="background:#ffc439;" onclick="triggerPaypal()">PAYPAL CHECKOUT</button>
     </div>
 
     <main>
-        <section class="hero" id="home">
-            <span class="hero-tag">Zurich Sovereignty</span>
-            <h1 class="hero-title">GABISH</h1>
-            <p style="color:var(--text-dim); letter-spacing:5px; text-transform:uppercase;">Hardware Ecosystem v16.0</p>
-            <div class="hero-line"></div>
+        
+        <section class="hero-section" id="genesis">
+            <span class="hero-tagline">Zurich High-End Engineering</span>
+            <h1 class="hero-main-title">GABISH<br>INFINITY</h1>
+            <p class="hero-description">The ultimate hardware sovereignty. Managed by Alessandro, Ramez, and Elia. Built for those who control the future.</p>
+            <button class="hero-cta-btn" onclick="location.href='#hardware'">Enter Inventory</button>
         </section>
 
-        <section class="section-padding" id="inventory">
-            <h2 class="section-title">Hardware Systems</h2>
-            <div class="inventory-grid">
-                <div class="product-card">
-                    <h3>TITAN G-1</h3>
-                    <p>Processore 128-Core G-Silicon proprietario. Raffreddamento a idrogeno liquido.</p>
-                    <span class="product-price">2'500 CHF</span>
-                    <button class="buy-btn" onclick="addToCart('Titan G-1', 2500)">Deploy Unit</button>
+        <section class="content-block" id="hardware">
+            <div class="section-header-box">
+                <span class="section-mini-label">Active Deployments</span>
+                <h2 class="section-main-title">CORE HARDWARE</h2>
+            </div>
+            
+            <div class="product-inventory-grid">
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800" alt="Titan G1">
+                    </div>
+                    <span class="card-category">Computing / Station</span>
+                    <h3 class="card-title">TITAN G-1</h3>
+                    <p class="card-specs">Zurich-designed 128-Core Processor. Quantum-ready RAM architecture.</p>
+                    <span class="card-price-tag">2'500 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('Titan G-1', 2500)">Deploy Unit</button>
+                </article>
+
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800" alt="Phone Z">
+                    </div>
+                    <span class="card-category">Neural / Mobile</span>
+                    <h3 class="card-title">PHONE Z-SERIES</h3>
+                    <p class="card-specs">Titanium Frame. Liquid Saphire Screen. Gabish Neural OS Integration.</p>
+                    <span class="card-price-tag">1'150 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('Phone Z-Series', 1150)">Deploy Unit</button>
+                </article>
+
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800" alt="G-Book">
+                    </div>
+                    <span class="card-category">Productivity / Lab</span>
+                    <h3 class="card-title">G-BOOK PRO</h3>
+                    <p class="card-specs">Bionic Shell. Zero-Thermal Cooling System. 40-hour Battery Node.</p>
+                    <span class="card-price-tag">1'850 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('G-Book Pro', 1850)">Deploy Unit</button>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-block" id="accessories" style="background: #030305;">
+            <div class="section-header-box">
+                <span class="section-mini-label">Peripheral Link</span>
+                <h2 class="section-main-title">ACCESSORI PREMIUM</h2>
+            </div>
+            
+            <div class="product-inventory-grid">
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" alt="Watch">
+                    </div>
+                    <h3 class="card-title">WATCH ALPHA</h3>
+                    <span class="card-price-tag">350 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('Watch Alpha', 350)">Sync Unit</button>
+                </article>
+
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1588200908342-23b585c03e26?w=800" alt="Pods">
+                    </div>
+                    <h3 class="card-title">G-PODS v2</h3>
+                    <span class="card-price-tag">199 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('G-Pods v2', 199)">Sync Unit</button>
+                </article>
+
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1610940882244-18ac607d7c7a?w=800" alt="Power">
+                    </div>
+                    <h3 class="card-title">G-POWER NODE</h3>
+                    <span class="card-price-tag">89 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('G-Power Node', 89)">Sync Unit</button>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-block" id="future">
+            <div class="section-header-box">
+                <span class="section-mini-label">Quantum Lab</span>
+                <h2 class="section-main-title">FUTURE PROTOTYPES</h2>
+            </div>
+            
+            <div class="product-inventory-grid">
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1617788130012-02ba710ee510?w=800" alt="Auto">
+                    </div>
+                    <span class="card-category">Mobility / AI</span>
+                    <h3 class="card-title">G-DRIVE CHASSIS</h3>
+                    <p class="card-specs">Autonomous Electric Frame. Neural-Link Steering System.</p>
+                    <span class="card-price-tag">85'000 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('G-Drive Prototype', 85000)">Pre-Order</button>
+                </article>
+
+                <article class="gabish-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800" alt="Neural">
+                    </div>
+                    <span class="card-category">Bio-Link / Brain</span>
+                    <h3 class="card-title">NEURAL-LINK G1</h3>
+                    <p class="card-specs">Non-invasive Brain-Computer Interface. Swiss Bio-Shielding.</p>
+                    <span class="card-price-tag">12'000 CHF</span>
+                    <button class="add-to-system-btn" onclick="addItemToBag('Neural-Link G1', 12000)">Pre-Order</button>
+                </article>
+            </div>
+        </section>
+
+        <section class="executive-board-sec" id="board">
+            <div class="section-header-box">
+                <span class="section-mini-label">Board of Directors</span>
+                <h2 class="section-main-title">THE TRIO</h2>
+            </div>
+            <div class="board-layout-grid">
+                <div class="founder-profile-card">
+                    <h3 class="founder-name">ALESSANDRO</h3>
+                    <p class="founder-role">FOUNDER & CEO</p>
                 </div>
-                <div class="product-card">
-                    <h3>PHONE Z-CORE</h3>
-                    <p>Comunicazione criptata AES-512 via satellite. Chassis in ceramica balistica.</p>
-                    <span class="product-price">1'150 CHF</span>
-                    <button class="buy-btn" onclick="addToCart('Phone Z-Core', 1150)">Deploy Unit</button>
+                <div class="founder-profile-card">
+                    <h3 class="founder-name">RAMEZ</h3>
+                    <p class="founder-role">CO-FOUNDER & COO</p>
                 </div>
-                <div class="product-card">
-                    <h3>G-DRIVE PROTO</h3>
-                    <p>Sistema di propulsione elettrica ad alta efficienza. Progetto segreto Zurigo.</p>
-                    <span class="product-price">85'000 CHF</span>
-                    <button class="buy-btn" onclick="addToCart('G-Drive Proto', 85000)">Reserve Unit</button>
+                <div class="founder-profile-card">
+                    <h3 class="founder-name">ELIA</h3>
+                    <p class="founder-role">CHIEF TECHNOLOGY OFFICER</p>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding" id="board" style="background:#020203;">
-            <h2 class="section-title">The Board</h2>
-            <div class="board-grid">
-                <div class="board-card"><h3>ALESSANDRO</h3><p>CHIEF EXECUTIVE OFFICER</p></div>
-                <div class="board-card"><h3>RAMEZ</h3><p>CHIEF OPERATING OFFICER</p></div>
-                <div class="board-card"><h3>ELIA</h3><p>CHIEF TECHNOLOGY OFFICER</p></div>
+        <section class="terminal-container-block" id="terminal">
+            <div class="terminal-window">
+                <div class="terminal-header-bar">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                </div>
+                <div id="gabish-terminal-output" class="terminal-output-area">
+                    <div>[GABISH-BOOT] G-OS v12.0 Initialization... Success.</div>
+                    <div>[GABISH-BOOT] Zurich Central Server Linked.</div>
+                    <div>[SYSTEM] Welcome, authorized founder. Type 'help' to begin.</div>
+                </div>
+                <div class="terminal-line-entry">
+                    <span class="terminal-prompt">admin@gabish_zurich:~$</span>
+                    <input type="text" id="gabish-terminal-input" class="terminal-input-field" placeholder="..." onkeydown="processTerminalCommand(event)">
+                </div>
             </div>
         </section>
 
-        <section class="terminal-wrap" id="marketing">
-            <div class="terminal-box">
-                <div id="lock-badge" class="term-badge">SYSTEM ENCRYPTED</div>
-                <div id="term-display" class="term-out">
-                    <div>[G-OS] GABISH FOUNDATION KERNEL v16.0</div>
-                    <div>[G-OS] Authorization Required for Marketing Node...</div>
-                    <div style="color:#fff; margin-top:20px;">INSERIRE CODICE FONDATORE:</div>
+        <section class="support-knowledge-base" id="support">
+            <div class="section-header-box">
+                <span class="section-mini-label">Intelligence</span>
+                <h2 class="section-main-title">FAQ</h2>
+            </div>
+            <div class="faq-accordion-container">
+                <div class="faq-node" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">Dove vengono progettati i prodotti?</div>
+                    <div class="faq-answer">Tutta l'ingegneria hardware e software GABISH avviene nel nostro laboratorio di Zurigo, sotto la supervisione diretta di Alessandro, Ramez ed Elia.</div>
                 </div>
-                <div class="term-input-row">
-                    <span id="term-p-label" class="term-prompt">guest@gabish:~$</span>
-                    <input type="password" id="term-input-field" class="term-field" placeholder="..." onkeydown="processTerminal(event)">
+                <div class="faq-node" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">Qual è la garanzia sui sistemi Titan?</div>
+                    <div class="faq-answer">Ogni sistema Titan gode di una garanzia di 5 anni e supporto tecnico prioritario 24/7 dal team di Zurigo.</div>
+                </div>
+                <div class="faq-node" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">I prototipi futuri sono acquistabili?</div>
+                    <div class="faq-answer">I prototipi come G-DRIVE e NEURAL-LINK sono disponibili solo su pre-ordine riservato dopo colloquio con i fondatori.</div>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <footer>GABISH TECHNOLOGY GROUP &copy; 2026 &bull; ZURICH</footer>
+    <footer id="contact">
+        <div class="footer-grid-layout">
+            <div class="footer-column">
+                <h4>GABISH HQ</h4>
+                <p>Bahnhofstrasse 102, 8001 Zurich</p>
+                <p>Swiss Tech Confederation</p>
+                <p>admin: sulaimanalessandro@gmail.com</p>
+            </div>
+            <div class="footer-column">
+                <h4>NETWORKS</h4>
+                <ul>
+                    <li>Instagram / @gabish_tech</li>
+                    <li>TikTok / @gabish_zurich</li>
+                    <li>LinkedIn / Gabish-Enterprises</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>FOUNDERS</h4>
+                <p><b>Alessandro</b> - Vision & Strategy</p>
+                <p><b>Ramez</b> - Operations & Logistics</p>
+                <p><b>Elia</b> - Neural Systems & Tech</p>
+            </div>
+        </div>
+        <div class="final-copyright-bar">
+            GABISH TECHNOLOGY GROUP &copy; 2026 &bull; ALL RIGHTS RESERVED &bull; SECURE PAYPAL GATEWAY &bull; ZURICH SWITZERLAND
+        </div>
+    </footer>
 
     <script>
         /**
-         * GABISH CORE LOGIC ENGINE v16.0
-         * ---------------------------------------------------------------------------------
-         * Gestisce la sicurezza, il carrello e gli effetti visivi.
+         * GABISH CORE JAVASCRIPT ENGINE
+         * Total logic for Persistence, Cart, Terminal and Animations.
          */
 
-        const FOUNDER_ACCESS = {
-            "ALE2026": { user: "ALESSANDRO", role: "CEO", color: "#00d4ff" },
-            "RAMEZ99": { user: "RAMEZ", role: "COO", color: "#ffbd2e" },
-            "ELIA-TECH": { user: "ELIA", role: "CTO", color: "#27c93f" }
-        };
+        let GABISH_DATA_STREAM = JSON.parse(localStorage.getItem('gabish_infinity_v12_bag')) || [];
+        let GLOBAL_TOTAL = 0;
 
-        let currentAuth = null;
-        let cartData = JSON.parse(localStorage.getItem('gabish_v16_storage')) || [];
-
-        function initGabishRuntime() {
-            renderCartUI();
-            initMatrixFX();
-            console.log("GABISH SYSTEM INITIALIZED - ZURICH HQ READY.");
+        // INITIALIZATION
+        function initializeGabishCore() {
+            console.log("GABISH CORE: INITIALIZING DATA STREAMS...");
+            syncInterface();
+            startMatrixEngine();
+            logToTerminal("[SYSTEM] Genesis Phase Complete. Interface Stabilized.");
         }
 
-        // --- NAVIGATION CONTROLS ---
-        function toggleMobileNav() {
-            document.getElementById('mobile-menu').classList.toggle('active');
-            document.getElementById('ham-trigger').classList.toggle('active');
+        // PERSISTENCE & DATA
+        function saveSystemState() {
+            localStorage.setItem('gabish_infinity_v12_bag', JSON.stringify(GABISH_DATA_STREAM));
+            syncInterface();
         }
 
-        function toggleBag() {
-            document.getElementById('side-bag').classList.toggle('open');
-        }
-
-        // --- CART ENGINE ---
-        function addToCart(n, p) {
-            cartData.push({ id: Date.now() + Math.random(), name: n, price: p });
-            saveCart();
-            if(window.innerWidth > 1024) toggleBag();
-        }
-
-        function saveCart() {
-            localStorage.setItem('gabish_v16_storage', JSON.stringify(cartData));
-            renderCartUI();
-        }
-
-        function renderCartUI() {
-            const countUI = document.getElementById('cart-ui-count');
-            const totalUI = document.getElementById('bag-ui-total');
-            const listUI = document.getElementById('bag-list');
+        // BAG LOGIC ENGINE
+        function addItemToBag(name, price) {
+            const entry = {
+                id: Date.now() + Math.random(),
+                title: name,
+                cost: price,
+                timestamp: new Date().toISOString()
+            };
+            GABISH_DATA_STREAM.push(entry);
+            saveSystemState();
+            triggerNotification(`UNIT DEPLOYED: ${name}`);
             
-            countUI.innerText = cartData.length;
-            const total = cartData.reduce((s, i) => s + i.price, 0);
-            totalUI.innerText = total.toLocaleString() + " CHF";
+            if (window.innerWidth > 1024) toggleBagVisibility(true);
+        }
 
-            if(cartData.length === 0) {
-                listUI.innerHTML = '<p style="text-align:center; color:#222; margin-top:50px; font-family:Orbitron;">EMPTY</p>';
+        function deleteItem(id) {
+            GABISH_DATA_STREAM = GABISH_DATA_STREAM.filter(item => item.id !== id);
+            saveSystemState();
+            triggerNotification("UNIT DE-COMMISSIONED");
+        }
+
+        // UI SYNC ENGINE
+        function syncInterface() {
+            const countUI = document.getElementById('ui-bag-count');
+            const listUI = document.getElementById('bag-items-list');
+            const totalUI = document.getElementById('ui-bag-total');
+            const ppBtn = document.getElementById('paypal-final-action');
+
+            countUI.innerText = GABISH_DATA_STREAM.length;
+            
+            GLOBAL_TOTAL = GABISH_DATA_STREAM.reduce((sum, item) => sum + item.cost, 0);
+            totalUI.innerText = GLOBAL_TOTAL.toLocaleString();
+
+            if (GABISH_DATA_STREAM.length === 0) {
+                listUI.innerHTML = '<p style="color:#222; margin-top:50px; text-align:center; font-family:Orbitron; font-size:12px;">INVENTORY EMPTY</p>';
+                ppBtn.style.display = 'none';
             } else {
-                listUI.innerHTML = cartData.map(i => `
-                    <div class="bag-item">
-                        <div>
-                            <p style="font-weight:700;">${i.name}</p>
-                            <p style="color:var(--primary); font-size:12px;">${i.price} CHF</p>
+                listUI.innerHTML = GABISH_DATA_STREAM.map(item => `
+                    <div class="bag-item-row">
+                        <div class="bag-item-details">
+                            <h4>${item.title}</h4>
+                            <p>${item.cost} CHF</p>
                         </div>
-                        <button onclick="removeFromCart(${i.id})" style="background:none; border:1px solid red; color:red; padding:4px 8px; font-size:10px; cursor:pointer;">ELIMINA</button>
+                        <div class="remove-item-trigger" onclick="deleteItem(${item.id})">Remove</div>
                     </div>
                 `).join('');
+                ppBtn.style.display = 'block';
             }
         }
 
-        function removeFromCart(id) {
-            cartData = cartData.filter(i => i.id !== id);
-            saveCart();
+        // INTERFACE ACTIONS
+        function toggleBagVisibility(forceOpen = false) {
+            const bag = document.getElementById('side-bag-panel');
+            if (forceOpen) bag.classList.add('active');
+            else bag.classList.toggle('active');
         }
 
-        function triggerPaypal() {
-            const total = cartData.reduce((s, i) => s + i.price, 0);
-            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${total}&item_name=GABISH_TITAN_ORDER`;
-        }
-
-        // --- TERMINAL SECURITY ---
-        function processTerminal(e) {
-            if(e.key === 'Enter') {
-                const val = e.target.value.trim();
-                const display = document.getElementById('term-display');
-                
-                if(!currentAuth) {
-                    if(FOUNDER_ACCESS[val]) {
-                        currentAuth = FOUNDER_ACCESS[val];
-                        loginSuccess();
-                    } else {
-                        logToTerm("> ERROR: ACCESS CODE INVALID. SYSTEM PROTECTED.", "#ff5f56");
-                    }
-                } else {
-                    handleCommands(val.toLowerCase());
-                }
-                e.target.value = '';
-                display.scrollTop = display.scrollHeight;
-            }
-        }
-
-        function loginSuccess() {
-            const badge = document.getElementById('lock-badge');
-            const label = document.getElementById('term-p-label');
-            const input = document.getElementById('term-input-field');
-            const display = document.getElementById('term-display');
-
-            badge.innerText = "ACCESS GRANTED: " + currentAuth.user;
-            badge.className = "term-badge unlocked";
-            label.innerText = currentAuth.user.toLowerCase() + "@marketing_hub:~$";
-            input.type = "text";
-            input.placeholder = "Enter command...";
+        function triggerNotification(msg) {
+            const portal = document.getElementById('notification-portal');
+            const toast = document.createElement('div');
+            toast.className = 'toast-engine-message';
+            toast.innerText = msg;
+            portal.appendChild(toast);
             
-            display.innerHTML = "";
-            logToTerm(`> WELCOME FOUNDER: ${currentAuth.user}`, currentAuth.color);
-            logToTerm(`> ACCESSING ZURICH MARKETING SERVER...`, "#fff");
-            logToTerm(`> SECURITY CLEARANCE: LEVEL 5 (FOUNDER)`, "#fff");
-            logToTerm(`> Digita 'help' per la lista dei comandi di gestione.`, "#444");
+            setTimeout(() => toast.classList.add('active'), 100);
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => toast.remove(), 800);
+            }, 3000);
         }
 
-        function handleCommands(cmd) {
-            if(cmd === 'help') logToTerm("> Available: metrics, status, server-log, logout, clear");
-            else if(cmd === 'metrics') logToTerm("> Zurich Reach: 1.4M | ROI: 240% | Conversion: 12.8% | Market Sentiment: OPTIMAL.");
-            else if(cmd === 'status') logToTerm("> All nodes online. Server located at Bahnhofstrasse 102 is healthy.");
-            else if(cmd === 'logout') location.reload();
-            else if(cmd === 'clear') document.getElementById('term-display').innerHTML = "";
-            else logToTerm(`> Error: Command '${cmd}' unknown to G-OS Kernel.`);
+        // TERMINAL ENGINE LOGIC
+        function processTerminalCommand(e) {
+            if (e.key === 'Enter') {
+                const cmd = e.target.value.toLowerCase().trim();
+                const output = document.getElementById('gabish-terminal-output');
+                logToTerminal(`admin@gabish:~$ ${cmd}`);
+
+                if (cmd === 'help') {
+                    logToTerminal("> Available: help, status, board, clear, founders, reboot");
+                } else if (cmd === 'status') {
+                    logToTerminal("> Zurich Hub: Operational. Server Load: 12%. Bag Items: " + GABISH_DATA_STREAM.length);
+                } else if (cmd === 'board' || cmd === 'founders') {
+                    logToTerminal("> ALESSANDRO (CEO), RAMEZ (COO), ELIA (CTO)");
+                } else if (cmd === 'clear') {
+                    output.innerHTML = '';
+                } else if (cmd === 'reboot') {
+                    logToTerminal("> Initiating G-OS Reboot...");
+                    setTimeout(() => window.location.reload(), 1000);
+                } else {
+                    logToTerminal(`> Error: Command '${cmd}' not recognized in G-OS core.`);
+                }
+
+                e.target.value = '';
+                output.scrollTop = output.scrollHeight;
+            }
         }
 
-        function logToTerm(msg, color = "#00d4ff") {
-            const display = document.getElementById('term-display');
-            const div = document.createElement('div');
-            div.style.color = color;
-            div.style.marginTop = "10px";
-            div.innerText = msg;
-            display.appendChild(div);
+        function logToTerminal(msg) {
+            const output = document.getElementById('gabish-terminal-output');
+            const line = document.createElement('div');
+            line.style.marginTop = "8px";
+            line.innerText = msg;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
         }
 
-        // --- MATRIX BACKGROUND ENGINE ---
-        function initMatrixFX() {
+        // PAYPAL GATEWAY
+        function executePayPalRedirection() {
+            const merchant = "sulaimanalessandro@gmail.com";
+            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${merchant}&currency_code=CHF&amount=${GLOBAL_TOTAL}&item_name=GABISH_INFINITY_V12_ORDER`;
+        }
+
+        // MATRIX BACKGROUND ENGINE
+        function startMatrixEngine() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            const letters = "GABISH-ALESSANDRO-RAMEZ-ELIA-ZURICH-2026-".split("");
+
+            const chars = "GABISH-ALESSANDRO-RAMEZ-ELIA-ZURICH-10101-TECH".split("");
             const drops = Array(Math.floor(canvas.width / 20)).fill(1);
-            
+
             function draw() {
                 ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "#00d4ff";
-                ctx.font = "14px monospace";
+                ctx.font = "15px monospace";
+
                 drops.forEach((y, i) => {
-                    const text = letters[Math.floor(Math.random() * letters.length)];
+                    const text = chars[Math.floor(Math.random() * chars.length)];
                     ctx.fillText(text, i * 20, y * 20);
-                    if(y * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    if (y * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
                     drops[i]++;
                 });
             }
             setInterval(draw, 50);
         }
-
-        /**
-         * LOGICA DI ESPANSIONE SISTEMA (FINO A 1500 RIGHE TEORICHE)
-         * - Integrazione API Pagamenti (PayPal SDK Placeholder)
-         * - Sistema di gestione scorte Zurich HQ
-         * - Protocolli di comunicazione criptata
-         * - Gestione Metadati Marketing
-         */
     </script>
 </body>
 </html>
