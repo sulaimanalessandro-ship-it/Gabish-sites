@@ -2,23 +2,22 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="GABISH - Zurich's Premier Hardware and Neural Systems">
     <meta name="theme-color" content="#010102">
-    <title>GABISH | Zurich Master Core</title>
+    <title>GABISH | Zurich Sovereign Tech</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* GABISH CSS ARCHITECTURE v14.0 
-           ---------------------------------------------------------------------------------
-           DESIGNED FOR MAXIMUM SCALABILITY AND HIGH-END VISUAL FIDELITY.
+        /* GABISH CSS ARCHITECTURE v16.0 
+           STYLING LAYER: NEO-MINIMALIST ZURICH DARK
         */
 
         :root {
-            /* COLOR PALETTE - NEO ZURICH DARK */
+            /* COLOR PALETTE */
             --primary: #00d4ff;
             --primary-rgb: 0, 212, 255;
             --secondary: #0055ff;
@@ -47,953 +46,411 @@
             --glow-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
         }
 
-        /* RESET & BASE SYSTEM */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            outline: none;
-            cursor: default;
-        }
+        /* --- BASE RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; overflow-x: hidden; background-color: var(--bg-ultra); }
+        body { background-color: var(--bg-main); color: var(--text-pure); font-family: 'Inter', sans-serif; line-height: 1.8; font-weight: 300; overflow-x: hidden; }
 
-        html {
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-            background-color: var(--bg-ultra);
-        }
+        /* --- BACKGROUND MATRIX CANVAS --- */
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.15; pointer-events: none; }
 
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-pure);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-
-        a, button, .clickable {
-            cursor: pointer !important;
-        }
-
-        /* BACKGROUND MATRIX CANVAS */
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.12;
-            pointer-events: none;
-        }
-
-        /* CUSTOM SCROLLBAR */
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-track { background: var(--bg-ultra); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); }
-
-        /* HEADER ARCHITECTURE - PURE ICON IDENTITY */
+        /* --- HEADER ARCHITECTURE --- */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--header-h);
-            background: var(--bg-nav);
-            backdrop-filter: blur(40px);
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);
+            background: var(--bg-nav); backdrop-filter: blur(40px);
             border-bottom: 1px solid var(--border-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 5%;
-            z-index: 9000;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 9000;
         }
 
-        .brand-logo-pure {
-            width: 55px;
-            height: 55px;
-            border: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron';
-            font-weight: 900;
-            color: var(--primary);
-            font-size: 24px;
-            box-shadow: var(--glow-shadow);
-            text-decoration: none;
-            transition: var(--transition-fast);
+        /* LOGO: PURE SYMBOL ONLY */
+        .brand-logo {
+            width: 55px; height: 55px; border: 2px solid var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron'; font-weight: 900; color: var(--primary);
+            font-size: 24px; box-shadow: var(--glow-shadow);
+            text-decoration: none; transition: var(--transition-fast);
         }
+        .brand-logo:hover { background: var(--primary); color: #000; box-shadow: 0 0 40px var(--primary); }
 
-        .brand-logo-pure:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 40px var(--primary);
+        /* HAMBURGER BUTTON (MOBILE ONLY) */
+        .ham-btn {
+            display: none; width: 30px; height: 20px;
+            flex-direction: column; justify-content: space-between;
+            cursor: pointer; z-index: 10001;
         }
+        .ham-btn span { display: block; width: 100%; height: 2px; background: var(--primary); transition: 0.4s; box-shadow: 0 0 5px var(--primary); }
+        .ham-btn.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .ham-btn.active span:nth-child(2) { opacity: 0; }
+        .ham-btn.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-        /* NAVIGATION */
-        .desktop-nav {
-            display: flex;
-            gap: 40px;
-        }
-
+        /* DESKTOP NAV */
+        .desktop-nav { display: flex; gap: 40px; }
         .desktop-nav a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-weight: 700;
-            opacity: 0.4;
-            transition: 0.3s;
-            position: relative;
+            text-decoration: none; color: #fff; font-size: 11px;
+            text-transform: uppercase; letter-spacing: 4px; font-weight: 700;
+            opacity: 0.4; transition: 0.3s;
+        }
+        .desktop-nav a:hover { opacity: 1; color: var(--primary); }
+
+        /* MOBILE MENU OVERLAY */
+        .mobile-overlay {
+            position: fixed; top: 0; left: -100%; width: 100%; height: 100vh;
+            background: #000; z-index: 10000; transition: var(--transition-slow);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+        }
+        .mobile-overlay.active { left: 0; }
+        .mobile-overlay a { font-family: 'Orbitron'; font-size: 28px; color: #fff; text-decoration: none; letter-spacing: 8px; }
+
+        /* CART ICON ENGINE */
+        .cart-trigger { position: relative; cursor: pointer; padding: 10px; }
+        .cart-icon-svg { width: 30px; height: 30px; fill: none; stroke: var(--primary); stroke-width: 1.8; transition: 0.3s; }
+        .cart-trigger:hover .cart-icon-svg { stroke: #fff; transform: scale(1.1); }
+        .cart-count-badge {
+            position: absolute; top: 0; right: 0; background: var(--primary);
+            color: #000; font-family: 'Orbitron'; font-size: 10px; font-weight: 900;
+            width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
         }
 
-        .desktop-nav a:hover {
-            opacity: 1;
-            color: var(--primary);
+        /* --- HERO SECTION --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 10%; }
+        .hero-tag { font-family: 'Orbitron'; color: var(--primary); letter-spacing: 12px; font-size: 14px; margin-bottom: 30px; text-transform: uppercase; }
+        .hero-title { font-family: 'Orbitron'; font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; line-height: 0.85; margin-bottom: 40px; }
+        .hero-line { width: 1px; height: 120px; background: linear-gradient(to bottom, var(--primary), transparent); margin-top: 50px; }
+
+        /* --- INVENTORY GRID --- */
+        .section-padding { padding: 150px 8%; }
+        .section-title { font-family: 'Orbitron'; font-size: 45px; letter-spacing: 10px; text-align: center; margin-bottom: 100px; text-transform: uppercase; }
+        .inventory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 50px; }
+        
+        .product-card {
+            background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 50px;
+            transition: var(--transition-slow); position: relative;
         }
-
-        /* NEO-TECH CART ICON */
-        .cart-trigger-node {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 10px;
+        .product-card:hover { border-color: var(--primary); transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        .product-card h3 { font-family: 'Orbitron'; font-size: 28px; margin-bottom: 15px; }
+        .product-card p { color: var(--text-dim); font-size: 14px; margin-bottom: 30px; }
+        .product-price { font-family: 'JetBrains Mono'; font-size: 32px; color: var(--primary); font-weight: 800; display: block; margin-bottom: 30px; }
+        
+        .buy-btn {
+            width: 100%; padding: 22px; background: var(--primary); color: #000; border: none;
+            font-family: 'Orbitron'; font-weight: 900; cursor: pointer; letter-spacing: 4px;
+            clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 100%, 0 100%); transition: 0.3s;
         }
+        .buy-btn:hover { background: #fff; transform: scale(1.02); }
 
-        .cart-svg-icon {
-            width: 30px;
-            height: 30px;
-            fill: none;
-            stroke: var(--primary);
-            stroke-width: 1.8;
-            transition: var(--transition-fast);
-            filter: drop-shadow(0 0 5px var(--primary-glow));
-        }
+        /* --- FOUNDER BOARD --- */
+        .board-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .board-card { border: 1px solid var(--primary); padding: 80px 40px; text-align: center; background: rgba(0, 212, 255, 0.02); }
+        .board-card h3 { font-family: 'Orbitron'; font-size: 32px; letter-spacing: 5px; margin-bottom: 10px; }
+        .board-card p { color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: 3px; }
 
-        .cart-trigger-node:hover .cart-svg-icon {
-            stroke: #fff;
-            transform: scale(1.1);
-        }
-
-        .cart-badge-count {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--primary);
-            color: #000;
-            font-family: 'Orbitron';
-            font-size: 10px;
-            font-weight: 900;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0px;
-        }
-
-        /* HERO SECTION */
-        .hero-genesis {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 10%;
-        }
-
-        .hero-tag {
-            font-family: 'Orbitron';
-            color: var(--primary);
-            letter-spacing: 12px;
-            font-size: 14px;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        .hero-title {
-            font-family: 'Orbitron';
-            font-size: clamp(4rem, 15vw, 11rem);
-            font-weight: 900;
-            line-height: 0.85;
-            margin-bottom: 40px;
-        }
-
-        .hero-desc {
-            max-width: 800px;
-            font-size: 1.4rem;
-            color: var(--text-dim);
-            margin-bottom: 50px;
-            font-weight: 200;
-        }
-
-        /* GRID SYSTEM */
-        .content-block { padding: 160px 8%; }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 120px;
-        }
-
-        .section-title {
-            font-family: 'Orbitron';
-            font-size: 55px;
-            font-weight: 900;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-        }
-
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 60px;
-        }
-
-        .gabish-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            padding: 60px;
-            transition: var(--transition-slow);
-            position: relative;
-        }
-
-        .gabish-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-20px);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-        }
-
-        .card-img-wrap {
-            width: 100%;
-            height: 400px;
-            margin-bottom: 40px;
-            overflow: hidden;
-        }
-
-        .card-img-wrap img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(1); transition: 1s;
-        }
-
-        .gabish-card:hover .card-img-wrap img { filter: grayscale(0); transform: scale(1.1); }
-
-        .price-tag {
-            font-family: 'JetBrains Mono';
-            font-size: 38px;
-            font-weight: 800;
-            color: var(--primary);
-            display: block;
-            margin: 30px 0;
-        }
-
-        .deploy-btn {
-            width: 100%;
-            padding: 25px;
-            background: var(--primary);
-            color: #000;
-            border: none;
-            font-family: 'Orbitron';
-            font-weight: 900;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            transition: 0.4s;
-        }
-
-        .deploy-btn:hover { background: #fff; box-shadow: 0 0 30px var(--primary-glow); }
-
-        /* FOUNDER LOCKDOWN TERMINAL */
-        .terminal-section {
-            background: #000;
-            padding: 100px 8%;
-        }
-
-        .term-window {
-            background: #050507;
-            border: 1px solid #1a1a1f;
-            border-radius: 4px;
-            padding: 50px;
-            font-family: 'JetBrains Mono', monospace;
-            box-shadow: 0 60px 120px rgba(0,0,0,1);
-        }
-
-        .term-bar { display: flex; gap: 10px; margin-bottom: 30px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .d-red { background: var(--danger); }
-        .d-yel { background: var(--warning); }
-        .d-gre { background: var(--success); }
-
-        .term-output {
-            height: 400px;
-            overflow-y: auto;
-            color: var(--primary);
-            font-size: 15px;
-            margin-bottom: 30px;
-        }
-
-        .term-input-line { display: flex; gap: 15px; align-items: center; border-top: 1px solid #111; padding-top: 25px; }
+        /* --- FOUNDER TERMINAL --- */
+        .terminal-wrap { background: #000; padding: 120px 8%; }
+        .terminal-box { background: #050507; border: 1px solid #1a1a1f; padding: 50px; font-family: 'JetBrains Mono'; position: relative; }
+        .term-badge { display: inline-block; padding: 4px 12px; font-size: 10px; font-weight: 900; border: 1px solid var(--danger); color: var(--danger); margin-bottom: 30px; }
+        .term-badge.unlocked { border-color: var(--success); color: var(--success); }
+        .term-out { height: 350px; overflow-y: auto; color: var(--primary); font-size: 14px; margin-bottom: 30px; line-height: 1.8; }
+        .term-input-row { display: flex; gap: 15px; align-items: center; border-top: 1px solid #111; padding-top: 25px; }
         .term-prompt { color: var(--accent); font-weight: 900; }
-        .term-field { background: transparent; border: none; color: #fff; width: 100%; font-size: 16px; }
+        .term-field { background: transparent; border: none; color: #fff; width: 100%; font-size: 16px; font-family: inherit; }
 
-        .lock-status {
-            display: inline-block; padding: 4px 12px; font-size: 10px; font-weight: 900; margin-bottom: 20px;
-            border: 1px solid var(--danger); color: var(--danger);
-        }
-        .unlocked { border-color: var(--success); color: var(--success); }
-
-        /* SIDE BAG SYSTEM */
+        /* --- SIDE BAG --- */
         #side-bag {
             position: fixed; top: 0; right: -500px; width: 480px; height: 100vh;
-            background: #050508; border-left: 1px solid var(--primary); z-index: 10000;
-            transition: 0.6s cubic-bezier(0.8, 0, 0.2, 1); padding: 70px 50px;
-            display: flex; flex-direction: column;
+            background: #050508; border-left: 1px solid var(--primary); z-index: 10002;
+            padding: 70px 50px; transition: var(--transition-slow); display: flex; flex-direction: column;
         }
-        #side-bag.active { right: 0; }
+        #side-bag.open { right: 0; }
+        .bag-items { flex-grow: 1; overflow-y: auto; margin: 40px 0; }
+        .bag-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #111; }
+        .bag-total-row { font-family: 'Orbitron'; font-size: 30px; display: flex; justify-content: space-between; margin-bottom: 40px; border-top: 1px solid var(--primary); padding-top: 20px; }
 
-        /* FOOTER */
-        footer {
-            background: #000; padding: 120px 8% 60px; border-top: 1px solid #080808;
-            text-align: center;
-        }
-
-        .footer-label {
-            font-family: 'Orbitron'; font-size: 11px; letter-spacing: 8px; color: #1a1a1a; text-transform: uppercase;
-        }
-
-        /* NOTIFICATION TOAST */
-        #toast-portal { position: fixed; top: 120px; right: 30px; z-index: 11000; }
-        .toast {
-            background: var(--bg-card); border-left: 4px solid var(--primary);
-            padding: 25px 40px; margin-bottom: 15px; font-family: 'Orbitron'; font-size: 12px;
-            transform: translateX(150%); transition: 0.5s;
-        }
-        .toast.active { transform: translateX(0); }
-
+        /* --- RESPONSIVE ADJUSTMENTS --- */
         @media (max-width: 1024px) {
             .desktop-nav { display: none; }
+            .ham-btn { display: flex; }
             #side-bag { width: 100%; right: -100%; }
+            .hero-title { font-size: 5rem; }
         }
+
+        footer { padding: 100px 8%; text-align: center; color: #1a1a1a; font-family: 'Orbitron'; font-size: 10px; letter-spacing: 12px; border-top: 1px solid #080808; }
+
     </style>
 </head>
-<body onload="initGabishCore()">
+<body onload="initGabishRuntime()">
 
     <canvas id="matrix-canvas"></canvas>
-    <div id="toast-portal"></div>
 
     <header>
-        <a href="#home" class="brand-logo-pure">GB</a>
+        <div class="ham-btn" id="ham-trigger" onclick="toggleMobileNav()">
+            <span></span><span></span><span></span>
+        </div>
+
+        <a href="#home" class="brand-logo">GB</a>
 
         <nav class="desktop-nav">
             <a href="#home">Home</a>
-            <a href="#hardware">Sistemi</a>
-            <a href="#future">Lab</a>
-            <a href="#board">Board</a>
+            <a href="#inventory">Hardware</a>
+            <a href="#board">The Board</a>
             <a href="#marketing">Lockdown</a>
         </nav>
 
-        <div class="cart-trigger-node clickable" onclick="toggleBag()">
-            <svg class="cart-svg-icon" viewBox="0 0 24 24">
+        <div class="cart-trigger" onclick="toggleBag()">
+            <svg class="cart-icon-svg" viewBox="0 0 24 24">
                 <path d="M2 2h3.5l1.5 13h12l2-9H6.5" stroke-linecap="square"/>
-                <circle cx="10" cy="20" r="1.5"/>
-                <circle cx="17" cy="20" r="1.5"/>
-                <path d="M11 7h2m-1-1v2" stroke-width="1" stroke-opacity="0.5"/>
+                <circle cx="10" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/>
             </svg>
-            <span class="cart-badge-count" id="ui-count">0</span>
+            <span class="cart-count-badge" id="cart-ui-count">0</span>
         </div>
     </header>
 
+    <div class="mobile-overlay" id="mobile-menu">
+        <a href="#home" onclick="toggleMobileNav()">HOME</a>
+        <a href="#inventory" onclick="toggleMobileNav()">HARDWARE</a>
+        <a href="#board" onclick="toggleMobileNav()">BOARD</a>
+        <a href="#marketing" onclick="toggleMobileNav()">LOCKDOWN</a>
+    </div>
+
     <div id="side-bag">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:60px;">
-            <h2 style="font-family:'Orbitron'; color:var(--primary); letter-spacing:4px;">INVENTORY</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="font-family:'Orbitron'; color:var(--primary); letter-spacing:5px;">BAG</h2>
             <div style="font-size:30px; cursor:pointer;" onclick="toggleBag()">✕</div>
         </div>
-        <div id="bag-items-flow" style="flex-grow:1; overflow-y:auto;"></div>
-        <div style="border-top:1px solid var(--primary); padding-top:40px;">
-            <div style="font-family:'Orbitron'; font-size:34px; display:flex; justify-content:space-between; margin-bottom:40px;">
-                <span>TOTAL:</span>
-                <span id="ui-total">0</span>
-            </div>
-            <button class="deploy-btn" style="background:#ffc439;" onclick="execCheckout()">PAYPAL CHECKOUT</button>
+        <div id="bag-list" class="bag-items"></div>
+        <div class="bag-total-row">
+            <span>TOTAL:</span>
+            <span id="bag-ui-total">0</span>
         </div>
+        <button class="buy-btn" style="background:#ffc439;" onclick="triggerPaypal()">PAYPAL CHECKOUT</button>
     </div>
 
     <main>
-        <section class="hero-genesis" id="home">
-            <span class="hero-tag">Zurich Tech Sovereignty</span>
+        <section class="hero" id="home">
+            <span class="hero-tag">Zurich Sovereignty</span>
             <h1 class="hero-title">GABISH</h1>
-            <p class="hero-desc">The ultimate architectural hardware ecosystem. Engineered for those who control the narrative. Managed by Alessandro, Ramez, and Elia.</p>
-            <div style="width:1px; height:150px; background:linear-gradient(to bottom, var(--primary), transparent);"></div>
+            <p style="color:var(--text-dim); letter-spacing:5px; text-transform:uppercase;">Hardware Ecosystem v16.0</p>
+            <div class="hero-line"></div>
         </section>
 
-        <section class="content-block" id="hardware">
-            <div class="section-header">
-                <h2 class="section-title">HARDWARE</h2>
-            </div>
+        <section class="section-padding" id="inventory">
+            <h2 class="section-title">Hardware Systems</h2>
             <div class="inventory-grid">
-                <article class="gabish-card">
-                    <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800"></div>
-                    <h3 style="font-family:'Orbitron'; font-size:30px;">TITAN G-1</h3>
-                    <p style="color:var(--text-dim); margin-top:10px;">The world's fastest workstation. 128-Core G-Silicon.</p>
-                    <span class="price-tag">2'500 CHF</span>
-                    <button class="deploy-btn" onclick="addToBag('Titan G-1', 2500)">Deploy</button>
-                </article>
-
-                <article class="gabish-card">
-                    <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800"></div>
-                    <h3 style="font-family:'Orbitron'; font-size:30px;">PHONE Z</h3>
-                    <p style="color:var(--text-dim); margin-top:10px;">Quantum-encrypted mobile sovereignty.</p>
-                    <span class="price-tag">1'150 CHF</span>
-                    <button class="deploy-btn" onclick="addToBag('Phone Z', 1150)">Deploy</button>
-                </article>
-
-                <article class="gabish-card">
-                    <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800"></div>
-                    <h3 style="font-family:'Orbitron'; font-size:30px;">G-BOOK PRO</h3>
-                    <p style="color:var(--text-dim); margin-top:10px;">Bionic shell productivity node.</p>
-                    <span class="price-tag">1'850 CHF</span>
-                    <button class="deploy-btn" onclick="addToBag('G-Book Pro', 1850)">Deploy</button>
-                </article>
-            </div>
-        </section>
-
-        <section class="content-block" id="future" style="background:#030305;">
-            <div class="section-header">
-                <h2 class="section-title">PROTOTYPES</h2>
-            </div>
-            <div class="inventory-grid">
-                <article class="gabish-card">
-                    <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1617788130012-02ba710ee510?w=800"></div>
-                    <h3 style="font-family:'Orbitron'; font-size:30px;">G-DRIVE</h3>
-                    <p style="color:var(--text-dim); margin-top:10px;">Autonomous electric chassis system.</p>
-                    <span class="price-tag">85'000 CHF</span>
-                    <button class="deploy-btn" onclick="addToBag('G-Drive Prototype', 85000)">Reserve</button>
-                </article>
-
-                <article class="gabish-card">
-                    <div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800"></div>
-                    <h3 style="font-family:'Orbitron'; font-size:30px;">NEURAL G1</h3>
-                    <p style="color:var(--text-dim); margin-top:10px;">Bio-interface brain-link node.</p>
-                    <span class="price-tag">12'000 CHF</span>
-                    <button class="deploy-btn" onclick="addToBag('Neural G1', 12000)">Reserve</button>
-                </article>
-            </div>
-        </section>
-
-        <section class="content-block" id="board">
-            <div class="section-header">
-                <h2 class="section-title">BOARD</h2>
-            </div>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:30px;">
-                <div style="border:1px solid var(--primary); padding:100px 50px; text-align:center;">
-                    <h3 style="font-family:'Orbitron'; font-size:38px;">ALESSANDRO</h3>
-                    <p style="color:var(--primary); letter-spacing:5px; font-weight:800; text-transform:uppercase;">Chief Executive</p>
+                <div class="product-card">
+                    <h3>TITAN G-1</h3>
+                    <p>Processore 128-Core G-Silicon proprietario. Raffreddamento a idrogeno liquido.</p>
+                    <span class="product-price">2'500 CHF</span>
+                    <button class="buy-btn" onclick="addToCart('Titan G-1', 2500)">Deploy Unit</button>
                 </div>
-                <div style="border:1px solid var(--primary); padding:100px 50px; text-align:center;">
-                    <h3 style="font-family:'Orbitron'; font-size:38px;">RAMEZ</h3>
-                    <p style="color:var(--primary); letter-spacing:5px; font-weight:800; text-transform:uppercase;">Operations Lead</p>
+                <div class="product-card">
+                    <h3>PHONE Z-CORE</h3>
+                    <p>Comunicazione criptata AES-512 via satellite. Chassis in ceramica balistica.</p>
+                    <span class="product-price">1'150 CHF</span>
+                    <button class="buy-btn" onclick="addToCart('Phone Z-Core', 1150)">Deploy Unit</button>
                 </div>
-                <div style="border:1px solid var(--primary); padding:100px 50px; text-align:center;">
-                    <h3 style="font-family:'Orbitron'; font-size:38px;">ELIA</h3>
-                    <p style="color:var(--primary); letter-spacing:5px; font-weight:800; text-transform:uppercase;">Technology Lead</p>
+                <div class="product-card">
+                    <h3>G-DRIVE PROTO</h3>
+                    <p>Sistema di propulsione elettrica ad alta efficienza. Progetto segreto Zurigo.</p>
+                    <span class="product-price">85'000 CHF</span>
+                    <button class="buy-btn" onclick="addToCart('G-Drive Proto', 85000)">Reserve Unit</button>
                 </div>
             </div>
         </section>
 
-        <section class="terminal-section" id="marketing">
-            <div class="term-window">
-                <div class="term-bar">
-                    <div class="dot d-red"></div>
-                    <div class="dot d-yel"></div>
-                    <div class="dot d-gre"></div>
-                </div>
-                <div id="lock-badge" class="lock-status">SYSTEM ENCRYPTED</div>
-                <div id="term-out" class="term-output">
-                    <div>[G-OS] GABISH FOUNDATION KERNEL v14.0</div>
-                    <div>[G-OS] Accessing Zurich Marketing Servers...</div>
+        <section class="section-padding" id="board" style="background:#020203;">
+            <h2 class="section-title">The Board</h2>
+            <div class="board-grid">
+                <div class="board-card"><h3>ALESSANDRO</h3><p>CHIEF EXECUTIVE OFFICER</p></div>
+                <div class="board-card"><h3>RAMEZ</h3><p>CHIEF OPERATING OFFICER</p></div>
+                <div class="board-card"><h3>ELIA</h3><p>CHIEF TECHNOLOGY OFFICER</p></div>
+            </div>
+        </section>
+
+        <section class="terminal-wrap" id="marketing">
+            <div class="terminal-box">
+                <div id="lock-badge" class="term-badge">SYSTEM ENCRYPTED</div>
+                <div id="term-display" class="term-out">
+                    <div>[G-OS] GABISH FOUNDATION KERNEL v16.0</div>
+                    <div>[G-OS] Authorization Required for Marketing Node...</div>
                     <div style="color:#fff; margin-top:20px;">INSERIRE CODICE FONDATORE:</div>
                 </div>
-                <div class="term-input-line">
-                    <span id="term-label" class="term-prompt">guest@gabish:~$</span>
-                    <input type="password" id="term-in" class="term-field" placeholder="..." onkeydown="processTerminal(event)">
+                <div class="term-input-row">
+                    <span id="term-p-label" class="term-prompt">guest@gabish:~$</span>
+                    <input type="password" id="term-input-field" class="term-field" placeholder="..." onkeydown="processTerminal(event)">
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <div class="footer-label">GABISH TECHNOLOGY GROUP &copy; 2026 &bull; Zurich Switzerland</div>
-    </footer>
+    <footer>GABISH TECHNOLOGY GROUP &copy; 2026 &bull; ZURICH</footer>
 
     <script>
         /**
-         * GABISH MASTER ENGINE v14.0
+         * GABISH CORE LOGIC ENGINE v16.0
          * ---------------------------------------------------------------------------------
-         * Handles persistence, founder security, bag logic, and visual FX.
+         * Gestisce la sicurezza, il carrello e gli effetti visivi.
          */
 
-        // 1. DATA CONFIGURATION
-        const FOUNDERS_DATABASE = {
-            "ALE2026": { name: "ALESSANDRO", role: "CEO", color: "#00d4ff" },
-            "RAMEZ99": { name: "RAMEZ", role: "COO", color: "#ffbd2e" },
-            "ELIA-TECH": { name: "ELIA", role: "CTO", color: "#27c93f" }
+        const FOUNDER_ACCESS = {
+            "ALE2026": { user: "ALESSANDRO", role: "CEO", color: "#00d4ff" },
+            "RAMEZ99": { user: "RAMEZ", role: "COO", color: "#ffbd2e" },
+            "ELIA-TECH": { user: "ELIA", role: "CTO", color: "#27c93f" }
         };
 
-        let sessionFounder = null;
-        let globalBag = JSON.parse(localStorage.getItem('gabish_v14_data')) || [];
+        let currentAuth = null;
+        let cartData = JSON.parse(localStorage.getItem('gabish_v16_storage')) || [];
 
-        // 2. BOOT SEQUENCE
-        function initGabishCore() {
-            console.log("GABISH CORE: BOOTING...");
-            refreshUI();
-            startMatrixFX();
-            spawnToast("SYSTEMS STABILIZED - ZURICH HQ");
+        function initGabishRuntime() {
+            renderCartUI();
+            initMatrixFX();
+            console.log("GABISH SYSTEM INITIALIZED - ZURICH HQ READY.");
         }
 
-        // 3. SECURITY & TERMINAL LOGIC
-        function processTerminal(e) {
-            if (e.key === 'Enter') {
-                const val = e.target.value.trim();
-                const out = document.getElementById('term-out');
-                
-                if (!sessionFounder) {
-                    if (FOUNDERS_DATABASE[val]) {
-                        sessionFounder = FOUNDERS_DATABASE[val];
-                        grantAccess();
-                    } else {
-                        logTerm("> ERROR: UNAUTHORIZED CODE. ACCESS DENIED.", "#ff5f56");
-                    }
-                } else {
-                    handleCmd(val.toLowerCase());
-                }
-                
-                e.target.value = '';
-                out.scrollTop = out.scrollHeight;
-            }
+        // --- NAVIGATION CONTROLS ---
+        function toggleMobileNav() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+            document.getElementById('ham-trigger').classList.toggle('active');
         }
 
-        function grantAccess() {
-            const badge = document.getElementById('lock-badge');
-            const label = document.getElementById('term-label');
-            const input = document.getElementById('term-in');
-            const out = document.getElementById('term-out');
+        function toggleBag() {
+            document.getElementById('side-bag').classList.toggle('open');
+        }
 
-            badge.innerText = `AUTHORIZED: ${sessionFounder.name}`;
-            badge.className = "lock-status unlocked";
-            label.innerText = `${sessionFounder.name.toLowerCase()}@gabish_marketing:~$`;
-            input.type = "text";
-            input.placeholder = "Comando...";
+        // --- CART ENGINE ---
+        function addToCart(n, p) {
+            cartData.push({ id: Date.now() + Math.random(), name: n, price: p });
+            saveCart();
+            if(window.innerWidth > 1024) toggleBag();
+        }
+
+        function saveCart() {
+            localStorage.setItem('gabish_v16_storage', JSON.stringify(cartData));
+            renderCartUI();
+        }
+
+        function renderCartUI() {
+            const countUI = document.getElementById('cart-ui-count');
+            const totalUI = document.getElementById('bag-ui-total');
+            const listUI = document.getElementById('bag-list');
             
-            out.innerHTML = "";
-            logTerm(`> ACCESS GRANTED. WELCOME ${sessionFounder.name}.`, sessionFounder.color);
-            logTerm(`> Current Role: ${sessionFounder.role}`, "#fff");
-            logTerm(`> Marketing Hub: Zurich Central Server linked.`, "#fff");
-            logTerm(`> Digita 'help' per la lista comandi.`, "#444");
-        }
+            countUI.innerText = cartData.length;
+            const total = cartData.reduce((s, i) => s + i.price, 0);
+            totalUI.innerText = total.toLocaleString() + " CHF";
 
-        function handleCmd(c) {
-            if (c === 'help') logTerm("> Commands: metrics, status, clear, logout, server-info");
-            else if (c === 'metrics') logTerm("> Marketing Data: Reach +240%, Engagement 18.2%, Zurich Conversion: HIGH.");
-            else if (c === 'status') logTerm("> All hardware systems at Bahnhofstrasse 102 are OPERATIONAL.");
-            else if (c === 'logout') location.reload();
-            else if (c === 'clear') document.getElementById('term-out').innerHTML = "";
-            else logTerm(`> Error: Command '${c}' unknown.`);
-        }
-
-        function logTerm(m, c = "#00d4ff") {
-            const out = document.getElementById('term-out');
-            const l = document.createElement('div');
-            l.style.color = c;
-            l.style.marginTop = "8px";
-            l.innerText = m;
-            out.appendChild(l);
-        }
-
-        // 4. BAG & INVENTORY ENGINE
-        function addToBag(n, p) {
-            const entry = { id: Date.now() + Math.random(), name: n, price: p };
-            globalBag.push(entry);
-            saveState();
-            spawnToast(`UNIT DEPLOYED: ${n}`);
-            if (window.innerWidth > 1024) toggleBag(true);
-        }
-
-        function saveState() {
-            localStorage.setItem('gabish_v14_data', JSON.stringify(globalBag));
-            refreshUI();
-        }
-
-        function refreshUI() {
-            const count = document.getElementById('ui-count');
-            const total = document.getElementById('ui-total');
-            const flow = document.getElementById('bag-items-flow');
-            
-            count.innerText = globalBag.length;
-            const sum = globalBag.reduce((a, b) => a + b.price, 0);
-            total.innerText = sum.toLocaleString() + " CHF";
-
-            if (globalBag.length === 0) {
-                flow.innerHTML = '<p style="text-align:center; color:#222; margin-top:50px; font-family:Orbitron;">EMPTY</p>';
+            if(cartData.length === 0) {
+                listUI.innerHTML = '<p style="text-align:center; color:#222; margin-top:50px; font-family:Orbitron;">EMPTY</p>';
             } else {
-                flow.innerHTML = globalBag.map(i => `
-                    <div style="display:flex; justify-content:space-between; padding:20px 0; border-bottom:1px solid #111;">
+                listUI.innerHTML = cartData.map(i => `
+                    <div class="bag-item">
                         <div>
-                            <p style="font-family:Orbitron; font-size:14px;">${i.name}</p>
-                            <p style="color:var(--primary); font-size:12px; font-family:JetBrains Mono;">${i.price} CHF</p>
+                            <p style="font-weight:700;">${i.name}</p>
+                            <p style="color:var(--primary); font-size:12px;">${i.price} CHF</p>
                         </div>
-                        <button onclick="removeItem(${i.id})" style="background:transparent; color:red; border:1px solid red; font-size:9px; padding:5px;">REMOVE</button>
+                        <button onclick="removeFromCart(${i.id})" style="background:none; border:1px solid red; color:red; padding:4px 8px; font-size:10px; cursor:pointer;">ELIMINA</button>
                     </div>
                 `).join('');
             }
         }
 
-        function removeItem(id) {
-            globalBag = globalBag.filter(i => i.id !== id);
-            saveState();
+        function removeFromCart(id) {
+            cartData = cartData.filter(i => i.id !== id);
+            saveCart();
         }
 
-        function toggleBag(force = false) {
-            const b = document.getElementById('side-bag');
-            if (force) b.classList.add('active');
-            else b.classList.toggle('active');
+        function triggerPaypal() {
+            const total = cartData.reduce((s, i) => s + i.price, 0);
+            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${total}&item_name=GABISH_TITAN_ORDER`;
         }
 
-        function execCheckout() {
-            const sum = globalBag.reduce((a, b) => a + b.price, 0);
-            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${sum}&item_name=GABISH_TITAN_ORDER`;
+        // --- TERMINAL SECURITY ---
+        function processTerminal(e) {
+            if(e.key === 'Enter') {
+                const val = e.target.value.trim();
+                const display = document.getElementById('term-display');
+                
+                if(!currentAuth) {
+                    if(FOUNDER_ACCESS[val]) {
+                        currentAuth = FOUNDER_ACCESS[val];
+                        loginSuccess();
+                    } else {
+                        logToTerm("> ERROR: ACCESS CODE INVALID. SYSTEM PROTECTED.", "#ff5f56");
+                    }
+                } else {
+                    handleCommands(val.toLowerCase());
+                }
+                e.target.value = '';
+                display.scrollTop = display.scrollHeight;
+            }
         }
 
-        // 5. VISUAL FX
-        function spawnToast(m) {
-            const p = document.getElementById('toast-portal');
-            const t = document.createElement('div');
-            t.className = 'toast';
-            t.innerText = m;
-            p.appendChild(t);
-            setTimeout(() => t.classList.add('active'), 100);
-            setTimeout(() => { t.classList.remove('active'); setTimeout(() => t.remove(), 600); }, 3500);
+        function loginSuccess() {
+            const badge = document.getElementById('lock-badge');
+            const label = document.getElementById('term-p-label');
+            const input = document.getElementById('term-input-field');
+            const display = document.getElementById('term-display');
+
+            badge.innerText = "ACCESS GRANTED: " + currentAuth.user;
+            badge.className = "term-badge unlocked";
+            label.innerText = currentAuth.user.toLowerCase() + "@marketing_hub:~$";
+            input.type = "text";
+            input.placeholder = "Enter command...";
+            
+            display.innerHTML = "";
+            logToTerm(`> WELCOME FOUNDER: ${currentAuth.user}`, currentAuth.color);
+            logToTerm(`> ACCESSING ZURICH MARKETING SERVER...`, "#fff");
+            logToTerm(`> SECURITY CLEARANCE: LEVEL 5 (FOUNDER)`, "#fff");
+            logToTerm(`> Digita 'help' per la lista dei comandi di gestione.`, "#444");
         }
 
-        function startMatrixFX() {
+        function handleCommands(cmd) {
+            if(cmd === 'help') logToTerm("> Available: metrics, status, server-log, logout, clear");
+            else if(cmd === 'metrics') logToTerm("> Zurich Reach: 1.4M | ROI: 240% | Conversion: 12.8% | Market Sentiment: OPTIMAL.");
+            else if(cmd === 'status') logToTerm("> All nodes online. Server located at Bahnhofstrasse 102 is healthy.");
+            else if(cmd === 'logout') location.reload();
+            else if(cmd === 'clear') document.getElementById('term-display').innerHTML = "";
+            else logToTerm(`> Error: Command '${cmd}' unknown to G-OS Kernel.`);
+        }
+
+        function logToTerm(msg, color = "#00d4ff") {
+            const display = document.getElementById('term-display');
+            const div = document.createElement('div');
+            div.style.color = color;
+            div.style.marginTop = "10px";
+            div.innerText = msg;
+            display.appendChild(div);
+        }
+
+        // --- MATRIX BACKGROUND ENGINE ---
+        function initMatrixFX() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            const chars = "GABISH-ALESSANDRO-RAMEZ-ELIA-ZURICH-10101".split("");
+            const letters = "GABISH-ALESSANDRO-RAMEZ-ELIA-ZURICH-2026-".split("");
             const drops = Array(Math.floor(canvas.width / 20)).fill(1);
-            setInterval(() => {
+            
+            function draw() {
                 ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = "#00d4ff";
-                ctx.font = "15px monospace";
+                ctx.font = "14px monospace";
                 drops.forEach((y, i) => {
-                    const txt = chars[Math.floor(Math.random() * chars.length)];
-                    ctx.fillText(txt, i * 20, y * 20);
-                    if (y * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                    const text = letters[Math.floor(Math.random() * letters.length)];
+                    ctx.fillText(text, i * 20, y * 20);
+                    if(y * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
                     drops[i]++;
                 });
-            }, 50);
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GABISH | Zurich Master Core</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@200;400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #00d4ff;
-            --primary-glow: rgba(0, 212, 255, 0.4);
-            --bg-dark: #010102;
-            --bg-card: #0a0a0f;
-            --header-h: 90px;
-            --transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg-dark); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12; pointer-events: none; }
-
-        /* --- HEADER --- */
-        header {
-            position: fixed; top: 0; width: 100%; height: var(--header-h);
-            background: rgba(1, 1, 2, 0.95); backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; z-index: 9000;
-        }
-
-        .logo-pure {
-            width: 50px; height: 50px; border: 2px solid var(--primary);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Orbitron'; font-weight: 900; color: var(--primary);
-            font-size: 22px; box-shadow: 0 0 15px var(--primary-glow);
-            text-decoration: none; transition: 0.3s;
-        }
-
-        /* --- NAV DESKTOP --- */
-        .nav-desktop { display: flex; gap: 30px; }
-        .nav-desktop a {
-            text-decoration: none; color: #fff; font-size: 11px;
-            text-transform: uppercase; letter-spacing: 3px; font-weight: 700;
-            opacity: 0.5; transition: 0.3s;
-        }
-        .nav-desktop a:hover { opacity: 1; color: var(--primary); }
-
-        /* --- MOBILE HAMBURGER --- */
-        .hamburger {
-            display: none; flex-direction: column; gap: 6px; cursor: pointer;
-            padding: 10px; z-index: 10001;
-        }
-        .hamburger span {
-            display: block; width: 25px; height: 2px; background: var(--primary);
-            transition: 0.3s; box-shadow: 0 0 5px var(--primary-glow);
-        }
-
-        /* --- MOBILE OVERLAY MENU --- */
-        .mobile-menu {
-            position: fixed; top: 0; left: -100%; width: 100%; height: 100vh;
-            background: #000; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 40px;
-            transition: var(--transition); z-index: 9999;
-        }
-        .mobile-menu.active { left: 0; }
-        .mobile-menu a {
-            font-family: 'Orbitron'; font-size: 24px; color: #fff;
-            text-decoration: none; letter-spacing: 5px;
-        }
-
-        /* --- CART ICON --- */
-        .cart-box { position: relative; cursor: pointer; }
-        .cart-svg { width: 28px; height: 28px; fill: none; stroke: var(--primary); stroke-width: 1.5; }
-        .badge {
-            position: absolute; top: -5px; right: -8px; background: var(--primary);
-            color: #000; font-family: 'Orbitron'; font-size: 10px;
-            padding: 2px 5px; font-weight: 900;
-        }
-
-        /* --- RESPONSIVE LOGIC --- */
-        @media (max-width: 1024px) {
-            .nav-desktop { display: none; }
-            .hamburger { display: flex; }
-            /* Selettore Hamburger Attivo */
-            .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-            .hamburger.open span:nth-child(2) { opacity: 0; }
-            .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-        }
-
-        /* --- HERO & CONTENT --- */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-family: 'Orbitron'; font-size: clamp(4rem, 15vw, 10rem); font-weight: 900; }
-        
-        .section { padding: 100px 8%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
-        .card { background: var(--bg-card); padding: 40px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
-        .price { font-family: 'JetBrains Mono'; color: var(--primary); font-size: 28px; display: block; margin: 20px 0; }
-        
-        .btn { 
-            width: 100%; padding: 20px; background: var(--primary); border: none; 
-            font-family: 'Orbitron'; font-weight: 900; cursor: pointer;
-            clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);
-        }
-
-        /* --- SIDEBAR CARRELLO --- */
-        #bag-sidebar {
-            position: fixed; right: -500px; top: 0; width: 450px; height: 100vh;
-            background: #050508; border-left: 1px solid var(--primary); z-index: 10002;
-            padding: 60px 40px; transition: var(--transition);
-        }
-        #bag-sidebar.open { right: 0; }
-        @media (max-width: 500px) { #bag-sidebar { width: 100%; right: -100%; } }
-
-        /* --- TERMINAL --- */
-        .terminal { background: #000; padding: 40px; font-family: 'JetBrains Mono'; border: 1px solid #111; height: 350px; overflow-y: auto; color: var(--primary); }
-        .term-input { background: transparent; border: none; color: #fff; width: 100%; font-family: inherit; font-size: 16px; margin-top: 20px; border-top: 1px solid #111; padding-top: 10px; }
-
-        footer { padding: 60px; text-align: center; color: #222; font-family: 'Orbitron'; font-size: 10px; letter-spacing: 5px; border-top: 1px solid #080808; }
-    </style>
-</head>
-<body onload="startSystem()">
-
-    <canvas id="matrix-bg"></canvas>
-
-    <header>
-        <div class="hamburger" id="ham-btn" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </div>
-
-        <a href="#" class="logo-pure">GB</a>
-
-        <nav class="nav-desktop">
-            <a href="#home">Home</a>
-            <a href="#store">Hardware</a>
-            <a href="#board">Board</a>
-            <a href="#admin">Marketing</a>
-        </nav>
-
-        <div class="cart-box" onclick="toggleBag()">
-            <svg class="cart-svg" viewBox="0 0 24 24">
-                <path d="M2 2h3.5l1.5 13h12l2-9H6.5" stroke-linecap="square"/>
-                <circle cx="10" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/>
-            </svg>
-            <span class="badge" id="bag-count">0</span>
-        </div>
-    </header>
-
-    <div class="mobile-menu" id="mob-nav">
-        <a href="#home" onclick="toggleMenu()">HOME</a>
-        <a href="#store" onclick="toggleMenu()">HARDWARE</a>
-        <a href="#board" onclick="toggleMenu()">BOARD</a>
-        <a href="#admin" onclick="toggleMenu()">MARKETING</a>
-    </div>
-
-    <div id="bag-sidebar">
-        <div style="display:flex; justify-content:space-between; margin-bottom:40px;">
-            <h2 style="font-family:'Orbitron'; color:var(--primary);">INVENTORY</h2>
-            <span style="cursor:pointer; font-size:24px;" onclick="toggleBag()">✕</span>
-        </div>
-        <div id="bag-list" style="height:60vh; overflow-y:auto;"></div>
-        <div style="border-top:1px solid var(--primary); padding-top:20px;">
-            <p style="font-family:'Orbitron'; font-size:24px; display:flex; justify-content:space-between;">
-                <span>TOT:</span> <span id="bag-total">0</span> CHF
-            </p>
-            <button class="btn" style="background:#ffc439; margin-top:20px;" onclick="checkout()">PAYPAL CHECKOUT</button>
-        </div>
-    </div>
-
-    <main>
-        <section class="hero" id="home">
-            <p style="color:var(--primary); letter-spacing:10px; margin-bottom:20px;">ZURICH / 2026</p>
-            <h1>GABISH</h1>
-            <div style="width:1px; height:100px; background:linear-gradient(to bottom, var(--primary), transparent); margin-top:30px;"></div>
-        </section>
-
-        <section class="section" id="store">
-            <div class="grid">
-                <div class="card">
-                    <h3 style="font-family:'Orbitron';">TITAN G-1</h3>
-                    <span class="price">2'500 CHF</span>
-                    <button class="btn" onclick="add('Titan G-1', 2500)">DEPLOY</button>
-                </div>
-                <div class="card">
-                    <h3 style="font-family:'Orbitron';">PHONE Z</h3>
-                    <span class="price">1'150 CHF</span>
-                    <button class="btn" onclick="add('Phone Z', 1150)">DEPLOY</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="admin">
-            <div class="terminal">
-                <div id="term-status" style="border:1px solid red; color:red; padding:5px; display:inline-block; font-size:10px; margin-bottom:20px;">SYSTEM LOCKED</div>
-                <div id="term-out">
-                    <div>[G-OS] Accessing Marketing Dashboard...</div>
-                    <div style="color:#fff; margin-top:10px;">INSERIRE CODICE FONDATORE:</div>
-                </div>
-                <input type="password" id="term-in" class="term-input" placeholder="Codice..." onkeydown="handleTerm(event)">
-            </div>
-        </section>
-    </main>
-
-    <footer>GABISH TECHNOLOGY GROUP &copy; 2026</footer>
-
-    <script>
-        let bag = JSON.parse(localStorage.getItem('gabish_v14_1')) || [];
-        const founders = { "ALE2026": "ALESSANDRO", "RAMEZ99": "RAMEZ", "ELIA-TECH": "ELIA" };
-        let activeUser = null;
-
-        function startSystem() {
-            renderBag();
-            matrix();
-        }
-
-        /* --- MENU LOGIC --- */
-        function toggleMenu() {
-            document.getElementById('mob-nav').classList.toggle('active');
-            document.getElementById('ham-btn').classList.toggle('open');
-        }
-
-        function toggleBag() {
-            document.getElementById('bag-sidebar').classList.toggle('open');
-        }
-
-        /* --- BAG LOGIC --- */
-        function add(n, p) {
-            bag.push({ id: Date.now(), n, p });
-            localStorage.setItem('gabish_v14_1', JSON.stringify(bag));
-            renderBag();
-        }
-
-        function renderBag() {
-            document.getElementById('bag-count').innerText = bag.length;
-            const list = document.getElementById('bag-list');
-            const total = bag.reduce((s, i) => s + i.p, 0);
-            document.getElementById('bag-total').innerText = total.toLocaleString();
-            list.innerHTML = bag.map(i => `
-                <div style="display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #111;">
-                    <span>${i.n}</span>
-                    <button onclick="remove(${i.id})" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA</button>
-                </div>
-            `).join('');
-        }
-
-        function remove(id) {
-            bag = bag.filter(i => i.id !== id);
-            localStorage.setItem('gabish_v14_1', JSON.stringify(bag));
-            renderBag();
-        }
-
-        function checkout() {
-            const t = bag.reduce((s, i) => s + i.p, 0);
-            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${t}&item_name=GABISH_ORDER`;
-        }
-
-        /* --- TERMINAL --- */
-        function handleTerm(e) {
-            if(e.key === 'Enter') {
-                const val = e.target.value;
-                if(!activeUser) {
-                    if(founders[val]) {
-                        activeUser = founders[val];
-                        document.getElementById('term-status').innerText = "AUTHORIZED: " + activeUser;
-                        document.getElementById('term-status').style.borderColor = "#00ff88";
-                        document.getElementById('term-status').style.color = "#00ff88";
-                        document.getElementById('term-out').innerHTML = `<div>> BENVENUTO ${activeUser}. DATI MARKETING SBLOCCATI.</div>`;
-                        e.target.type = "text";
-                    } else {
-                        document.getElementById('term-out').innerHTML += `<div style="color:red;">> ERROR: ACCESS DENIED.</div>`;
-                    }
-                } else {
-                    document.getElementById('term-out').innerHTML += `<div>> Comando '${val}' registrato nel database di Zurigo.</div>`;
-                }
-                e.target.value = '';
             }
+            setInterval(draw, 50);
         }
 
-        /* --- FX --- */
-        function matrix() {
-            const c = document.getElementById('matrix-bg');
-            const ctx = c.getContext('2d');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-            const drops = Array(Math.floor(c.width/20)).fill(1);
-            setInterval(() => {
-                ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,c.width,c.height);
-                ctx.fillStyle = "#00d4ff"; ctx.font = "15px monospace";
-                drops.forEach((y, i) => {
-                    ctx.fillText("GABISH"[Math.floor(Math.random()*6)], i*20, y*20);
-                    if(y*20 > c.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                });
-            }, 50);
-        }
+        /**
+         * LOGICA DI ESPANSIONE SISTEMA (FINO A 1500 RIGHE TEORICHE)
+         * - Integrazione API Pagamenti (PayPal SDK Placeholder)
+         * - Sistema di gestione scorte Zurich HQ
+         * - Protocolli di comunicazione criptata
+         * - Gestione Metadati Marketing
+         */
     </script>
 </body>
 </html>
