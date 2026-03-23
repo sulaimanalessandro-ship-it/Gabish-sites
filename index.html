@@ -697,3 +697,303 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GABISH | Zurich Master Core</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@200;400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --primary-glow: rgba(0, 212, 255, 0.4);
+            --bg-dark: #010102;
+            --bg-card: #0a0a0f;
+            --header-h: 90px;
+            --transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg-dark); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12; pointer-events: none; }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed; top: 0; width: 100%; height: var(--header-h);
+            background: rgba(1, 1, 2, 0.95); backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 9000;
+        }
+
+        .logo-pure {
+            width: 50px; height: 50px; border: 2px solid var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron'; font-weight: 900; color: var(--primary);
+            font-size: 22px; box-shadow: 0 0 15px var(--primary-glow);
+            text-decoration: none; transition: 0.3s;
+        }
+
+        /* --- NAV DESKTOP --- */
+        .nav-desktop { display: flex; gap: 30px; }
+        .nav-desktop a {
+            text-decoration: none; color: #fff; font-size: 11px;
+            text-transform: uppercase; letter-spacing: 3px; font-weight: 700;
+            opacity: 0.5; transition: 0.3s;
+        }
+        .nav-desktop a:hover { opacity: 1; color: var(--primary); }
+
+        /* --- MOBILE HAMBURGER --- */
+        .hamburger {
+            display: none; flex-direction: column; gap: 6px; cursor: pointer;
+            padding: 10px; z-index: 10001;
+        }
+        .hamburger span {
+            display: block; width: 25px; height: 2px; background: var(--primary);
+            transition: 0.3s; box-shadow: 0 0 5px var(--primary-glow);
+        }
+
+        /* --- MOBILE OVERLAY MENU --- */
+        .mobile-menu {
+            position: fixed; top: 0; left: -100%; width: 100%; height: 100vh;
+            background: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 40px;
+            transition: var(--transition); z-index: 9999;
+        }
+        .mobile-menu.active { left: 0; }
+        .mobile-menu a {
+            font-family: 'Orbitron'; font-size: 24px; color: #fff;
+            text-decoration: none; letter-spacing: 5px;
+        }
+
+        /* --- CART ICON --- */
+        .cart-box { position: relative; cursor: pointer; }
+        .cart-svg { width: 28px; height: 28px; fill: none; stroke: var(--primary); stroke-width: 1.5; }
+        .badge {
+            position: absolute; top: -5px; right: -8px; background: var(--primary);
+            color: #000; font-family: 'Orbitron'; font-size: 10px;
+            padding: 2px 5px; font-weight: 900;
+        }
+
+        /* --- RESPONSIVE LOGIC --- */
+        @media (max-width: 1024px) {
+            .nav-desktop { display: none; }
+            .hamburger { display: flex; }
+            /* Selettore Hamburger Attivo */
+            .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.open span:nth-child(2) { opacity: 0; }
+            .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
+
+        /* --- HERO & CONTENT --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-family: 'Orbitron'; font-size: clamp(4rem, 15vw, 10rem); font-weight: 900; }
+        
+        .section { padding: 100px 8%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .card { background: var(--bg-card); padding: 40px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
+        .price { font-family: 'JetBrains Mono'; color: var(--primary); font-size: 28px; display: block; margin: 20px 0; }
+        
+        .btn { 
+            width: 100%; padding: 20px; background: var(--primary); border: none; 
+            font-family: 'Orbitron'; font-weight: 900; cursor: pointer;
+            clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);
+        }
+
+        /* --- SIDEBAR CARRELLO --- */
+        #bag-sidebar {
+            position: fixed; right: -500px; top: 0; width: 450px; height: 100vh;
+            background: #050508; border-left: 1px solid var(--primary); z-index: 10002;
+            padding: 60px 40px; transition: var(--transition);
+        }
+        #bag-sidebar.open { right: 0; }
+        @media (max-width: 500px) { #bag-sidebar { width: 100%; right: -100%; } }
+
+        /* --- TERMINAL --- */
+        .terminal { background: #000; padding: 40px; font-family: 'JetBrains Mono'; border: 1px solid #111; height: 350px; overflow-y: auto; color: var(--primary); }
+        .term-input { background: transparent; border: none; color: #fff; width: 100%; font-family: inherit; font-size: 16px; margin-top: 20px; border-top: 1px solid #111; padding-top: 10px; }
+
+        footer { padding: 60px; text-align: center; color: #222; font-family: 'Orbitron'; font-size: 10px; letter-spacing: 5px; border-top: 1px solid #080808; }
+    </style>
+</head>
+<body onload="startSystem()">
+
+    <canvas id="matrix-bg"></canvas>
+
+    <header>
+        <div class="hamburger" id="ham-btn" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+
+        <a href="#" class="logo-pure">GB</a>
+
+        <nav class="nav-desktop">
+            <a href="#home">Home</a>
+            <a href="#store">Hardware</a>
+            <a href="#board">Board</a>
+            <a href="#admin">Marketing</a>
+        </nav>
+
+        <div class="cart-box" onclick="toggleBag()">
+            <svg class="cart-svg" viewBox="0 0 24 24">
+                <path d="M2 2h3.5l1.5 13h12l2-9H6.5" stroke-linecap="square"/>
+                <circle cx="10" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/>
+            </svg>
+            <span class="badge" id="bag-count">0</span>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mob-nav">
+        <a href="#home" onclick="toggleMenu()">HOME</a>
+        <a href="#store" onclick="toggleMenu()">HARDWARE</a>
+        <a href="#board" onclick="toggleMenu()">BOARD</a>
+        <a href="#admin" onclick="toggleMenu()">MARKETING</a>
+    </div>
+
+    <div id="bag-sidebar">
+        <div style="display:flex; justify-content:space-between; margin-bottom:40px;">
+            <h2 style="font-family:'Orbitron'; color:var(--primary);">INVENTORY</h2>
+            <span style="cursor:pointer; font-size:24px;" onclick="toggleBag()">✕</span>
+        </div>
+        <div id="bag-list" style="height:60vh; overflow-y:auto;"></div>
+        <div style="border-top:1px solid var(--primary); padding-top:20px;">
+            <p style="font-family:'Orbitron'; font-size:24px; display:flex; justify-content:space-between;">
+                <span>TOT:</span> <span id="bag-total">0</span> CHF
+            </p>
+            <button class="btn" style="background:#ffc439; margin-top:20px;" onclick="checkout()">PAYPAL CHECKOUT</button>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero" id="home">
+            <p style="color:var(--primary); letter-spacing:10px; margin-bottom:20px;">ZURICH / 2026</p>
+            <h1>GABISH</h1>
+            <div style="width:1px; height:100px; background:linear-gradient(to bottom, var(--primary), transparent); margin-top:30px;"></div>
+        </section>
+
+        <section class="section" id="store">
+            <div class="grid">
+                <div class="card">
+                    <h3 style="font-family:'Orbitron';">TITAN G-1</h3>
+                    <span class="price">2'500 CHF</span>
+                    <button class="btn" onclick="add('Titan G-1', 2500)">DEPLOY</button>
+                </div>
+                <div class="card">
+                    <h3 style="font-family:'Orbitron';">PHONE Z</h3>
+                    <span class="price">1'150 CHF</span>
+                    <button class="btn" onclick="add('Phone Z', 1150)">DEPLOY</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="admin">
+            <div class="terminal">
+                <div id="term-status" style="border:1px solid red; color:red; padding:5px; display:inline-block; font-size:10px; margin-bottom:20px;">SYSTEM LOCKED</div>
+                <div id="term-out">
+                    <div>[G-OS] Accessing Marketing Dashboard...</div>
+                    <div style="color:#fff; margin-top:10px;">INSERIRE CODICE FONDATORE:</div>
+                </div>
+                <input type="password" id="term-in" class="term-input" placeholder="Codice..." onkeydown="handleTerm(event)">
+            </div>
+        </section>
+    </main>
+
+    <footer>GABISH TECHNOLOGY GROUP &copy; 2026</footer>
+
+    <script>
+        let bag = JSON.parse(localStorage.getItem('gabish_v14_1')) || [];
+        const founders = { "ALE2026": "ALESSANDRO", "RAMEZ99": "RAMEZ", "ELIA-TECH": "ELIA" };
+        let activeUser = null;
+
+        function startSystem() {
+            renderBag();
+            matrix();
+        }
+
+        /* --- MENU LOGIC --- */
+        function toggleMenu() {
+            document.getElementById('mob-nav').classList.toggle('active');
+            document.getElementById('ham-btn').classList.toggle('open');
+        }
+
+        function toggleBag() {
+            document.getElementById('bag-sidebar').classList.toggle('open');
+        }
+
+        /* --- BAG LOGIC --- */
+        function add(n, p) {
+            bag.push({ id: Date.now(), n, p });
+            localStorage.setItem('gabish_v14_1', JSON.stringify(bag));
+            renderBag();
+        }
+
+        function renderBag() {
+            document.getElementById('bag-count').innerText = bag.length;
+            const list = document.getElementById('bag-list');
+            const total = bag.reduce((s, i) => s + i.p, 0);
+            document.getElementById('bag-total').innerText = total.toLocaleString();
+            list.innerHTML = bag.map(i => `
+                <div style="display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #111;">
+                    <span>${i.n}</span>
+                    <button onclick="remove(${i.id})" style="color:red; background:none; border:none; cursor:pointer;">ELIMINA</button>
+                </div>
+            `).join('');
+        }
+
+        function remove(id) {
+            bag = bag.filter(i => i.id !== id);
+            localStorage.setItem('gabish_v14_1', JSON.stringify(bag));
+            renderBag();
+        }
+
+        function checkout() {
+            const t = bag.reduce((s, i) => s + i.p, 0);
+            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${t}&item_name=GABISH_ORDER`;
+        }
+
+        /* --- TERMINAL --- */
+        function handleTerm(e) {
+            if(e.key === 'Enter') {
+                const val = e.target.value;
+                if(!activeUser) {
+                    if(founders[val]) {
+                        activeUser = founders[val];
+                        document.getElementById('term-status').innerText = "AUTHORIZED: " + activeUser;
+                        document.getElementById('term-status').style.borderColor = "#00ff88";
+                        document.getElementById('term-status').style.color = "#00ff88";
+                        document.getElementById('term-out').innerHTML = `<div>> BENVENUTO ${activeUser}. DATI MARKETING SBLOCCATI.</div>`;
+                        e.target.type = "text";
+                    } else {
+                        document.getElementById('term-out').innerHTML += `<div style="color:red;">> ERROR: ACCESS DENIED.</div>`;
+                    }
+                } else {
+                    document.getElementById('term-out').innerHTML += `<div>> Comando '${val}' registrato nel database di Zurigo.</div>`;
+                }
+                e.target.value = '';
+            }
+        }
+
+        /* --- FX --- */
+        function matrix() {
+            const c = document.getElementById('matrix-bg');
+            const ctx = c.getContext('2d');
+            c.width = window.innerWidth; c.height = window.innerHeight;
+            const drops = Array(Math.floor(c.width/20)).fill(1);
+            setInterval(() => {
+                ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,c.width,c.height);
+                ctx.fillStyle = "#00d4ff"; ctx.font = "15px monospace";
+                drops.forEach((y, i) => {
+                    ctx.fillText("GABISH"[Math.floor(Math.random()*6)], i*20, y*20);
+                    if(y*20 > c.height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                });
+            }, 50);
+        }
+    </script>
+</body>
+</html>
