@@ -2,1632 +2,275 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GABISH | Zurich Sovereign Hardware</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GABISH OS | Sovereign Hardware Zurich</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@100;300;400;700;900&family=JetBrains+Mono:wght@100;400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500&family=Inter:wght@300;400;800&display=swap" rel="stylesheet">
+
     <style>
-        /* ----------------------------------------------------------------
-           CSS SECTION 01: ROOT DESIGN TOKENS
-           ---------------------------------------------------------------- 
-        */
         :root {
-            /* PRIMARY BRAND COLORS */
-            --p: #00d4ff; 
-            --p-rgb: 0, 212, 255;
-            --p-glow: rgba(0, 212, 255, 0.4);
-            
-            /* BACKGROUND & SURFACES */
-            --bg: #010102; 
-            --s: #0a0a0f; 
-            --s-light: #16161e;
-            --s-card: #0c0c14;
-            
-            /* TEXT COLORS */
-            --t: #ffffff; 
-            --d: #666666; 
-            --d-light: #333333;
-            
-            /* STATUS COLORS */
-            --err: #ff4a4a; 
-            --ok: #00ff95; 
-            --warn: #ffbd2e;
-            
-            /* DIMENSIONS */
-            --nav-h: 110px;
-            --sidebar-w: 500px;
-            
-            /* ANIMATION CURVES */
-            --ease: cubic-bezier(0.19, 1, 0.22, 1);
-            --blur: blur(25px);
-            --transition-fast: 0.3s var(--ease);
-            --transition-mid: 0.6s var(--ease);
-            --transition-slow: 1.2s var(--ease);
+            --p: #00d4ff; /* Cyan Primario */
+            --p-glow: rgba(0, 212, 255, 0.3);
+            --bg: #020204;
+            --s: #0a0a0f;
+            --t: #ffffff;
+            --d: #888888;
+            --accent: #ff0055; /* Neon Pink per alert */
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        /* ----------------------------------------------------------------
-           CSS SECTION 02: CORE RESET & BASE STYLES
-           ---------------------------------------------------------------- 
-        */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            outline: none; 
-            -webkit-font-smoothing: antialiased; 
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        html { 
-            scroll-behavior: smooth; 
-            background: var(--bg); 
-            font-size: 16px;
-        }
-
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body { 
             background: var(--bg); 
             color: var(--t); 
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden;
-            line-height: 1.8;
-            height: 100%;
-            width: 100%;
+            selection-background: var(--p);
         }
 
-        /* CUSTOM SCROLLBAR DESIGN */
-        ::-webkit-scrollbar { 
-            width: 4px; 
-        }
-        ::-webkit-scrollbar-track { 
-            background: #000; 
-        }
-        ::-webkit-scrollbar-thumb { 
-            background: var(--p); 
-            box-shadow: 0 0 15px var(--p-glow); 
+        /* BACKGROUND MATRIX EFFECT */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.2;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition-fast);
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 03: HEADER & NAVIGATION (DESKTOP CENTERED)
-           ---------------------------------------------------------------- 
-        */
+        /* NAVIGATION */
         header {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: var(--nav-h);
-            background: rgba(1, 1, 2, 0.95); 
-            backdrop-filter: var(--blur);
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between;
-            padding: 0 6%; 
-            z-index: 10000; 
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-        }
-
-        /* BRANDING AREA */
-        .brand-container { 
-            display: flex; 
-            align-items: center; 
-            width: 350px; /* FIXED WIDTH TO BALANCE CENTERED NAV */
-        }
-        
-        .logo-square {
-            width: 55px; 
-            height: 55px; 
-            border: 2px solid var(--p);
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-family: 'Orbitron'; 
-            font-weight: 900; 
-            color: var(--p);
-            font-size: 22px; 
-            box-shadow: 0 0 20px var(--p-glow); 
-            transition: var(--transition-mid);
-            cursor: pointer;
-        }
-        
-        .logo-square:hover { 
-            transform: rotate(180deg); 
-            border-color: #fff; 
-            color: #fff; 
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
-        }
-        
-        .brand-text { 
-            font-family: 'Orbitron'; 
-            font-weight: 900; 
-            letter-spacing: 8px; 
-            margin-left: 20px; 
-            font-size: 24px; 
-            color: #fff;
-        }
-
-        /* NAVIGATION CENTER ENGINE - Alessandro's Request */
-        .nav-center-wrapper {
-            position: absolute; 
-            left: 50%; 
-            transform: translateX(-50%);
-            display: flex; 
-            gap: 45px;
-        }
-        
-        .nav-center-wrapper a {
-            text-decoration: none; 
-            color: var(--t); 
-            font-family: 'Orbitron';
-            font-size: 11px; 
-            letter-spacing: 4px; 
-            opacity: 0.5; 
-            transition: var(--transition-fast);
-            position: relative;
-            padding: 10px 0;
-        }
-        
-        .nav-center-wrapper a:hover { 
-            opacity: 1; 
-            color: var(--p); 
-        }
-        
-        .nav-center-wrapper a::after {
-            content: ''; 
-            position: absolute; 
-            bottom: 0; 
-            left: 0; 
-            width: 0; 
-            height: 1px;
-            background: var(--p); 
-            transition: var(--transition-fast);
-        }
-        
-        .nav-center-wrapper a:hover::after { 
-            width: 100%; 
-        }
-
-        /* CART & ACTIONS AREA */
-        .header-actions { 
-            width: 350px; 
-            display: flex; 
-            justify-content: flex-end; 
-            position: relative; 
-        }
-        
-        .cart-icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .cart-icon-btn svg { 
-            width: 34px; 
-            stroke: var(--p); 
-            fill: none; 
-            stroke-width: 1.5; 
-            transition: var(--transition-fast);
-        }
-        
-        .cart-icon-btn:hover svg {
-            stroke: #fff;
-            transform: translateY(-2px);
-        }
-        
-        .cart-badge {
-            position: absolute; 
-            top: -8px; 
-            right: -8px; 
-            background: var(--p); 
-            color: #000;
-            font-family: 'Orbitron'; 
-            font-size: 10px; 
-            font-weight: 900; 
-            width: 20px; 
-            height: 20px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            border-radius: 2px;
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 04: MOBILE STEALTH ADAPTIVITY
-           ---------------------------------------------------------------- 
-        */
-        .hamburger-menu { 
-            display: none; 
-            flex-direction: column; 
-            gap: 7px; 
-            cursor: pointer; 
-            z-index: 11000; 
-        }
-        
-        .hamburger-menu span { 
-            width: 32px; 
-            height: 2px; 
-            background: var(--p); 
-            transition: var(--transition-mid); 
-        }
-        
-        /* HAMBURGER ANIMATION */
-        .hamburger-menu.open span:nth-child(1) { 
-            transform: translateY(9px) rotate(45deg); 
-        }
-        .hamburger-menu.open span:nth-child(2) { 
-            opacity: 0; 
-        }
-        .hamburger-menu.open span:nth-child(3) { 
-            transform: translateY(-9px) rotate(-45deg); 
-        }
-
-        .mobile-overlay-nav {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100vh;
-            background: #000; 
-            display: none; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            gap: 40px; 
-            z-index: 10500;
-        }
-        
-        .mobile-overlay-nav.active { 
-            display: flex; 
-        }
-        
-        .mobile-overlay-nav a { 
-            font-family: 'Orbitron'; 
-            font-size: 32px; 
-            text-decoration: none; 
-            color: #fff; 
-            letter-spacing: 10px; 
-            transition: var(--transition-fast);
-        }
-        
-        .mobile-overlay-nav a:hover {
-            color: var(--p);
-            letter-spacing: 15px;
-        }
-
-        /* BREAKPOINT FOR MOBILE STEALTH */
-        @media (max-width: 1150px) {
-            .nav-center-wrapper { 
-                display: none; 
-            }
-            .hamburger-menu { 
-                display: flex; 
-            }
-            .brand-text { 
-                display: none; /* LOGO STEALTH MODE */
-            }
-            .brand-container, .header-actions { 
-                width: auto; 
-            }
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 05: HERO ARCHITECTURE
-           ---------------------------------------------------------------- 
-        */
-        .hero-section { 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            padding: 0 10%; 
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-sub { 
-            color: var(--p); 
-            font-family: 'Orbitron'; 
-            letter-spacing: 18px; 
-            font-size: 14px; 
-            margin-bottom: 30px; 
-            text-transform: uppercase;
-        }
-        
-        .hero-title { 
-            font-family: 'Orbitron'; 
-            font-size: clamp(3.5rem, 16vw, 11rem); 
-            font-weight: 900; 
-            line-height: 0.85; 
-            margin-bottom: 45px; 
-            letter-spacing: -2px;
-        }
-        
-        .hero-para { 
-            max-width: 800px; 
-            color: var(--d); 
-            font-size: 19px; 
-            letter-spacing: 1.5px; 
-            line-height: 2;
-        }
-        
-        .hero-cta-arrow {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            cursor: pointer;
-            opacity: 0.3;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
-            40% {transform: translateY(-10px) translateX(-50%);}
-            60% {transform: translateY(-5px) translateX(-50%);}
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 06: STORE GRID & PRODUCT CARDS
-           ---------------------------------------------------------------- 
-        */
-        .store-container { 
-            padding: 180px 8%; 
-            background: var(--bg);
-        }
-        
-        .section-header-wrap {
-            margin-bottom: 120px;
-            text-align: center;
-        }
-        
-        .section-header-wrap h2 { 
-            font-family: 'Orbitron'; 
-            font-size: 48px; 
-            letter-spacing: 18px; 
-            text-transform: uppercase;
-        }
-        
-        .section-header-wrap p {
-            font-family: 'JetBrains Mono';
-            color: var(--p);
-            font-size: 12px;
-            margin-top: 15px;
-            opacity: 0.6;
-        }
-
-        .products-grid-layout { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); 
-            gap: 70px; 
-        }
-        
-        .product-card { 
-            background: var(--s-card); 
-            padding: 70px; 
-            border: 1px solid rgba(255,255,255,0.02); 
-            transition: var(--transition-mid); 
-            position: relative; 
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .product-card:hover { 
-            border-color: var(--p); 
-            transform: translateY(-25px); 
-            box-shadow: 0 60px 120px rgba(0,0,0,0.9); 
-        }
-        
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 4px;
-            background: var(--p);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: var(--transition-mid);
-        }
-        
-        .product-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .product-image-container { 
-            width: 100%; 
-            height: 380px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            margin-bottom: 50px;
-            background: rgba(0,0,0,0.2);
-        }
-        
-        .product-image-container img { 
-            max-width: 90%; 
-            max-height: 90%; 
-            object-fit: contain; 
-            filter: grayscale(1); 
-            transition: var(--transition-mid); 
-        }
-        
-        .product-card:hover .product-image-container img { 
-            filter: grayscale(0) drop-shadow(0 0 20px var(--p-glow)); 
-            transform: scale(1.1); 
-        }
-        
-        .product-info-h3 { 
-            font-family: 'Orbitron'; 
-            font-size: 32px; 
-            margin-bottom: 20px; 
-            letter-spacing: 2px;
-        }
-        
-        .product-info-p { 
-            color: var(--d); 
-            font-size: 15px; 
-            margin-bottom: 40px; 
-            line-height: 1.8;
-            flex-grow: 1;
-        }
-        
-        .product-price-tag { 
-            font-family: 'JetBrains Mono'; 
-            color: var(--p); 
-            font-size: 38px; 
-            font-weight: 700; 
-            display: block; 
-            margin-bottom: 45px; 
-        }
-
-        .buy-action-btn {
-            width: 100%; 
-            padding: 26px; 
-            background: var(--p); 
-            color: #000; 
-            border: none;
-            font-family: 'Orbitron'; 
-            font-weight: 900; 
-            font-size: 14px;
-            letter-spacing: 4px;
-            cursor: pointer; 
-            transition: var(--transition-fast);
-            clip-path: polygon(0 0, 100% 0, 100% 70%, 92% 100%, 0 100%);
-        }
-        
-        .buy-action-btn:hover { 
-            background: #fff; 
-            transform: translateY(-5px); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 07: FOUNDER TERMINAL SECURE ACCESS
-           ---------------------------------------------------------------- 
-        */
-        .lockdown-section { 
-            padding: 180px 8%; 
-            background: #020204; 
-            border-top: 1px solid #080808;
-        }
-        
-        .terminal-container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            background: #050508; 
-            border: 1px solid #111; 
-            box-shadow: 0 80px 160px rgba(0,0,0,1);
-            position: relative;
-        }
-        
-        .terminal-title-bar { 
-            background: #111; 
-            padding: 18px 30px; 
-            display: flex; 
-            gap: 12px; 
-            align-items: center; 
-        }
-        
-        .t-dot { width: 13px; height: 13px; border-radius: 50%; }
-        .t-dot.red { background: var(--err); }
-        .t-dot.yellow { background: var(--warn); }
-        .t-dot.green { background: var(--ok); }
-        
-        .t-title-text {
-            color: #444; 
-            font-family: 'JetBrains Mono'; 
-            font-size: 11px; 
-            margin-left: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .terminal-display-area { 
-            height: 500px; 
-            padding: 50px; 
-            overflow-y: auto; 
-            font-family: 'JetBrains Mono'; 
-            color: var(--p); 
-            font-size: 15px; 
-            line-height: 2.4; 
-        }
-        
-        .terminal-input-wrap { 
-            padding: 35px 50px; 
-            border-top: 1px solid #111; 
-            display: flex; 
-            gap: 20px; 
-            align-items: center;
-        }
-        
-        .t-prompt {
-            color: var(--p);
-            font-weight: bold;
-        }
-        
-        .terminal-input-field { 
-            background: transparent; 
-            border: none; 
-            color: #fff; 
-            width: 100%; 
-            font-family: inherit; 
-            font-size: 18px; 
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 08: SIDEBAR INVENTORY MANAGEMENT
-           ---------------------------------------------------------------- 
-        */
-        .inventory-sidebar {
-            position: fixed; 
-            top: 0; 
-            right: -600px; 
-            width: 550px; 
-            height: 100vh;
-            background: #010103; 
-            border-left: 2px solid var(--p); 
-            z-index: 20000;
-            padding: 80px 60px; 
-            transition: var(--transition-slow); 
-            display: flex; 
-            flex-direction: column;
-            box-shadow: -50px 0 100px rgba(0,0,0,0.9);
-        }
-        
-        .inventory-sidebar.active { 
-            right: 0; 
-        }
-        
-        .sidebar-header-text {
-            font-family: 'Orbitron'; 
-            font-size: 24px;
-            letter-spacing: 10px; 
-            color: var(--p);
-            margin-bottom: 50px;
-            text-transform: uppercase;
-        }
-        
-        .cart-items-container { 
-            flex-grow: 1; 
-            overflow-y: auto; 
-            margin-bottom: 60px;
-            padding-right: 15px;
-        }
-        
-        .cart-item-row { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            padding: 30px 0; 
-            border-bottom: 1px solid #111; 
-            animation: slideIn 0.5s var(--ease);
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .cart-item-name {
-            font-weight: 900;
-            font-size: 18px;
-            font-family: 'Orbitron';
-        }
-        
-        .cart-item-price {
-            color: var(--p);
-            font-family: 'JetBrains Mono';
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        
-        .remove-item-btn {
-            background: none;
-            border: 1px solid var(--err);
-            color: var(--err);
-            padding: 8px 15px;
-            font-family: 'Orbitron';
-            font-size: 10px;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .remove-item-btn:hover {
-            background: var(--err);
-            color: #fff;
-        }
-        
-        .cart-footer-area { 
-            border-top: 1px solid #222; 
-            padding-top: 50px; 
-        }
-        
-        .total-summary-row {
-            display: flex; 
-            justify-content: space-between; 
-            font-family: 'Orbitron'; 
-            font-size: 36px; 
-            margin-bottom: 50px; 
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 09: GLOBAL FOOTER & TEAM ARCHITECTURE
-           ---------------------------------------------------------------- 
-        */
-        footer { 
-            padding: 160px 8% 60px; 
-            background: #000; 
-            border-top: 1px solid #080808; 
-            text-align: center; 
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 100px;
-            text-align: left;
-            margin-bottom: 120px;
-        }
-        
-        .footer-col h4 {
-            font-family: 'Orbitron';
-            color: var(--p);
-            font-size: 18px;
-            letter-spacing: 6px;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
-        
-        .footer-col p {
-            color: var(--d);
-            font-size: 15px;
-            line-height: 2;
-        }
-        
-        .footer-col ul li {
-            margin-bottom: 20px;
-            color: var(--d);
-            font-size: 14px;
-            transition: var(--transition-fast);
-            cursor: pointer;
-        }
-        
-        .footer-col ul li:hover {
-            color: #fff;
-            padding-left: 10px;
-        }
-
-        .team-identity-strip { 
-            display: flex; 
-            justify-content: center; 
-            gap: 70px; 
-            margin-bottom: 80px; 
-            font-family: 'Orbitron'; 
-            font-size: 13px; 
-            letter-spacing: 12px; 
-            color: var(--p);
-            opacity: 0.6;
-        }
-        
-        .team-identity-strip span {
-            position: relative;
-        }
-        
-        .team-identity-strip span::before {
-            content: '[';
-            margin-right: 10px;
-            color: #222;
-        }
-        
-        .team-identity-strip span::after {
-            content: ']';
-            margin-left: 10px;
-            color: #222;
-        }
-
-        .legal-disclaimer { 
-            font-size: 11px; 
-            color: #111; 
-            letter-spacing: 14px; 
-            margin-top: 100px; 
-            text-transform: uppercase; 
-            font-weight: 900;
-        }
-
-        /* ----------------------------------------------------------------
-           CSS SECTION 10: NOTIFICATIONS & VISUAL EFFECTS
-           ---------------------------------------------------------------- 
-        */
-        #matrix-canvas-bg { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -1; 
-            opacity: 0.12; 
-            pointer-events: none; 
-        }
-        
-        .notification-hub { 
-            position: fixed; 
-            bottom: 40px; 
-            right: 40px; 
-            z-index: 50000; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-        }
-        
-        .toast-notification {
-            background: var(--s); 
-            border-left: 4px solid var(--p); 
-            padding: 25px 50px;
-            font-family: 'Orbitron'; 
-            font-size: 12px; 
-            color: #fff; 
-            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-            transform: translateX(180%); 
-            transition: var(--transition-mid);
-        }
-        
-        .toast-notification.active { 
-            transform: translateX(0); 
-        }
-        
-        /* CSS EXPANSION FOR LINE COUNT DEPTH
-           The following classes ensure pixel-perfect control over every element.
-        */
-        .m-t-large { margin-top: 100px; }
-        .m-b-large { margin-bottom: 100px; }
-        .text-center { text-align: center; }
-        .p-v-huge { padding: 200px 0; }
-        .glow-text { text-shadow: 0 0 15px var(--p-glow); }
-        .no-select { user-select: none; }
-    </style>
-</head>
-<body onload="launchGabishKernel()">
-
-    <canvas id="matrix-canvas-bg"></canvas>
-    
-    <div id="gabish-toast-hub" class="notification-hub"></div>
-
-    <header id="site-header">
-        <div class="brand-container">
-            <div class="hamburger-menu" id="nav-toggle-btn" onclick="toggleMobileNav()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="logo-square" onclick="window.scrollTo(0,0)">GB</div>
-            <span class="brand-text">GABISH</span>
-        </div>
-
-        <nav class="nav-center-wrapper">
-            <a href="#home">HOME</a>
-            <a href="#store">HARDWARE</a>
-            <a href="#lockdown">LOCKDOWN</a>
-            <a href="mailto:sulaimanalessandro@gmail.com">CONTACT</a>
-        </nav>
-
-        <div class="header-actions">
-            <button class="cart-icon-btn" onclick="toggleInventorySidebar()">
-                <svg viewBox="0 0 24 24">
-                    <path d="M2 2h3l1.5 13h13l2-9h-15" stroke-linecap="round"/>
-                    <circle cx="9" cy="20" r="1.5"/>
-                    <circle cx="17" cy="20" r="1.5"/>
-                </svg>
-                <span class="cart-badge" id="global-cart-counter">0</span>
-            </button>
-        </div>
-    </header>
-
-    <div class="mobile-overlay-nav" id="mobile-nav-overlay">
-        <a href="#home" onclick="toggleMobileNav()">HOME</a>
-        <a href="#store" onclick="toggleMobileNav()">HARDWARE</a>
-        <a href="#lockdown" onclick="toggleMobileNav()">LOCKDOWN</a>
-        <a href="mailto:sulaimanalessandro@gmail.com" onclick="toggleMobileNav()">CONTACT</a>
-    </div>
-
-    <div class="inventory-sidebar" id="sidebar-inventory">
-        <h2 class="sidebar-header-text">CURRENT INVENTORY</h2>
-        <div class="cart-items-container" id="inventory-list-injected">
-            </div>
-        
-        <div class="cart-footer-area">
-            <div class="total-summary-row">
-                <span>TOTAL</span>
-                <span id="inventory-total-price">0 CHF</span>
-            </div>
-            <button class="buy-action-btn" style="background:#ffc439; color:#000;" onclick="initiateSecurePaypal()">
-                SECURE CHECKOUT (PAYPAL)
-            </button>
-            <button class="buy-action-btn" style="margin-top:20px; background:transparent; border:1px solid #333; color:#fff;" onclick="toggleInventorySidebar()">
-                CONTINUE EXPLORING
-            </button>
-        </div>
-    </div>
-
-    <main>
-        
-        <section class="hero-section" id="home">
-            <span class="hero-sub glow-text">ZURICH SOVEREIGN HARDWARE</span>
-            <h1 class="hero-title">GABISH</h1>
-            <p class="hero-para">
-                Sistemi hardware progettati per il dominio digitale assoluto. 
-                Sviluppato da Alessandro, Ramez ed Elia con precisione ingegneristica svizzera.
-            </p>
-            <div class="hero-cta-arrow" onclick="document.getElementById('store').scrollIntoView()">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-        </section>
-
-        <section class="store-container" id="store">
-            <div class="section-header-wrap">
-                <h2>CORE INVENTORY</h2>
-                <p>ZURICH-SHIELD COMPLIANT HARDWARE</p>
-            </div>
-            
-            <div class="products-grid-layout" id="product-injector-engine">
-                </div>
-        </section>
-
-        <section class="lockdown-section" id="lockdown">
-            <div class="section-header-wrap">
-                <h2>SECURE ACCESS</h2>
-                <p>FOUNDER AUTHORIZATION REQUIRED</p>
-            </div>
-            
-            <div class="terminal-container">
-                <div class="terminal-title-bar">
-                    <div class="t-dot red"></div>
-                    <div class="t-dot yellow"></div>
-                    <div class="t-dot green"></div>
-                    <span class="t-title-text">G-OS TERMINAL // ENCRYPTED_FOUNDER_SESSION</span>
-                </div>
-                
-                <div class="terminal-display-area" id="terminal-output-stream">
-                    <div>[SYSTEM] INITIALIZING GABISH KERNEL v29.0...</div>
-                    <div>[SECURITY] LOADING AES-2048 CRYPTO STRATEGY...</div>
-                    <div>[NETWORK] HANDSHAKE WITH ZURICH-HUB-01: OK.</div>
-                    <div>[IDENTITY] WAITING FOR FOUNDER AUTHORIZATION...</div>
-                    <div style="margin-top:20px; color:#fff;">ENTER ACCESS KEY:</div>
-                </div>
-                
-                <div class="terminal-input-wrap">
-                    <span class="t-prompt">founder@gabish:~$</span>
-                    <input type="password" id="terminal-input-field" class="terminal-input-field" placeholder="..." onkeydown="processTerminalInput(event)">
-                </div>
-            </div>
-        </section>
-        
-    </main>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>GABISH HQ</h4>
-                <p>Bahnhofstrasse 102<br>8001 Zurich, Switzerland</p>
-                <p style="margin-top:30px; color:var(--p); font-family: 'JetBrains Mono';">GABISHTECHNOLOGY@GMAIL.COM</p>
-            </div>
-            
-            <div class="footer-col">
-                <h4>SITEMAP</h4>
-                <ul>
-                    <li onclick="location.href='#home'">Back to Top</li>
-                    <li onclick="location.href='#store'">Browse Hardware</li>
-                    <li onclick="location.href='#lockdown'">Founder Portal</li>
-                    <li>Privacy Protocol</li>
-                </ul>
-            </div>
-            
-            <div class="footer-col">
-                <h4>ECOSYSTEM</h4>
-                <ul>
-                    <li>Zurich Shield</li>
-                    <li>Sovereign OS</li>
-                    <li>Quantum Storage</li>
-                    <li>Biometric Access</li>
-                </ul>
-            </div>
-            
-            <div class="footer-col">
-                <h4>SUPPORT</h4>
-                <p>Supporto tecnico prioritario riservato ai possessori di hardware GABISH.</p>
-                <button class="buy-action-btn" style="margin-top:25px; font-size:10px; padding:15px;">OPEN TICKET</button>
-            </div>
-        </div>
-        
-        <div class="team-identity-strip">
-            <span>ALESSANDRO</span>
-            <span>RAMEZ</span>
-            <span>ELIA</span>
-        </div>
-        
-        <p>© 2026 GABISH TECHNOLOGY GROUP ZURICH | ALL RIGHTS RESERVED</p>
-        <p class="legal-disclaimer">QUANTUM ARCHITECTURE v29.0 // PROTECTED BY SWISS PRIVACY LAW</p>
-    </footer>
-
-    <script>
-        /**
-         * GABISH KERNEL v29.0
-         * Main Engine for state management, UI injection, and security.
-         */
-
-        /* --- GLOBAL DATA STORAGE --- */
-        const GABISH_DATABASE = [
-            { 
-                id: 1001, 
-                name: "TITAN G-1 SERVER", 
-                price: 2500, 
-                category: "Infrastructure",
-                desc: "Sovereign Workstation. 128-core Zurich Silicon CPU, 1TB ECC RAM, 50TB Quantum Storage.", 
-                img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800" 
-            },
-            { 
-                id: 1002, 
-                name: "PHONE Z-CORE", 
-                price: 1150, 
-                category: "Mobile",
-                desc: "Neural Privacy Smartphone. Grade 5 Titanium, Zero-Tracking OS, Hardware Kill-Switches.", 
-                img: "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800" 
-            },
-            { 
-                id: 1003, 
-                name: "WATCH ALPHA", 
-                price: 350, 
-                category: "Wearable",
-                desc: "Biometric Neural Interface. Sapphire crystal, 30-day battery, encrypted health monitoring.", 
-                img: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" 
-            },
-            { 
-                id: 1004, 
-                name: "QUANTUM DRIVE X", 
-                price: 180, 
-                category: "Storage",
-                desc: "AES-2048 Secure Cold Storage. Biometric fingerprint lock, EMP-proof Zurich steel body.", 
-                img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800" 
-            },
-            { 
-                id: 1005, 
-                name: "NEURAL BUDS", 
-                price: 280, 
-                category: "Audio",
-                desc: "Lossless Sovereign Audio. Active Neural Noise Cancellation, 360 Spatial Acoustic Map.", 
-                img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800" 
-            },
-            { 
-                id: 1006, 
-                name: "TITAN TABLET PRO", 
-                price: 950, 
-                category: "Computing",
-                desc: "14-inch XDR Neural Display. Zurich Silicon G-Series chip, designed for high-end engineers.", 
-                img: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800" 
-            }
-        ];
-
-        /* --- SYSTEM STATE --- */
-        let SYSTEM_STATE = {
-            currentInventory: JSON.parse(localStorage.getItem('gabish_storage_v29')) || [],
-            isAuthorized: false,
-            founderCredentials: {
-                "ALE2026": "Alessandro",
-                "RAMEZ99": "Ramez",
-                "ELIA-TECH": "Elia"
-            },
-            activeTerminal: true
-        };
-
-        /**
-         * INITIALIZATION BOOTSTRAP
-         */
-        function launchGabishKernel() {
-            console.log("%c GABISH TECHNOLOGY GROUP %c KERNEL v29.0 ACTIVE ", "background:#00d4ff; color:#000; font-weight:bold; padding:5px;", "background:#000; color:#00ff88; padding:5px;");
-            
-            injectProductCatalog();
-            refreshInventoryUI();
-            initializeMatrixBackground();
-            
-            // Add scroll listener for header effect
-            window.addEventListener('scroll', function() {
-                const header = document.getElementById('site-header');
-                if(window.scrollY > 50) {
-                    header.style.height = "90px";
-                    header.style.background = "rgba(0,0,0,0.98)";
-                } else {
-                    header.style.height = "110px";
-                    header.style.background = "rgba(1, 1, 2, 0.95)";
-                }
-            });
-        }
-
-        /**
-         * UI INJECTION ENGINE
-         */
-        function injectProductCatalog() {
-            const container = document.getElementById('product-injector-engine');
-            
-            if(!container) return;
-            
-            let htmlBuffer = "";
-            
-            GABISH_DATABASE.forEach(product => {
-                htmlBuffer += `
-                    <div class="product-card" data-id="${product.id}">
-                        <div class="product-image-container">
-                            <img src="${product.img}" alt="${product.name}" loading="lazy">
-                        </div>
-                        <h3 class="product-info-h3">${product.name}</h3>
-                        <p class="product-info-p">${product.desc}</p>
-                        <span class="product-price-tag">${product.price} CHF</span>
-                        <button class="buy-action-btn" onclick="addToInventory(${product.id})">
-                            ADD TO INVENTORY
-                        </button>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = htmlBuffer;
-        }
-
-        /**
-         * INVENTORY LOGIC
-         */
-        function addToInventory(id) {
-            const productMatch = GABISH_DATABASE.find(item => item.id === id);
-            
-            if(productMatch) {
-                // Add unique ID for removal
-                const inventoryItem = {
-                    ...productMatch,
-                    uniqueId: Date.now() + Math.random()
-                };
-                
-                SYSTEM_STATE.currentInventory.push(inventoryItem);
-                synchronizeStorage();
-                triggerToastNotification(`UNIT [${productMatch.name}] ADDED TO BAG.`);
-            }
-        }
-
-        function removeFromInventory(uniqueId) {
-            SYSTEM_STATE.currentInventory = SYSTEM_STATE.currentInventory.filter(item => item.uniqueId !== uniqueId);
-            synchronizeStorage();
-            triggerToastNotification("UNIT REMOVED FROM INVENTORY.");
-        }
-
-        function synchronizeStorage() {
-            localStorage.setItem('gabish_storage_v29', JSON.stringify(SYSTEM_STATE.currentInventory));
-            refreshInventoryUI();
-        }
-
-        function refreshInventoryUI() {
-            const counterLabel = document.getElementById('global-cart-counter');
-            const listContainer = document.getElementById('inventory-list-injected');
-            const totalLabel = document.getElementById('inventory-total-price');
-            
-            if(!counterLabel || !listContainer || !totalLabel) return;
-            
-            // Update counter
-            counterLabel.innerText = SYSTEM_STATE.currentInventory.length;
-            
-            // Calculate total
-            const totalSum = SYSTEM_STATE.currentInventory.reduce((acc, current) => acc + current.price, 0);
-            totalLabel.innerText = totalSum + " CHF";
-            
-            // Update list
-            if(SYSTEM_STATE.currentInventory.length === 0) {
-                listContainer.innerHTML = `
-                    <div style="text-align:center; padding-top:100px; opacity:0.2;">
-                        <p style="font-family:'Orbitron'; letter-spacing:5px;">BAG IS EMPTY</p>
-                    </div>
-                `;
-            } else {
-                let listHtml = "";
-                SYSTEM_STATE.currentInventory.forEach(item => {
-                    listHtml += `
-                        <div class="cart-item-row">
-                            <div>
-                                <div class="cart-item-name">${item.name}</div>
-                                <div class="cart-item-price">${item.price} CHF</div>
-                            </div>
-                            <button class="remove-item-btn" onclick="removeFromInventory(${item.uniqueId})">
-                                REMOVE
-                            </button>
-                        </div>
-                    `;
-                });
-                listContainer.innerHTML = listHtml;
-            }
-        }
-
-        /**
-         * TERMINAL SECURITY LOGIC
-         */
-        function processTerminalInput(event) {
-            if(event.key === 'Enter') {
-                const output = document.getElementById('terminal-output-stream');
-                const input = document.getElementById('terminal-input-field');
-                const command = input.value.trim();
-                
-                if(!SYSTEM_STATE.isAuthorized) {
-                    // Auth Check
-                    if(SYSTEM_STATE.founderCredentials[command]) {
-                        SYSTEM_STATE.isAuthorized = true;
-                        const founderName = SYSTEM_STATE.founderCredentials[command];
-                        
-                        logToTerminal(`> ACCESS GRANTED.`, "var(--ok)");
-                        logToTerminal(`> WELCOME FOUNDER: ${founderName.toUpperCase()}.`, "var(--t)");
-                        logToTerminal(`> SYSTEM STATUS: NOMINAL.`, "var(--p)");
-                        logToTerminal(`> READY FOR COMMANDS. (TYPE 'HELP')`, "var(--warn)");
-                    } else {
-                        logToTerminal(`> ERROR: INVALID SECURITY KEY.`, "var(--err)");
-                        logToTerminal(`> UNAUTHORIZED ACCESS LOGGED.`, "var(--err)");
-                    }
-                } else {
-                    // Command Processing
-                    handleFounderCommands(command.toLowerCase());
-                }
-                
-                input.value = "";
-                output.scrollTop = output.scrollHeight;
-            }
-        }
-
-        function handleFounderCommands(cmd) {
-            if(cmd === 'help') {
-                logToTerminal(`> AVAILABLE COMMANDS:`);
-                logToTerminal(`> - STATUS: System Diagnostics`);
-                logToTerminal(`> - NETWORK: Map Zurich Nodes`);
-                logToTerminal(`> - CLEAR: Reset Terminal Display`);
-                logToTerminal(`> - LOGOUT: Terminate Session`);
-            } else if(cmd === 'status') {
-                logToTerminal(`> CPU: 12.4% | RAM: 45GB / 1024GB`);
-                logToTerminal(`> ZURICH-SHIELD: ACTIVE-ENCRYPTED`);
-                logToTerminal(`> NODES: ZURICH[UP], GENEVA[UP], LUGANO[UP]`);
-            } else if(cmd === 'network') {
-                logToTerminal(`> SCANNING SWISS SUBNETS...`);
-                setTimeout(() => logToTerminal(`> 102.88.9.1 -> FOUND (ZURICH_HQ)`), 200);
-                setTimeout(() => logToTerminal(`> 102.88.9.2 -> FOUND (GENEVA_DATA)`), 400);
-            } else if(cmd === 'clear') {
-                document.getElementById('terminal-output-stream').innerHTML = "<div>[G-OS TERMINAL RESTARTED]</div>";
-            } else if(cmd === 'logout') {
-                location.reload();
-            } else {
-                logToTerminal(`> UNKNOWN COMMAND: ${cmd}`, "var(--err)");
-            }
-        }
-
-        function logToTerminal(message, color = "inherit") {
-            const output = document.getElementById('terminal-output-stream');
-            const line = document.createElement('div');
-            line.style.color = color;
-            line.innerText = message;
-            output.appendChild(line);
-        }
-
-        /**
-         * VISUAL UTILITIES
-         */
-        function toggleInventorySidebar() {
-            document.getElementById('sidebar-inventory').classList.toggle('active');
-        }
-
-        function toggleMobileNav() {
-            document.getElementById('mobile-nav-overlay').classList.toggle('active');
-            document.getElementById('nav-toggle-btn').classList.toggle('open');
-        }
-
-        function triggerToastNotification(message) {
-            const hub = document.getElementById('gabish-toast-hub');
-            const toast = document.createElement('div');
-            toast.className = "toast-notification";
-            toast.innerText = message;
-            
-            hub.appendChild(toast);
-            
-            // Animation In
-            setTimeout(() => toast.classList.add('active'), 100);
-            
-            // Animation Out
-            setTimeout(() => {
-                toast.classList.remove('active');
-                setTimeout(() => toast.remove(), 600);
-            }, 3500);
-        }
-
-        function initiateSecurePaypal() {
-            const total = SYSTEM_STATE.currentInventory.reduce((acc, current) => acc + current.price, 0);
-            
-            if(total === 0) {
-                triggerToastNotification("ERROR: INVENTORY IS EMPTY.");
-                return;
-            }
-            
-            // Encrypted Order Simulation
-            triggerToastNotification("ENCRYPTING ORDER DATA...");
-            
-            setTimeout(() => {
-                window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${total}&item_name=GABISH_HARDWARE_ORDER_v29`;
-            }, 1000);
-        }
-
-        /**
-         * MATRIX NEURAL BACKGROUND ENGINE
-         */
-        function initializeMatrixBackground() {
-            const canvas = document.getElementById('matrix-canvas-bg');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            const characters = "GABISH-ZURICH-ALESSANDRO-RAMEZ-ELIA-010101";
-            const charArray = characters.split("");
-            const fontSize = 16;
-            const columns = canvas.width / fontSize;
-            
-            const drops = [];
-            for(let x = 0; x < columns; x++) {
-                drops[x] = 1;
-            }
-            
-            function drawMatrix() {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                ctx.fillStyle = "#00d4ff";
-                ctx.font = fontSize + "px monospace";
-                
-                for(let i = 0; i < drops.length; i++) {
-                    const text = charArray[Math.floor(Math.random() * charArray.length)];
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    
-                    if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    
-                    drops[i]++;
-                }
-            }
-            
-            setInterval(drawMatrix, 55);
-            
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-        }
-
-        /* ----------------------------------------------------------------
-           ENTERPRISE DOCUMENTATION LAYER
-           ---------------------------------------------------------------- 
-           This section is designed to maintain the integrity of the 
-           TITAN-X codebase. GABISH TECHNOLOGY GROUP mandates that
-           all hardware interfaces remain sovereign and decentralized.
-           
-           DEVELOPER NOTES:
-           - Alessandro: Primary focus on UI balance and centered navigation.
-           - Ramez: Responsible for terminal backend and security protocols.
-           - Elia: Product inventory and hardware aesthetic consistency.
-           
-           SYSTEM VERSION: 29.0.4-STABLE
-           HASH: 8f9a2c1d0e3b4f5a6b7c8d9e0f1a2b3c
-           ---------------------------------------------------------------- 
-        */
-
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GABISH | Zurich Sovereign Hardware</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@100;400;700&family=JetBrains+Mono:wght@100;400&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --p: #00d4ff; --p-glow: rgba(0, 212, 255, 0.4);
-            --bg: #010102; --s: #0a0a0f; --t: #ffffff; --d: #666666;
-            --err: #ff4a4a; --ok: #00ff95; --nav-h: 110px;
-            --ease: cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-font-smoothing: antialiased; }
-        body { background: var(--bg); color: var(--t); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: var(--p); }
-
-        /* HEADER E NAVIGAZIONE */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-h);
-            background: rgba(1, 1, 2, 0.95); backdrop-filter: blur(20px);
+            position: fixed; top: 0; width: 100%; height: 90px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 6%; z-index: 10000; border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 0 5%; background: rgba(1, 1, 2, 0.8);
+            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            z-index: 1000;
         }
 
-        /* BLOCCO BRAND */
-        .brand-block { display: flex; align-items: center; width: 320px; transition: 0.5s; }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
         .logo-box {
-            width: 50px; height: 50px; border: 2px solid var(--p);
+            width: 45px; height: 45px; border: 2px solid var(--p);
             display: flex; align-items: center; justify-content: center;
             font-family: 'Orbitron'; font-weight: 900; color: var(--p);
-            font-size: 20px; box-shadow: 0 0 15px var(--p-glow); cursor: pointer;
+            box-shadow: 0 0 15px var(--p-glow);
         }
-        .logo-full-text { font-family: 'Orbitron'; font-size: 22px; font-weight: 900; letter-spacing: 8px; margin-left: 15px; }
+        .logo-text { font-family: 'Orbitron'; letter-spacing: 5px; font-weight: 700; font-size: 20px; }
 
-        /* NAV PC CENTRATA */
-        .nav-pc {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 40px;
-        }
-        .nav-pc a {
+        nav.desktop-nav { display: flex; gap: 30px; }
+        nav.desktop-nav a {
             text-decoration: none; color: var(--t); font-family: 'Orbitron';
-            font-size: 11px; letter-spacing: 3px; opacity: 0.5; transition: 0.4s;
+            font-size: 11px; letter-spacing: 2px; opacity: 0.6; transition: 0.3s;
         }
-        .nav-pc a:hover { opacity: 1; color: var(--p); }
+        nav.desktop-nav a:hover { opacity: 1; color: var(--p); text-shadow: 0 0 10px var(--p); }
 
-        /* AZIONI (CARRELLO) */
-        .actions-block { width: 320px; display: flex; justify-content: flex-end; position: relative; }
-        .cart-btn { background: none; border: none; cursor: pointer; position: relative; }
-        .cart-btn svg { width: 30px; stroke: var(--p); fill: none; stroke-width: 1.5; }
-        .badge {
-            position: absolute; top: -5px; right: -5px; background: var(--p); color: #000;
-            font-family: 'Orbitron'; font-size: 10px; font-weight: 900; width: 18px; height: 18px;
-            display: flex; align-items: center; justify-content: center;
+        .cart-status { font-family: 'JetBrains Mono'; color: var(--p); cursor: pointer; }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding: 0 20px;
         }
-
-        /* MOBILE MENU & LOGO CENTRATO */
-        .lamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 11000; }
-        .lamburger span { width: 28px; height: 2px; background: var(--p); transition: 0.4s; }
-
-        @media (max-width: 1100px) {
-            header { height: 90px; padding: 0 5%; }
-            .nav-pc { display: none; } /* Nascondi menu PC */
-            
-            .lamburger { display: flex; order: 1; width: 40px; } /* Sinistra */
-            
-            .brand-block { 
-                width: auto; order: 2; position: absolute; left: 50%; transform: translateX(-50%); 
-            } /* LOGO AL CENTRO */
-            
-            .logo-full-text { display: none; } /* Solo GB al centro */
-            .logo-box { width: 45px; height: 45px; font-size: 18px; }
-            
-            .actions-block { order: 3; width: 40px; } /* Destra */
+        .hero h1 {
+            font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900; line-height: 1; margin-bottom: 20px;
+            background: linear-gradient(to bottom, #fff, var(--p));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p { 
+            font-family: 'JetBrains Mono'; color: var(--d); 
+            letter-spacing: 5px; text-transform: uppercase; font-size: 14px;
         }
 
-        /* RESTO DELLO STILE (HERO, STORE, TERMINAL) */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 10%; }
-        .hero h1 { font-family: 'Orbitron'; font-size: clamp(3rem, 15vw, 10rem); font-weight: 900; line-height: 0.8; margin-bottom: 40px; }
-        .hero p { max-width: 700px; color: var(--d); font-size: 18px; letter-spacing: 1px; }
-
+        /* GRID SYSTEM */
         .container { padding: 100px 8%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px; }
-        .card { background: var(--s); padding: 50px; border: 1px solid rgba(255,255,255,0.02); transition: 0.6s var(--ease); }
-        .card:hover { border-color: var(--p); transform: translateY(-15px); }
-        .card img { width: 100%; height: 300px; object-fit: contain; margin-bottom: 30px; filter: grayscale(1); transition: 0.5s; }
+        .section-title {
+            font-family: 'Orbitron'; font-size: 32px; margin-bottom: 50px;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .section-title::after { content: ''; height: 1px; flex-grow: 1; background: var(--border); }
+
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* PRODUCT CARDS */
+        .card {
+            background: var(--s); border: 1px solid var(--border);
+            padding: 30px; position: relative; transition: 0.4s var(--ease);
+            overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--p); transform: scaleX(0); transition: 0.4s;
+        }
+        .card:hover::before { transform: scaleX(1); }
+        .card:hover { border-color: var(--p); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .card img { width: 100%; height: 200px; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
         .card:hover img { filter: grayscale(0); }
-        
-        .price { font-family: 'JetBrains Mono'; color: var(--p); font-size: 32px; display: block; margin: 20px 0 30px; }
-        .btn { width: 100%; padding: 22px; background: var(--p); color: #000; border: none; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 100%, 0 100%); transition: 0.3s; }
-        .btn:hover { background: #fff; }
 
-        /* TERMINALE */
-        #lockdown { padding: 100px 8%; background: #020203; }
-        .terminal { max-width: 800px; margin: 0 auto; background: #050508; border: 1px solid #111; }
-        .term-body { height: 400px; padding: 30px; overflow-y: auto; font-family: 'JetBrains Mono'; color: var(--p); font-size: 14px; line-height: 2; }
-        .term-in-wrap { padding: 20px 30px; border-top: 1px solid #111; display: flex; gap: 15px; }
-        .term-field { background: transparent; border: none; color: #fff; width: 100%; font-family: inherit; }
+        .card h3 { font-family: 'Orbitron'; margin: 20px 0 10px; font-size: 18px; }
+        .card p { color: var(--d); font-size: 14px; margin-bottom: 20px; min-height: 60px; }
+        .price { font-family: 'JetBrains Mono'; font-size: 22px; color: var(--p); margin-bottom: 20px; }
 
-        /* SIDEBAR & OVERLAY */
-        .sidebar { position: fixed; top: 0; right: -500px; width: 450px; height: 100vh; background: #010103; border-left: 2px solid var(--p); z-index: 20000; padding: 60px 40px; transition: 0.7s var(--ease); }
-        .sidebar.active { right: 0; }
-        .mobile-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #000; display: none; flex-direction: column; justify-content: center; align-items: center; gap: 40px; z-index: 10500; }
-        .mobile-nav.active { display: flex; }
-        .mobile-nav a { font-family: 'Orbitron'; font-size: 30px; text-decoration: none; color: #fff; letter-spacing: 8px; }
+        .btn-buy {
+            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--p);
+            color: var(--p); font-family: 'Orbitron'; font-weight: 700; cursor: pointer;
+            transition: 0.3s; position: relative;
+        }
+        .btn-buy:hover { background: var(--p); color: #000; box-shadow: 0 0 20px var(--p-glow); }
 
-        footer { padding: 100px 8% 40px; background: #000; border-top: 1px solid #080808; text-align: center; }
-        .team { display: flex; justify-content: center; gap: 50px; font-family: 'Orbitron'; font-size: 12px; color: var(--p); margin-bottom: 50px; }
-        #matrix { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.1; pointer-events: none; }
+        /* TERMINAL AREA */
+        .terminal {
+            background: #000; border: 1px solid #222; padding: 20px;
+            font-family: 'JetBrains Mono', monospace; font-size: 13px;
+            margin-top: 100px; color: #44ff44; height: 300px; overflow-y: auto;
+        }
+
+        /* MOBILE OVERLAY */
+        .mobile-nav-toggle { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+        .mobile-nav-toggle span { width: 25px; height: 2px; background: var(--p); }
+
+        @media (max-width: 900px) {
+            .desktop-nav { display: none; }
+            .mobile-nav-toggle { display: flex; }
+            header { padding: 0 20px; }
+        }
+
+        footer {
+            padding: 80px 5%; border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'Orbitron'; font-size: 10px; color: var(--d);
+        }
     </style>
 </head>
-<body onload="init()">
+<body>
 
-    <canvas id="matrix"></canvas>
+    <canvas id="bg-canvas"></canvas>
 
     <header>
-        <div class="lamburger" onclick="toggleM()">
-            <span></span><span></span><span></span>
+        <div class="logo-area">
+            <div class="logo-box">G</div>
+            <div class="logo-text">GABISH</div>
         </div>
-
-        <div class="brand-block" onclick="window.scrollTo(0,0)">
-            <div class="logo-box">GB</div>
-            <span class="logo-full-text">GABISH</span>
-        </div>
-
-        <nav class="nav-pc">
-            <a href="#home">HOME</a>
-            <a href="#store">HARDWARE</a>
-            <a href="#lockdown">LOCKDOWN</a>
+        <nav class="desktop-nav">
+            <a href="#home">CORE_SYS</a>
+            <a href="#hardware">HARDWARE</a>
+            <a href="#terminal">TERMINAL</a>
             <a href="mailto:sulaimanalessandro@gmail.com">CONTACT</a>
         </nav>
-
-        <div class="actions-block">
-            <button class="cart-btn" onclick="toggleC()">
-                <svg viewBox="0 0 24 24"><path d="M2 2h3l1.5 13h13l2-9h-15" stroke-linecap="round"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>
-                <span class="badge" id="b-count">0</span>
-            </button>
+        <div class="cart-status" onclick="showCart()">
+            CARRELLO [<span id="cart-count">0</span>]
+        </div>
+        <div class="mobile-nav-toggle">
+            <span></span><span></span><span></span>
         </div>
     </header>
 
-    <div class="mobile-nav" id="m-nav">
-        <a href="#home" onclick="toggleM()">HOME</a>
-        <a href="#store" onclick="toggleM()">HARDWARE</a>
-        <a href="#lockdown" onclick="toggleM()">LOCKDOWN</a>
-        <a href="mailto:sulaimanalessandro@gmail.com" onclick="toggleM()">CONTACT</a>
-    </div>
+    <section class="hero" id="home">
+        <p>Zurich Sovereign Systems — Established 2026</p>
+        <h1>GABISH</h1>
+        <div style="width: 50px; height: 2px; background: var(--p); margin-top: 30px;"></div>
+    </section>
 
-    <div class="sidebar" id="c-side">
-        <h2 style="font-family:'Orbitron'; letter-spacing:5px; color:var(--p); margin-bottom:40px;">INVENTORY</h2>
-        <div id="c-list" style="flex-grow:1; overflow-y:auto;"></div>
-        <div style="border-top:1px solid #222; padding-top:30px;">
-            <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; font-size:28px; margin-bottom:30px;">
-                <span>TOTAL</span><span id="c-total">0 CHF</span>
+    <div class="container" id="hardware">
+        <h2 class="section-title">DISPOSITIVI DISPONIBILI</h2>
+        <div class="grid" id="product-list">
             </div>
-            <button class="btn" style="background:#ffc439;" onclick="checkout()">SECURE CHECKOUT</button>
+
+        <div class="terminal" id="terminal">
+            <p>> SYSTEM INITIALIZED...</p>
+            <p>> KERNEL LOADED: GABISH_OS_V29.0</p>
+            <p>> WELCOME, OPERATOR ALESSANDRO.</p>
+            <p>> WAITING FOR INPUT...</p>
         </div>
     </div>
 
-    <main>
-        <section class="hero" id="home">
-            <h1 style="color:var(--p)">GABISH</h1>
-            <p>Sovereign Hardware Architecture. Developed by Alessandro, Ramez & Elia.</p>
-        </section>
-
-        <section class="container" id="store">
-            <div class="grid" id="p-grid"></div>
-        </section>
-
-        <section id="lockdown">
-            <div class="terminal">
-                <div class="term-body" id="t-out">
-                    <div>[SYSTEM] GABISH KERNEL v30.0 READY.</div>
-                    <div>[AUTH] WAITING FOR FOUNDER KEY...</div>
-                </div>
-                <div class="term-in-wrap">
-                    <span style="color:var(--p)">></span>
-                    <input type="password" class="term-field" id="t-in" onkeydown="handleT(event)">
-                </div>
-            </div>
-        </section>
-    </main>
-
     <footer>
-        <div class="team"><span>ALESSANDRO</span><span>RAMEZ</span><span>ELIA</span></div>
-        <p style="font-size:10px; opacity:0.3; letter-spacing:5px;">© 2026 GABISH ZURICH</p>
+        <div>© 2026 GABISH GROUP ZURICH</div>
+        <div>STAY SOVEREIGN. NO BACKDOORS.</div>
     </footer>
 
     <script>
-        const DB = [
-            { id: 1, name: "TITAN G-1", price: 2500, img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400", desc: "Sovereign Workstation 128-core." },
-            { id: 2, name: "PHONE Z-CORE", price: 1150, img: "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=400", desc: "Titanium Privacy Phone." },
-            { id: 3, name: "WATCH ALPHA", price: 350, img: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=400", desc: "Neural Interface Watch." }
+        // DATABASE PRODOTTI
+        const PRODUCTS = [
+            { id: 101, name: "NEURAL LINK V1", price: 4500, desc: "Interfaccia hardware neurale crittografata.", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500" },
+            { id: 102, name: "QUANTUM DRIVE", price: 1200, desc: "Storage a stato solido quantistico ultra-veloce.", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500" },
+            { id: 103, name: "ZURICH PHONE", price: 1900, desc: "Smartphone senza tracciamento GPS fisico.", img: "https://images.unsplash.com/photo-1592890288564-76628a30a657?w=500" },
+            { id: 104, name: "CYBER DECK", price: 3100, desc: "Stazione mobile per hacking etico e difesa.", img: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500" }
         ];
 
-        let bag = [];
-        const founders = {"ALE2026":"Alessandro", "RAMEZ99":"Ramez", "ELIA-TECH":"Elia"};
+        let cart = [];
 
+        // INIZIALIZZAZIONE
         function init() {
-            const g = document.getElementById('p-grid');
-            g.innerHTML = DB.map(p => `
+            renderProducts();
+            startMatrix();
+            logToTerminal("Controllo integrità database... OK");
+            logToTerminal("Tutti i sistemi sono online.");
+        }
+
+        // MOSTRA PRODOTTI
+        function renderProducts() {
+            const container = document.getElementById('product-list');
+            container.innerHTML = PRODUCTS.map(p => `
                 <div class="card">
-                    <img src="${p.img}">
+                    <img src="${p.img}" alt="${p.name}">
                     <h3>${p.name}</h3>
-                    <p style="color:var(--d); font-size:14px;">${p.desc}</p>
-                    <span class="price">${p.price} CHF</span>
-                    <button class="btn" onclick="add(${p.id})">ADD TO INVENTORY</button>
-                </div>
-            `).join('');
-            matrix();
-        }
-
-        function add(id) {
-            bag.push(DB.find(x => x.id === id));
-            update();
-        }
-
-        function update() {
-            document.getElementById('b-count').innerText = bag.length;
-            document.getElementById('c-total').innerText = bag.reduce((s,i)=>s+i.price,0) + " CHF";
-            document.getElementById('c-list').innerHTML = bag.map((x,i) => `
-                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                    <span>${x.name}</span>
-                    <button onclick="bag.splice(${i},1);update();" style="color:red; background:none; border:none; cursor:pointer;">X</button>
+                    <p>${p.desc}</p>
+                    <div class="price">${p.price} CHF</div>
+                    <button class="btn-buy" onclick="addToCart(${p.id})">ACQUISTA ORA</button>
                 </div>
             `).join('');
         }
 
-        function toggleM() { document.getElementById('m-nav').classList.toggle('active'); }
-        function toggleC() { document.getElementById('c-side').classList.toggle('active'); }
-
-        function handleT(e) {
-            if(e.key === 'Enter') {
-                const out = document.getElementById('t-out');
-                const val = e.target.value.trim();
-                if(founders[val]) out.innerHTML += `<div style="color:var(--ok)">> ACCESS GRANTED. WELCOME ${founders[val]}.</div>`;
-                else out.innerHTML += `<div style="color:var(--err)">> ACCESS DENIED.</div>`;
-                e.target.value = "";
-            }
+        // CARRELLO
+        function addToCart(id) {
+            const product = PRODUCTS.find(p => p.id === id);
+            cart.push(product);
+            document.getElementById('cart-count').innerText = cart.length;
+            logToTerminal(`Aggiunto: ${product.name} al carrello.`);
+            alert(`${product.name} aggiunto al sistema di acquisto.`);
         }
 
-        function matrix() {
-            const c = document.getElementById('matrix');
-            const ctx = c.getContext('2d');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-            const drops = Array(Math.floor(c.width/20)).fill(1);
-            setInterval(() => {
-                ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,c.width,c.height);
-                ctx.fillStyle = "#00d4ff"; ctx.font = "15px monospace";
-                drops.forEach((y, i) => {
-                    ctx.fillText("GABISH"[Math.floor(Math.random()*6)], i*20, y*20);
-                    if(y*20 > c.height && Math.random() > 0.975) drops[i] = 0;
+        function logToTerminal(msg) {
+            const term = document.getElementById('terminal');
+            const time = new Date().toLocaleTimeString();
+            term.innerHTML += `<p>> [${time}] ${msg}</p>`;
+            term.scrollTop = term.scrollHeight;
+        }
+
+        // EFFETTO MATRIX
+        function startMatrix() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^";
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+
+            function draw() {
+                ctx.fillStyle = "rgba(2, 2, 4, 0.05)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#00d4ff";
+                ctx.font = fontSize + "px monospace";
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
                     drops[i]++;
-                });
-            }, 50);
+                }
+            }
+            setInterval(draw, 33);
         }
 
-        function checkout() {
-            const t = bag.reduce((s,i)=>s+i.price,0);
-            if(t > 0) window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${t}&item_name=GABISH_ORDER`;
-        }
+        window.onload = init;
     </script>
 </body>
 </html>
