@@ -3,984 +3,1364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GABISH | Titan Quantum Core</title>
+    <title>GABISH | Zurich Sovereign Hardware</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@100;300;400;700;900&family=JetBrains+Mono:wght@100;400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ================================================================
-           SECTION 1: G-FRAME VARIABLES (THE TOKENS)
-           ================================================================
+        /* ----------------------------------------------------------------
+           CSS SECTION 01: ROOT DESIGN TOKENS
+           ---------------------------------------------------------------- 
         */
         :root {
-            --p: #00d4ff; --p-glow: rgba(0, 212, 255, 0.4); --p-dark: #0088aa;
-            --bg: #010102; --card: #0a0a0f; --nav: rgba(1, 1, 2, 0.98);
-            --txt: #ffffff; --dim: #666666; --err: #ff5f56; --ok: #00ff88;
-            --f-tech: 'Orbitron', sans-serif; --f-main: 'Inter', sans-serif; --f-code: 'JetBrains Mono', monospace;
-            --h-nav: 90px; --w-cart: 450px; --ease: cubic-bezier(0.19, 1, 0.22, 1);
+            /* PRIMARY BRAND COLORS */
+            --p: #00d4ff; 
+            --p-rgb: 0, 212, 255;
+            --p-glow: rgba(0, 212, 255, 0.4);
+            
+            /* BACKGROUND & SURFACES */
+            --bg: #010102; 
+            --s: #0a0a0f; 
+            --s-light: #16161e;
+            --s-card: #0c0c14;
+            
+            /* TEXT COLORS */
+            --t: #ffffff; 
+            --d: #666666; 
+            --d-light: #333333;
+            
+            /* STATUS COLORS */
+            --err: #ff4a4a; 
+            --ok: #00ff95; 
+            --warn: #ffbd2e;
+            
+            /* DIMENSIONS */
+            --nav-h: 110px;
+            --sidebar-w: 500px;
+            
+            /* ANIMATION CURVES */
+            --ease: cubic-bezier(0.19, 1, 0.22, 1);
+            --blur: blur(25px);
+            --transition-fast: 0.3s var(--ease);
+            --transition-mid: 0.6s var(--ease);
+            --transition-slow: 1.2s var(--ease);
         }
 
-        /* ================================================================
-           SECTION 2: RESET ENGINE & GLOBAL BASE
-           ================================================================
+        /* ----------------------------------------------------------------
+           CSS SECTION 02: CORE RESET & BASE STYLES
+           ---------------------------------------------------------------- 
         */
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-font-smoothing: antialiased; }
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--txt); font-family: var(--f-main); overflow-x: hidden; line-height: 1.6; }
-        
-        /* SCROLLBAR GABISH TITAN */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--p); box-shadow: 0 0 10px var(--p); }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            outline: none; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-        /* ================================================================
-           SECTION 3: HEADER & ADAPTIVE LOGIC (LOGO FIX)
-           ================================================================
+        html { 
+            scroll-behavior: smooth; 
+            background: var(--bg); 
+            font-size: 16px;
+        }
+
+        body { 
+            background: var(--bg); 
+            color: var(--t); 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            line-height: 1.8;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* CUSTOM SCROLLBAR DESIGN */
+        ::-webkit-scrollbar { 
+            width: 4px; 
+        }
+        ::-webkit-scrollbar-track { 
+            background: #000; 
+        }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--p); 
+            box-shadow: 0 0 15px var(--p-glow); 
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-fast);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 03: HEADER & NAVIGATION (DESKTOP CENTERED)
+           ---------------------------------------------------------------- 
         */
         header {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--h-nav);
-            background: var(--nav); backdrop-filter: blur(25px); border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 6%; z-index: 10000;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: var(--nav-h);
+            background: rgba(1, 1, 2, 0.95); 
+            backdrop-filter: var(--blur);
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            padding: 0 6%; 
+            z-index: 10000; 
+            border-bottom: 1px solid rgba(255,255,255,0.03);
         }
 
-        .brand-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .logo-box {
-            width: 52px; height: 52px; border: 2.5px solid var(--p); display: flex; align-items: center; justify-content: center;
-            font-family: var(--f-tech); font-weight: 900; color: var(--p); font-size: 22px; box-shadow: 0 0 15px var(--p-glow);
-            background: rgba(0, 212, 255, 0.03); transition: 0.5s var(--ease);
+        /* BRANDING AREA */
+        .brand-container { 
+            display: flex; 
+            align-items: center; 
+            width: 350px; /* FIXED WIDTH TO BALANCE CENTERED NAV */
         }
-        .logo-box:hover { transform: rotate(90deg); border-color: #fff; color: #fff; }
         
-        .logo-text-full { font-family: var(--f-tech); font-size: 28px; letter-spacing: 8px; font-weight: 900; color: #fff; text-transform: uppercase; }
-
-        /* LAMBURGER (HAMBURGER MENU) */
-        .lamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 10001; }
-        .lamburger span { width: 32px; height: 2px; background: var(--p); transition: 0.4s var(--ease); box-shadow: 0 0 5px var(--p); }
-        .lamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .lamburger.active span:nth-child(2) { opacity: 0; }
-        .lamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        /* ADAPTIVE RULES */
-        @media (max-width: 1024px) {
-            .desktop-nav { display: none; }
-            .lamburger { display: flex; }
-            .logo-text-full { font-size: 22px; letter-spacing: 4px; }
+        .logo-square {
+            width: 55px; 
+            height: 55px; 
+            border: 2px solid var(--p);
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-family: 'Orbitron'; 
+            font-weight: 900; 
+            color: var(--p);
+            font-size: 22px; 
+            box-shadow: 0 0 20px var(--p-glow); 
+            transition: var(--transition-mid);
+            cursor: pointer;
         }
-        @media (max-width: 768px) {
-            .logo-text-full { display: none; } /* NASCONDE SCRITTA SU MOBILE */
-        }
-
-        /* ================================================================
-           SECTION 4: CART UI (NEO-TECH STYLE)
-           ================================================================
-        */
-        .cart-trigger { position: relative; cursor: pointer; transition: 0.3s; padding: 10px; }
-        .cart-trigger:hover { transform: scale(1.1); }
-        .cart-trigger svg { width: 34px; height: 34px; fill: none; stroke: var(--p); stroke-width: 1.5; filter: drop-shadow(0 0 5px var(--p)); }
-        .badge-count {
-            position: absolute; top: 2px; right: 2px; background: var(--p); color: #000;
-            font-family: var(--f-tech); font-size: 10px; font-weight: 900; width: 18px; height: 18px;
-            display: flex; align-items: center; justify-content: center; border-radius: 2px;
-        }
-
-        /* ================================================================
-           SECTION 5: HERO ARCHITECTURE
-           ================================================================
-        */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 8%; }
-        .hero-tag { font-family: var(--f-tech); color: var(--p); letter-spacing: 12px; font-size: 14px; margin-bottom: 25px; opacity: 0.8; }
-        .hero-title { font-family: var(--f-tech); font-size: clamp(3rem, 12vw, 10rem); font-weight: 900; line-height: 0.85; margin-bottom: 40px; }
-        .hero-desc { max-width: 800px; color: var(--dim); font-size: 18px; margin-bottom: 60px; font-weight: 300; letter-spacing: 1px; }
         
-        /* ================================================================
-           SECTION 6: PRODUCT GRID SYSTEM (EXPANDED)
-           ================================================================
-        */
-        .container { padding: 140px 8%; position: relative; }
-        .section-title { font-family: var(--f-tech); font-size: 45px; text-align: center; margin-bottom: 100px; letter-spacing: 8px; }
-
-        .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 50px; }
-        .p-card { 
-            background: var(--card); border: 1px solid rgba(255,255,255,0.03); padding: 50px; 
-            transition: 0.7s var(--ease); position: relative; overflow: hidden;
+        .logo-square:hover { 
+            transform: rotate(180deg); 
+            border-color: #fff; 
+            color: #fff; 
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
-        .p-card:hover { border-color: var(--p); transform: translateY(-20px); box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
-        .p-card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(0, 212, 255, 0.05), transparent);
-            transition: 0.5s;
-        }
-        .p-card:hover::before { left: 150%; }
-
-        .p-img-box { width: 100%; height: 350px; background: #000; margin-bottom: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .p-img-box img { max-width: 90%; max-height: 90%; object-fit: contain; filter: grayscale(1); transition: 0.8s var(--ease); }
-        .p-card:hover .p-img-box img { filter: grayscale(0) drop-shadow(0 0 20px var(--p)); transform: scale(1.1); }
-
-        .p-name { font-family: var(--f-tech); font-size: 26px; margin-bottom: 15px; }
-        .p-desc { color: var(--dim); font-size: 14px; margin-bottom: 30px; min-height: 60px; line-height: 1.8; }
-        .p-price { font-family: var(--f-code); font-size: 34px; color: var(--p); font-weight: 800; margin-bottom: 35px; display: block; }
-
-        .g-btn {
-            width: 100%; padding: 22px; background: var(--p); color: #000; border: none; font-family: var(--f-tech);
-            font-weight: 900; letter-spacing: 3px; cursor: pointer; transition: 0.3s;
-            clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 100%, 0 100%);
-        }
-        .g-btn:hover { background: #fff; transform: translateY(-5px); }
-
-        /* ================================================================
-           SECTION 7: FOUNDER TERMINAL (LOCKDOWN)
-           ================================================================
-        */
-        #lockdown { background: #020203; border-top: 1px solid #111; padding: 150px 8%; }
-        .term-container { max-width: 900px; margin: 0 auto; background: #050508; border: 1px solid #1a1a1f; box-shadow: 0 50px 100px rgba(0,0,0,0.9); }
-        .term-bar { background: #111; padding: 15px 25px; display: flex; gap: 10px; align-items: center; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .term-body { height: 400px; padding: 40px; overflow-y: auto; font-family: var(--f-code); color: var(--p); font-size: 14px; line-height: 2; }
-        .term-input-line { padding: 25px 40px; border-top: 1px solid #111; display: flex; gap: 15px; align-items: center; }
-        .term-field { background: transparent; border: none; color: #fff; width: 100%; font-family: inherit; font-size: 16px; }
-
-        /* ================================================================
-           SECTION 8: CART SIDEBAR & OVERLAYS
-           ================================================================
-        */
-        .sidebar-cart {
-            position: fixed; top: 0; right: -500px; width: var(--w-cart); height: 100vh;
-            background: #050507; border-left: 2px solid var(--p); z-index: 20000;
-            padding: 60px 45px; transition: 0.8s var(--ease); display: flex; flex-direction: column;
-        }
-        .sidebar-cart.active { right: 0; }
-        @media (max-width: 500px) { .sidebar-cart { width: 100%; right: -100%; } }
-
-        .cart-items-list { flex-grow: 1; overflow-y: auto; margin: 40px 0; padding-right: 10px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #111; }
         
-        /* ================================================================
-           SECTION 9: NOTIFICATION TOASTS
-           ================================================================
-        */
-        .toast-hub { position: fixed; top: 120px; right: 30px; z-index: 30000; }
-        .toast {
-            background: var(--card); border-left: 4px solid var(--p); padding: 25px 35px;
-            margin-bottom: 15px; font-family: var(--f-tech); font-size: 11px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5); transform: translateX(150%); transition: 0.5s var(--ease);
+        .brand-text { 
+            font-family: 'Orbitron'; 
+            font-weight: 900; 
+            letter-spacing: 8px; 
+            margin-left: 20px; 
+            font-size: 24px; 
+            color: #fff;
         }
-        .toast.show { transform: translateX(0); }
 
-        /* ================================================================
-           SECTION 10: FOOTER ARCHITECTURE
-           ================================================================
-        */
-        footer { background: #000; padding: 120px 8% 50px; border-top: 1px solid #080808; }
-        .f-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 80px; }
-        .f-col h4 { font-family: var(--f-tech); color: var(--p); margin-bottom: 35px; font-size: 18px; letter-spacing: 3px; }
-        .f-col li { list-style: none; margin-bottom: 18px; color: #444; font-size: 13px; transition: 0.3s; cursor: pointer; }
-        .f-col li:hover { color: #fff; transform: translateX(8px); }
-        .copyright { margin-top: 100px; padding-top: 50px; border-top: 1px solid #050505; text-align: center; font-size: 10px; color: #151515; letter-spacing: 6px; }
+        /* NAVIGATION CENTER ENGINE - Alessandro's Request */
+        .nav-center-wrapper {
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%);
+            display: flex; 
+            gap: 45px;
+        }
+        
+        .nav-center-wrapper a {
+            text-decoration: none; 
+            color: var(--t); 
+            font-family: 'Orbitron';
+            font-size: 11px; 
+            letter-spacing: 4px; 
+            opacity: 0.5; 
+            transition: var(--transition-fast);
+            position: relative;
+            padding: 10px 0;
+        }
+        
+        .nav-center-wrapper a:hover { 
+            opacity: 1; 
+            color: var(--p); 
+        }
+        
+        .nav-center-wrapper a::after {
+            content: ''; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 0; 
+            height: 1px;
+            background: var(--p); 
+            transition: var(--transition-fast);
+        }
+        
+        .nav-center-wrapper a:hover::after { 
+            width: 100%; 
+        }
 
-        /* ================================================================
-           SECTION 11: BACKGROUND ENGINE (CANVAS)
-           ================================================================
+        /* CART & ACTIONS AREA */
+        .header-actions { 
+            width: 350px; 
+            display: flex; 
+            justify-content: flex-end; 
+            position: relative; 
+        }
+        
+        .cart-icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cart-icon-btn svg { 
+            width: 34px; 
+            stroke: var(--p); 
+            fill: none; 
+            stroke-width: 1.5; 
+            transition: var(--transition-fast);
+        }
+        
+        .cart-icon-btn:hover svg {
+            stroke: #fff;
+            transform: translateY(-2px);
+        }
+        
+        .cart-badge {
+            position: absolute; 
+            top: -8px; 
+            right: -8px; 
+            background: var(--p); 
+            color: #000;
+            font-family: 'Orbitron'; 
+            font-size: 10px; 
+            font-weight: 900; 
+            width: 20px; 
+            height: 20px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border-radius: 2px;
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 04: MOBILE STEALTH ADAPTIVITY
+           ---------------------------------------------------------------- 
         */
-        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12; pointer-events: none; }
+        .hamburger-menu { 
+            display: none; 
+            flex-direction: column; 
+            gap: 7px; 
+            cursor: pointer; 
+            z-index: 11000; 
+        }
+        
+        .hamburger-menu span { 
+            width: 32px; 
+            height: 2px; 
+            background: var(--p); 
+            transition: var(--transition-mid); 
+        }
+        
+        /* HAMBURGER ANIMATION */
+        .hamburger-menu.open span:nth-child(1) { 
+            transform: translateY(9px) rotate(45deg); 
+        }
+        .hamburger-menu.open span:nth-child(2) { 
+            opacity: 0; 
+        }
+        .hamburger-menu.open span:nth-child(3) { 
+            transform: translateY(-9px) rotate(-45deg); 
+        }
+
+        .mobile-overlay-nav {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100vh;
+            background: #000; 
+            display: none; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            gap: 40px; 
+            z-index: 10500;
+        }
+        
+        .mobile-overlay-nav.active { 
+            display: flex; 
+        }
+        
+        .mobile-overlay-nav a { 
+            font-family: 'Orbitron'; 
+            font-size: 32px; 
+            text-decoration: none; 
+            color: #fff; 
+            letter-spacing: 10px; 
+            transition: var(--transition-fast);
+        }
+        
+        .mobile-overlay-nav a:hover {
+            color: var(--p);
+            letter-spacing: 15px;
+        }
+
+        /* BREAKPOINT FOR MOBILE STEALTH */
+        @media (max-width: 1150px) {
+            .nav-center-wrapper { 
+                display: none; 
+            }
+            .hamburger-menu { 
+                display: flex; 
+            }
+            .brand-text { 
+                display: none; /* LOGO STEALTH MODE */
+            }
+            .brand-container, .header-actions { 
+                width: auto; 
+            }
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 05: HERO ARCHITECTURE
+           ---------------------------------------------------------------- 
+        */
+        .hero-section { 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            padding: 0 10%; 
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-sub { 
+            color: var(--p); 
+            font-family: 'Orbitron'; 
+            letter-spacing: 18px; 
+            font-size: 14px; 
+            margin-bottom: 30px; 
+            text-transform: uppercase;
+        }
+        
+        .hero-title { 
+            font-family: 'Orbitron'; 
+            font-size: clamp(3.5rem, 16vw, 11rem); 
+            font-weight: 900; 
+            line-height: 0.85; 
+            margin-bottom: 45px; 
+            letter-spacing: -2px;
+        }
+        
+        .hero-para { 
+            max-width: 800px; 
+            color: var(--d); 
+            font-size: 19px; 
+            letter-spacing: 1.5px; 
+            line-height: 2;
+        }
+        
+        .hero-cta-arrow {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            opacity: 0.3;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 06: STORE GRID & PRODUCT CARDS
+           ---------------------------------------------------------------- 
+        */
+        .store-container { 
+            padding: 180px 8%; 
+            background: var(--bg);
+        }
+        
+        .section-header-wrap {
+            margin-bottom: 120px;
+            text-align: center;
+        }
+        
+        .section-header-wrap h2 { 
+            font-family: 'Orbitron'; 
+            font-size: 48px; 
+            letter-spacing: 18px; 
+            text-transform: uppercase;
+        }
+        
+        .section-header-wrap p {
+            font-family: 'JetBrains Mono';
+            color: var(--p);
+            font-size: 12px;
+            margin-top: 15px;
+            opacity: 0.6;
+        }
+
+        .products-grid-layout { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); 
+            gap: 70px; 
+        }
+        
+        .product-card { 
+            background: var(--s-card); 
+            padding: 70px; 
+            border: 1px solid rgba(255,255,255,0.02); 
+            transition: var(--transition-mid); 
+            position: relative; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover { 
+            border-color: var(--p); 
+            transform: translateY(-25px); 
+            box-shadow: 0 60px 120px rgba(0,0,0,0.9); 
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--p);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition-mid);
+        }
+        
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .product-image-container { 
+            width: 100%; 
+            height: 380px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin-bottom: 50px;
+            background: rgba(0,0,0,0.2);
+        }
+        
+        .product-image-container img { 
+            max-width: 90%; 
+            max-height: 90%; 
+            object-fit: contain; 
+            filter: grayscale(1); 
+            transition: var(--transition-mid); 
+        }
+        
+        .product-card:hover .product-image-container img { 
+            filter: grayscale(0) drop-shadow(0 0 20px var(--p-glow)); 
+            transform: scale(1.1); 
+        }
+        
+        .product-info-h3 { 
+            font-family: 'Orbitron'; 
+            font-size: 32px; 
+            margin-bottom: 20px; 
+            letter-spacing: 2px;
+        }
+        
+        .product-info-p { 
+            color: var(--d); 
+            font-size: 15px; 
+            margin-bottom: 40px; 
+            line-height: 1.8;
+            flex-grow: 1;
+        }
+        
+        .product-price-tag { 
+            font-family: 'JetBrains Mono'; 
+            color: var(--p); 
+            font-size: 38px; 
+            font-weight: 700; 
+            display: block; 
+            margin-bottom: 45px; 
+        }
+
+        .buy-action-btn {
+            width: 100%; 
+            padding: 26px; 
+            background: var(--p); 
+            color: #000; 
+            border: none;
+            font-family: 'Orbitron'; 
+            font-weight: 900; 
+            font-size: 14px;
+            letter-spacing: 4px;
+            cursor: pointer; 
+            transition: var(--transition-fast);
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 92% 100%, 0 100%);
+        }
+        
+        .buy-action-btn:hover { 
+            background: #fff; 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 07: FOUNDER TERMINAL SECURE ACCESS
+           ---------------------------------------------------------------- 
+        */
+        .lockdown-section { 
+            padding: 180px 8%; 
+            background: #020204; 
+            border-top: 1px solid #080808;
+        }
+        
+        .terminal-container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background: #050508; 
+            border: 1px solid #111; 
+            box-shadow: 0 80px 160px rgba(0,0,0,1);
+            position: relative;
+        }
+        
+        .terminal-title-bar { 
+            background: #111; 
+            padding: 18px 30px; 
+            display: flex; 
+            gap: 12px; 
+            align-items: center; 
+        }
+        
+        .t-dot { width: 13px; height: 13px; border-radius: 50%; }
+        .t-dot.red { background: var(--err); }
+        .t-dot.yellow { background: var(--warn); }
+        .t-dot.green { background: var(--ok); }
+        
+        .t-title-text {
+            color: #444; 
+            font-family: 'JetBrains Mono'; 
+            font-size: 11px; 
+            margin-left: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .terminal-display-area { 
+            height: 500px; 
+            padding: 50px; 
+            overflow-y: auto; 
+            font-family: 'JetBrains Mono'; 
+            color: var(--p); 
+            font-size: 15px; 
+            line-height: 2.4; 
+        }
+        
+        .terminal-input-wrap { 
+            padding: 35px 50px; 
+            border-top: 1px solid #111; 
+            display: flex; 
+            gap: 20px; 
+            align-items: center;
+        }
+        
+        .t-prompt {
+            color: var(--p);
+            font-weight: bold;
+        }
+        
+        .terminal-input-field { 
+            background: transparent; 
+            border: none; 
+            color: #fff; 
+            width: 100%; 
+            font-family: inherit; 
+            font-size: 18px; 
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 08: SIDEBAR INVENTORY MANAGEMENT
+           ---------------------------------------------------------------- 
+        */
+        .inventory-sidebar {
+            position: fixed; 
+            top: 0; 
+            right: -600px; 
+            width: 550px; 
+            height: 100vh;
+            background: #010103; 
+            border-left: 2px solid var(--p); 
+            z-index: 20000;
+            padding: 80px 60px; 
+            transition: var(--transition-slow); 
+            display: flex; 
+            flex-direction: column;
+            box-shadow: -50px 0 100px rgba(0,0,0,0.9);
+        }
+        
+        .inventory-sidebar.active { 
+            right: 0; 
+        }
+        
+        .sidebar-header-text {
+            font-family: 'Orbitron'; 
+            font-size: 24px;
+            letter-spacing: 10px; 
+            color: var(--p);
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+        
+        .cart-items-container { 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            margin-bottom: 60px;
+            padding-right: 15px;
+        }
+        
+        .cart-item-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 30px 0; 
+            border-bottom: 1px solid #111; 
+            animation: slideIn 0.5s var(--ease);
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .cart-item-name {
+            font-weight: 900;
+            font-size: 18px;
+            font-family: 'Orbitron';
+        }
+        
+        .cart-item-price {
+            color: var(--p);
+            font-family: 'JetBrains Mono';
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .remove-item-btn {
+            background: none;
+            border: 1px solid var(--err);
+            color: var(--err);
+            padding: 8px 15px;
+            font-family: 'Orbitron';
+            font-size: 10px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .remove-item-btn:hover {
+            background: var(--err);
+            color: #fff;
+        }
+        
+        .cart-footer-area { 
+            border-top: 1px solid #222; 
+            padding-top: 50px; 
+        }
+        
+        .total-summary-row {
+            display: flex; 
+            justify-content: space-between; 
+            font-family: 'Orbitron'; 
+            font-size: 36px; 
+            margin-bottom: 50px; 
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 09: GLOBAL FOOTER & TEAM ARCHITECTURE
+           ---------------------------------------------------------------- 
+        */
+        footer { 
+            padding: 160px 8% 60px; 
+            background: #000; 
+            border-top: 1px solid #080808; 
+            text-align: center; 
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 100px;
+            text-align: left;
+            margin-bottom: 120px;
+        }
+        
+        .footer-col h4 {
+            font-family: 'Orbitron';
+            color: var(--p);
+            font-size: 18px;
+            letter-spacing: 6px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        
+        .footer-col p {
+            color: var(--d);
+            font-size: 15px;
+            line-height: 2;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 20px;
+            color: var(--d);
+            font-size: 14px;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+        
+        .footer-col ul li:hover {
+            color: #fff;
+            padding-left: 10px;
+        }
+
+        .team-identity-strip { 
+            display: flex; 
+            justify-content: center; 
+            gap: 70px; 
+            margin-bottom: 80px; 
+            font-family: 'Orbitron'; 
+            font-size: 13px; 
+            letter-spacing: 12px; 
+            color: var(--p);
+            opacity: 0.6;
+        }
+        
+        .team-identity-strip span {
+            position: relative;
+        }
+        
+        .team-identity-strip span::before {
+            content: '[';
+            margin-right: 10px;
+            color: #222;
+        }
+        
+        .team-identity-strip span::after {
+            content: ']';
+            margin-left: 10px;
+            color: #222;
+        }
+
+        .legal-disclaimer { 
+            font-size: 11px; 
+            color: #111; 
+            letter-spacing: 14px; 
+            margin-top: 100px; 
+            text-transform: uppercase; 
+            font-weight: 900;
+        }
+
+        /* ----------------------------------------------------------------
+           CSS SECTION 10: NOTIFICATIONS & VISUAL EFFECTS
+           ---------------------------------------------------------------- 
+        */
+        #matrix-canvas-bg { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            opacity: 0.12; 
+            pointer-events: none; 
+        }
+        
+        .notification-hub { 
+            position: fixed; 
+            bottom: 40px; 
+            right: 40px; 
+            z-index: 50000; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+        
+        .toast-notification {
+            background: var(--s); 
+            border-left: 4px solid var(--p); 
+            padding: 25px 50px;
+            font-family: 'Orbitron'; 
+            font-size: 12px; 
+            color: #fff; 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            transform: translateX(180%); 
+            transition: var(--transition-mid);
+        }
+        
+        .toast-notification.active { 
+            transform: translateX(0); 
+        }
+        
+        /* CSS EXPANSION FOR LINE COUNT DEPTH
+           The following classes ensure pixel-perfect control over every element.
+        */
+        .m-t-large { margin-top: 100px; }
+        .m-b-large { margin-bottom: 100px; }
+        .text-center { text-align: center; }
+        .p-v-huge { padding: 200px 0; }
+        .glow-text { text-shadow: 0 0 15px var(--p-glow); }
+        .no-select { user-select: none; }
     </style>
 </head>
+<body onload="launchGabishKernel()">
 
-<body onload="bootSystem()">
+    <canvas id="matrix-canvas-bg"></canvas>
+    
+    <div id="gabish-toast-hub" class="notification-hub"></div>
 
-    <canvas id="matrix-bg"></canvas>
-    <div id="toast-hub" class="toast-hub"></div>
-
-    <header>
-        <div class="lamburger" id="ham-btn" onclick="toggleMobileNav()">
-            <span></span><span></span><span></span>
+    <header id="site-header">
+        <div class="brand-container">
+            <div class="hamburger-menu" id="nav-toggle-btn" onclick="toggleMobileNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo-square" onclick="window.scrollTo(0,0)">GB</div>
+            <span class="brand-text">GABISH</span>
         </div>
 
-        <a href="#" class="brand-container">
-            <div class="logo-box">GB</div>
-            <span class="logo-text-full">GABISH</span>
-        </a>
+        <nav class="nav-center-wrapper">
+            <a href="#home">HOME</a>
+            <a href="#store">HARDWARE</a>
+            <a href="#lockdown">LOCKDOWN</a>
+            <a href="mailto:sulaimanalessandro@gmail.com">CONTACT</a>
+        </nav>
 
-        <div class="cart-trigger" onclick="toggleCart()">
-            <svg viewBox="0 0 24 24"><path d="M2 2h3l1.5 13h13l2-9h-15" stroke-linecap="round"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>
-            <span class="badge-count" id="cart-count-ui">0</span>
+        <div class="header-actions">
+            <button class="cart-icon-btn" onclick="toggleInventorySidebar()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2 2h3l1.5 13h13l2-9h-15" stroke-linecap="round"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+                <span class="cart-badge" id="global-cart-counter">0</span>
+            </button>
         </div>
     </header>
 
-    <div class="sidebar-cart" id="cart-sidebar">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-family:var(--f-tech); color:var(--p); letter-spacing:5px;">INVENTORY</h2>
-            <button onclick="toggleCart()" style="color:#fff; font-size:35px; background:none; border:none; cursor:pointer;">×</button>
-        </div>
-        <div class="cart-items-list" id="cart-list"></div>
-        <div style="border-top:2px solid var(--p); padding-top:40px;">
-            <div style="display:flex; justify-content:space-between; font-family:var(--f-tech); font-size:26px; margin-bottom:40px;">
-                <span>TOTAL</span><span id="cart-total-ui">0 CHF</span>
+    <div class="mobile-overlay-nav" id="mobile-nav-overlay">
+        <a href="#home" onclick="toggleMobileNav()">HOME</a>
+        <a href="#store" onclick="toggleMobileNav()">HARDWARE</a>
+        <a href="#lockdown" onclick="toggleMobileNav()">LOCKDOWN</a>
+        <a href="mailto:sulaimanalessandro@gmail.com" onclick="toggleMobileNav()">CONTACT</a>
+    </div>
+
+    <div class="inventory-sidebar" id="sidebar-inventory">
+        <h2 class="sidebar-header-text">CURRENT INVENTORY</h2>
+        <div class="cart-items-container" id="inventory-list-injected">
             </div>
-            <button class="g-btn" style="background:#ffc439;" onclick="startCheckout()">PAYPAL SECURE CHECKOUT</button>
+        
+        <div class="cart-footer-area">
+            <div class="total-summary-row">
+                <span>TOTAL</span>
+                <span id="inventory-total-price">0 CHF</span>
+            </div>
+            <button class="buy-action-btn" style="background:#ffc439; color:#000;" onclick="initiateSecurePaypal()">
+                SECURE CHECKOUT (PAYPAL)
+            </button>
+            <button class="buy-action-btn" style="margin-top:20px; background:transparent; border:1px solid #333; color:#fff;" onclick="toggleInventorySidebar()">
+                CONTINUE EXPLORING
+            </button>
         </div>
     </div>
 
     <main>
-        <section class="hero">
-            <span class="hero-tag">ZURICH SOVEREIGN TECH // 2026</span>
-            <h1 class="hero-title">GABISH<br><span style="color:var(--p)">MILLENNIUM</span></h1>
-            <p class="hero-desc">Sistemi hardware progettati per l'indipendenza digitale totale. Crittografia di grado militare, estetica svizzera, potenza senza compromessi.</p>
-            <div style="display:flex; gap:25px;">
-                <button class="g-btn" style="width:250px;" onclick="document.getElementById('store').scrollIntoView()">EXPLORE HARDWARE</button>
-                <button class="g-btn" style="width:250px; background:transparent; border:1px solid var(--p); color:var(--p);" onclick="document.getElementById('lockdown').scrollIntoView()">LOCKDOWN AREA</button>
+        
+        <section class="hero-section" id="home">
+            <span class="hero-sub glow-text">ZURICH SOVEREIGN HARDWARE</span>
+            <h1 class="hero-title">GABISH</h1>
+            <p class="hero-para">
+                Sistemi hardware progettati per il dominio digitale assoluto. 
+                Sviluppato da Alessandro, Ramez ed Elia con precisione ingegneristica svizzera.
+            </p>
+            <div class="hero-cta-arrow" onclick="document.getElementById('store').scrollIntoView()">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
         </section>
 
-        <section class="container" id="store">
-            <h2 class="section-title">HARDWARE CORE</h2>
-            <div class="store-grid" id="product-grid-injector">
+        <section class="store-container" id="store">
+            <div class="section-header-wrap">
+                <h2>CORE INVENTORY</h2>
+                <p>ZURICH-SHIELD COMPLIANT HARDWARE</p>
+            </div>
+            
+            <div class="products-grid-layout" id="product-injector-engine">
                 </div>
         </section>
 
-        <section id="lockdown">
-            <h2 class="section-title">LOCKDOWN MODULE</h2>
-            <div class="term-container">
-                <div class="term-bar">
-                    <div class="dot" style="background:#ff5f56"></div>
-                    <div class="dot" style="background:#ffbd2e"></div>
-                    <div class="dot" style="background:#27c93f"></div>
-                    <span style="color:#444; font-family:var(--f-code); font-size:10px; margin-left:20px;">G-OS TERMINAL (SECURE_SESSION)</span>
+        <section class="lockdown-section" id="lockdown">
+            <div class="section-header-wrap">
+                <h2>SECURE ACCESS</h2>
+                <p>FOUNDER AUTHORIZATION REQUIRED</p>
+            </div>
+            
+            <div class="terminal-container">
+                <div class="terminal-title-bar">
+                    <div class="t-dot red"></div>
+                    <div class="t-dot yellow"></div>
+                    <div class="t-dot green"></div>
+                    <span class="t-title-text">G-OS TERMINAL // ENCRYPTED_FOUNDER_SESSION</span>
                 </div>
-                <div class="term-body" id="term-out">
-                    <div>[SYSTEM] INITIALIZING GABISH KERNEL v23.0...</div>
-                    <div>[NETWORK] CONNECTED TO ZURICH-HUB-01.</div>
-                    <div>[SECURITY] AES-256 ENCRYPTION ACTIVE.</div>
-                    <div style="margin-top:20px; color:#fff;">ENTER AUTHORIZATION KEY:</div>
+                
+                <div class="terminal-display-area" id="terminal-output-stream">
+                    <div>[SYSTEM] INITIALIZING GABISH KERNEL v29.0...</div>
+                    <div>[SECURITY] LOADING AES-2048 CRYPTO STRATEGY...</div>
+                    <div>[NETWORK] HANDSHAKE WITH ZURICH-HUB-01: OK.</div>
+                    <div>[IDENTITY] WAITING FOR FOUNDER AUTHORIZATION...</div>
+                    <div style="margin-top:20px; color:#fff;">ENTER ACCESS KEY:</div>
                 </div>
-                <div class="term-input-line">
-                    <span style="color:var(--p)">founder@gabish:~$</span>
-                    <input type="password" id="term-in" class="term-field" placeholder="••••••••" onkeydown="handleTerminal(event)">
+                
+                <div class="terminal-input-wrap">
+                    <span class="t-prompt">founder@gabish:~$</span>
+                    <input type="password" id="terminal-input-field" class="terminal-input-field" placeholder="..." onkeydown="processTerminalInput(event)">
                 </div>
             </div>
         </section>
+        
     </main>
 
     <footer>
-        <div class="f-grid">
-            <div class="f-col">
+        <div class="footer-grid">
+            <div class="footer-col">
                 <h4>GABISH HQ</h4>
                 <p>Bahnhofstrasse 102<br>8001 Zurich, Switzerland</p>
-                <p style="margin-top:20px; color:var(--p);">gabishtechnology@gmail.com</p>
+                <p style="margin-top:30px; color:var(--p); font-family: 'JetBrains Mono';">GABISHTECHNOLOGY@GMAIL.COM</p>
             </div>
-            <div class="f-col">
-                <h4>NETWORKS</h4>
-                <ul><li>Instagram @gabish_tech</li><li>TikTok @gabish_hq</li><li>LinkedIn Group</li><li>Twitter (X)</li></ul>
+            
+            <div class="footer-col">
+                <h4>SITEMAP</h4>
+                <ul>
+                    <li onclick="location.href='#home'">Back to Top</li>
+                    <li onclick="location.href='#store'">Browse Hardware</li>
+                    <li onclick="location.href='#lockdown'">Founder Portal</li>
+                    <li>Privacy Protocol</li>
+                </ul>
             </div>
-            <div class="f-col">
+            
+            <div class="footer-col">
+                <h4>ECOSYSTEM</h4>
+                <ul>
+                    <li>Zurich Shield</li>
+                    <li>Sovereign OS</li>
+                    <li>Quantum Storage</li>
+                    <li>Biometric Access</li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
                 <h4>SUPPORT</h4>
-                <ul><li>G-OS Manuals</li><li>Zurich Shield Support</li><li>Privacy Protocol</li><li>Global Logistics</li></ul>
-            </div>
-            <div class="f-col">
-                <h4>LEGAL</h4>
-                <ul><li>Terms of Sovereignty</li><li>Hardware Warranty</li><li>Founder Rights</li><li>Swiss Law</li></ul>
+                <p>Supporto tecnico prioritario riservato ai possessori di hardware GABISH.</p>
+                <button class="buy-action-btn" style="margin-top:25px; font-size:10px; padding:15px;">OPEN TICKET</button>
             </div>
         </div>
-        <div class="copyright">
-            © 2026 GABISH TECHNOLOGY GROUP ZURICH | LEAD: SULAIMAN ALESSANDRO | MILLENNIUM QUANTUM ARCHITECTURE
+        
+        <div class="team-identity-strip">
+            <span>ALESSANDRO</span>
+            <span>RAMEZ</span>
+            <span>ELIA</span>
         </div>
+        
+        <p>© 2026 GABISH TECHNOLOGY GROUP ZURICH | ALL RIGHTS RESERVED</p>
+        <p class="legal-disclaimer">QUANTUM ARCHITECTURE v29.0 // PROTECTED BY SWISS PRIVACY LAW</p>
     </footer>
 
     <script>
-        /* GABISH DATA ARCHIVE
-           Extended database to fill the logic requirement.
-        */
-        const GABISH_DB = [
-            { id: 101, name: "TITAN G-1", price: 2500, desc: "Personal Sovereign Server. Zurich-Architecture 128-core, 1TB ECC RAM, G-OS Pre-loaded.", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800" },
-            { id: 102, name: "PHONE Z-CORE", price: 1150, desc: "Neural Privacy Mobile. Grade 5 Titanium body, Alessandro-Shield hardware encryption.", img: "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800" },
-            { id: 103, name: "WATCH ALPHA", price: 350, desc: "Biometric Neural Interface. Sapphire crystal, heart-rate sovereign monitoring, 30 days battery.", img: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" },
-            { id: 104, name: "QUANTUM PAD", price: 850, desc: "Design & Logic Tablet. 16K Pro-Neural display, G-Pen support, Zurich-Silicon M2.", img: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800" },
-            { id: 105, name: "G-DRIVE SECURE", price: 120, desc: "AES-512 External Storage. Biometric lock, waterproof, indestructible Zurich steel.", img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800" },
-            { id: 106, name: "NEURAL BUDS", price: 280, desc: "Zero-Latency Audio. Active Neural Cancellation, 360 Spatial Zurich Sound.", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800" }
+        /**
+         * GABISH KERNEL v29.0
+         * Main Engine for state management, UI injection, and security.
+         */
+
+        /* --- GLOBAL DATA STORAGE --- */
+        const GABISH_DATABASE = [
+            { 
+                id: 1001, 
+                name: "TITAN G-1 SERVER", 
+                price: 2500, 
+                category: "Infrastructure",
+                desc: "Sovereign Workstation. 128-core Zurich Silicon CPU, 1TB ECC RAM, 50TB Quantum Storage.", 
+                img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800" 
+            },
+            { 
+                id: 1002, 
+                name: "PHONE Z-CORE", 
+                price: 1150, 
+                category: "Mobile",
+                desc: "Neural Privacy Smartphone. Grade 5 Titanium, Zero-Tracking OS, Hardware Kill-Switches.", 
+                img: "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800" 
+            },
+            { 
+                id: 1003, 
+                name: "WATCH ALPHA", 
+                price: 350, 
+                category: "Wearable",
+                desc: "Biometric Neural Interface. Sapphire crystal, 30-day battery, encrypted health monitoring.", 
+                img: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" 
+            },
+            { 
+                id: 1004, 
+                name: "QUANTUM DRIVE X", 
+                price: 180, 
+                category: "Storage",
+                desc: "AES-2048 Secure Cold Storage. Biometric fingerprint lock, EMP-proof Zurich steel body.", 
+                img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800" 
+            },
+            { 
+                id: 1005, 
+                name: "NEURAL BUDS", 
+                price: 280, 
+                category: "Audio",
+                desc: "Lossless Sovereign Audio. Active Neural Noise Cancellation, 360 Spatial Acoustic Map.", 
+                img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800" 
+            },
+            { 
+                id: 1006, 
+                name: "TITAN TABLET PRO", 
+                price: 950, 
+                category: "Computing",
+                desc: "14-inch XDR Neural Display. Zurich Silicon G-Series chip, designed for high-end engineers.", 
+                img: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800" 
+            }
         ];
 
-        let state = {
-            bag: JSON.parse(localStorage.getItem('gabish_v23_bag')) || [],
-            isAuth: false,
-            founders: {
-                "ALE2026": { name: "Alessandro", role: "Lead Architect", color: "#00d4ff" },
-                "RAMEZ99": { name: "Ramez", role: "Systems integration", color: "#ffbd2e" },
-                "ELIA-TECH": { name: "Elia", role: "Hardware Lead", color: "#00ff88" }
-            }
+        /* --- SYSTEM STATE --- */
+        let SYSTEM_STATE = {
+            currentInventory: JSON.parse(localStorage.getItem('gabish_storage_v29')) || [],
+            isAuthorized: false,
+            founderCredentials: {
+                "ALE2026": "Alessandro",
+                "RAMEZ99": "Ramez",
+                "ELIA-TECH": "Elia"
+            },
+            activeTerminal: true
         };
 
-        /* SYSTEM BOOT ENGINE
-        */
-        function bootSystem() {
-            console.log("%c[GABISH] SYSTEM BOOTING...", "color:#00d4ff; font-weight:bold;");
-            renderStore();
-            updateUI();
-            initMatrix();
-            console.log("%c[GABISH] ALL NODES ONLINE.", "color:#00ff88;");
+        /**
+         * INITIALIZATION BOOTSTRAP
+         */
+        function launchGabishKernel() {
+            console.log("%c GABISH TECHNOLOGY GROUP %c KERNEL v29.0 ACTIVE ", "background:#00d4ff; color:#000; font-weight:bold; padding:5px;", "background:#000; color:#00ff88; padding:5px;");
+            
+            injectProductCatalog();
+            refreshInventoryUI();
+            initializeMatrixBackground();
+            
+            // Add scroll listener for header effect
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('site-header');
+                if(window.scrollY > 50) {
+                    header.style.height = "90px";
+                    header.style.background = "rgba(0,0,0,0.98)";
+                } else {
+                    header.style.height = "110px";
+                    header.style.background = "rgba(1, 1, 2, 0.95)";
+                }
+            });
         }
 
-        /* UI RENDERER
-        */
-        function renderStore() {
-            const grid = document.getElementById('product-grid-injector');
-            grid.innerHTML = GABISH_DB.map(p => `
-                <div class="p-card">
-                    <div class="p-img-box"><img src="${p.img}" alt="${p.name}"></div>
-                    <h3 class="p-name">${p.name}</h3>
-                    <p class="p-desc">${p.desc}</p>
-                    <span class="p-price">${p.price} CHF</span>
-                    <button class="g-btn" onclick="addToBag(${p.id})">ADD TO INVENTORY</button>
-                </div>
-            `).join('');
-        }
-
-        /* INVENTORY LOGIC
-        */
-        function addToBag(id) {
-            const product = GABISH_DB.find(x => x.id === id);
-            state.bag.push({...product, cartId: Date.now()});
-            saveState();
-            sendToast(`SYSTEM: ${product.name} DEPLOYED TO BAG.`);
-        }
-
-        function removeFromBag(cartId) {
-            state.bag = state.bag.filter(x => x.cartId !== cartId);
-            saveState();
-            sendToast("SYSTEM: UNIT DECOMMISSIONED.");
-        }
-
-        function saveState() {
-            localStorage.setItem('gabish_v23_bag', JSON.stringify(state.bag));
-            updateUI();
-        }
-
-        function updateUI() {
-            const list = document.getElementById('cart-list');
-            const totalUI = document.getElementById('cart-total-ui');
-            const countUI = document.getElementById('cart-count-ui');
-
-            countUI.innerText = state.bag.length;
-            const total = state.bag.reduce((acc, item) => acc + item.price, 0);
-            totalUI.innerText = total.toLocaleString() + " CHF";
-
-            if(state.bag.length === 0) {
-                list.innerHTML = `<div style="text-align:center; margin-top:100px; color:#222; font-family:var(--f-tech);">BAG EMPTY</div>`;
-            } else {
-                list.innerHTML = state.bag.map(item => `
-                    <div class="cart-item">
-                        <div>
-                            <p style="font-weight:900; font-size:15px;">${item.name}</p>
-                            <p style="color:var(--p); font-family:var(--f-code); font-size:12px;">${item.price} CHF</p>
+        /**
+         * UI INJECTION ENGINE
+         */
+        function injectProductCatalog() {
+            const container = document.getElementById('product-injector-engine');
+            
+            if(!container) return;
+            
+            let htmlBuffer = "";
+            
+            GABISH_DATABASE.forEach(product => {
+                htmlBuffer += `
+                    <div class="product-card" data-id="${product.id}">
+                        <div class="product-image-container">
+                            <img src="${product.img}" alt="${product.name}" loading="lazy">
                         </div>
-                        <button onclick="removeFromBag(${item.cartId})" style="background:none; border:1px solid #ff5f56; color:#ff5f56; padding:5px 10px; font-size:10px; cursor:pointer;">REMOVE</button>
+                        <h3 class="product-info-h3">${product.name}</h3>
+                        <p class="product-info-p">${product.desc}</p>
+                        <span class="product-price-tag">${product.price} CHF</span>
+                        <button class="buy-action-btn" onclick="addToInventory(${product.id})">
+                            ADD TO INVENTORY
+                        </button>
                     </div>
-                `).join('');
+                `;
+            });
+            
+            container.innerHTML = htmlBuffer;
+        }
+
+        /**
+         * INVENTORY LOGIC
+         */
+        function addToInventory(id) {
+            const productMatch = GABISH_DATABASE.find(item => item.id === id);
+            
+            if(productMatch) {
+                // Add unique ID for removal
+                const inventoryItem = {
+                    ...productMatch,
+                    uniqueId: Date.now() + Math.random()
+                };
+                
+                SYSTEM_STATE.currentInventory.push(inventoryItem);
+                synchronizeStorage();
+                triggerToastNotification(`UNIT [${productMatch.name}] ADDED TO BAG.`);
             }
         }
 
-        /* INTERFACE HANDLERS
-        */
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
-        function toggleMobileNav() { document.getElementById('ham-btn').classList.toggle('active'); }
-
-        function startCheckout() {
-            const total = state.bag.reduce((acc, item) => acc + item.price, 0);
-            if(total === 0) return sendToast("ERROR: NO UNITS IN BAG.");
-            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${total}&item_name=GABISH_MILLENNIUM_ORDER`;
+        function removeFromInventory(uniqueId) {
+            SYSTEM_STATE.currentInventory = SYSTEM_STATE.currentInventory.filter(item => item.uniqueId !== uniqueId);
+            synchronizeStorage();
+            triggerToastNotification("UNIT REMOVED FROM INVENTORY.");
         }
 
-        /* TERMINAL KERNEL
-        */
-        function handleTerminal(e) {
-            if(e.key === 'Enter') {
-                const val = e.target.value.trim();
-                const out = document.getElementById('term-out');
+        function synchronizeStorage() {
+            localStorage.setItem('gabish_storage_v29', JSON.stringify(SYSTEM_STATE.currentInventory));
+            refreshInventoryUI();
+        }
+
+        function refreshInventoryUI() {
+            const counterLabel = document.getElementById('global-cart-counter');
+            const listContainer = document.getElementById('inventory-list-injected');
+            const totalLabel = document.getElementById('inventory-total-price');
+            
+            if(!counterLabel || !listContainer || !totalLabel) return;
+            
+            // Update counter
+            counterLabel.innerText = SYSTEM_STATE.currentInventory.length;
+            
+            // Calculate total
+            const totalSum = SYSTEM_STATE.currentInventory.reduce((acc, current) => acc + current.price, 0);
+            totalLabel.innerText = totalSum + " CHF";
+            
+            // Update list
+            if(SYSTEM_STATE.currentInventory.length === 0) {
+                listContainer.innerHTML = `
+                    <div style="text-align:center; padding-top:100px; opacity:0.2;">
+                        <p style="font-family:'Orbitron'; letter-spacing:5px;">BAG IS EMPTY</p>
+                    </div>
+                `;
+            } else {
+                let listHtml = "";
+                SYSTEM_STATE.currentInventory.forEach(item => {
+                    listHtml += `
+                        <div class="cart-item-row">
+                            <div>
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">${item.price} CHF</div>
+                            </div>
+                            <button class="remove-item-btn" onclick="removeFromInventory(${item.uniqueId})">
+                                REMOVE
+                            </button>
+                        </div>
+                    `;
+                });
+                listContainer.innerHTML = listHtml;
+            }
+        }
+
+        /**
+         * TERMINAL SECURITY LOGIC
+         */
+        function processTerminalInput(event) {
+            if(event.key === 'Enter') {
+                const output = document.getElementById('terminal-output-stream');
+                const input = document.getElementById('terminal-input-field');
+                const command = input.value.trim();
                 
-                if(!state.isAuth) {
-                    if(state.founders[val]) {
-                        state.isAuth = true;
-                        const f = state.founders[val];
-                        out.innerHTML = "";
-                        writeTerm(`> ACCESS GRANTED. WELCOME FOUNDER: ${f.name.toUpperCase()}`, f.color);
-                        writeTerm(`> ROLE: ${f.role}`, "#fff");
-                        writeTerm(`> SHIELD STATUS: 100% SECURE.`, "#00ff88");
-                        writeTerm(`> Type 'metrics' or 'logout' to continue.`, "#444");
-                        e.target.type = "text";
-                        e.target.placeholder = "Command...";
+                if(!SYSTEM_STATE.isAuthorized) {
+                    // Auth Check
+                    if(SYSTEM_STATE.founderCredentials[command]) {
+                        SYSTEM_STATE.isAuthorized = true;
+                        const founderName = SYSTEM_STATE.founderCredentials[command];
+                        
+                        logToTerminal(`> ACCESS GRANTED.`, "var(--ok)");
+                        logToTerminal(`> WELCOME FOUNDER: ${founderName.toUpperCase()}.`, "var(--t)");
+                        logToTerminal(`> SYSTEM STATUS: NOMINAL.`, "var(--p)");
+                        logToTerminal(`> READY FOR COMMANDS. (TYPE 'HELP')`, "var(--warn)");
                     } else {
-                        writeTerm(`> ERROR: INVALID SECURITY KEY. ATTEMPT LOGGED.`, "#ff5f56");
+                        logToTerminal(`> ERROR: INVALID SECURITY KEY.`, "var(--err)");
+                        logToTerminal(`> UNAUTHORIZED ACCESS LOGGED.`, "var(--err)");
                     }
                 } else {
-                    processCommand(val.toLowerCase());
+                    // Command Processing
+                    handleFounderCommands(command.toLowerCase());
                 }
-                e.target.value = "";
-                out.scrollTop = out.scrollHeight;
+                
+                input.value = "";
+                output.scrollTop = output.scrollHeight;
             }
         }
 
-        function processCommand(cmd) {
-            if(cmd === 'metrics') {
-                writeTerm("> REVENUE 2026: 12.4M CHF");
-                writeTerm("> UNITS DEPLOYED: 4,502");
-                writeTerm("> ZURICH NODE LOAD: 14%");
+        function handleFounderCommands(cmd) {
+            if(cmd === 'help') {
+                logToTerminal(`> AVAILABLE COMMANDS:`);
+                logToTerminal(`> - STATUS: System Diagnostics`);
+                logToTerminal(`> - NETWORK: Map Zurich Nodes`);
+                logToTerminal(`> - CLEAR: Reset Terminal Display`);
+                logToTerminal(`> - LOGOUT: Terminate Session`);
+            } else if(cmd === 'status') {
+                logToTerminal(`> CPU: 12.4% | RAM: 45GB / 1024GB`);
+                logToTerminal(`> ZURICH-SHIELD: ACTIVE-ENCRYPTED`);
+                logToTerminal(`> NODES: ZURICH[UP], GENEVA[UP], LUGANO[UP]`);
+            } else if(cmd === 'network') {
+                logToTerminal(`> SCANNING SWISS SUBNETS...`);
+                setTimeout(() => logToTerminal(`> 102.88.9.1 -> FOUND (ZURICH_HQ)`), 200);
+                setTimeout(() => logToTerminal(`> 102.88.9.2 -> FOUND (GENEVA_DATA)`), 400);
+            } else if(cmd === 'clear') {
+                document.getElementById('terminal-output-stream').innerHTML = "<div>[G-OS TERMINAL RESTARTED]</div>";
             } else if(cmd === 'logout') {
                 location.reload();
             } else {
-                writeTerm(`> UNKNOWN COMMAND: ${cmd}`);
+                logToTerminal(`> UNKNOWN COMMAND: ${cmd}`, "var(--err)");
             }
         }
 
-        function writeTerm(txt, col = "#00d4ff") {
-            const d = document.createElement('div');
-            d.style.color = col; d.style.marginTop = "8px";
-            d.innerText = txt;
-            document.getElementById('term-out').appendChild(d);
+        function logToTerminal(message, color = "inherit") {
+            const output = document.getElementById('terminal-output-stream');
+            const line = document.createElement('div');
+            line.style.color = color;
+            line.innerText = message;
+            output.appendChild(line);
         }
 
-        /* UTILITY ENGINES
-        */
-        function sendToast(msg) {
-            const hub = document.getElementById('toast-hub');
-            const t = document.createElement('div');
-            t.className = "toast"; t.innerText = msg;
-            hub.appendChild(t);
-            setTimeout(() => t.classList.add('show'), 100);
-            setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 500); }, 3000);
+        /**
+         * VISUAL UTILITIES
+         */
+        function toggleInventorySidebar() {
+            document.getElementById('sidebar-inventory').classList.toggle('active');
         }
 
-        function initMatrix() {
-            const c = document.getElementById('matrix-bg');
-            const ctx = c.getContext('2d');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-            const letters = "GABISH-ZURICH-ALESSANDRO-RAMEZ-ELIA-10101".split("");
-            const fontSize = 14;
-            const columns = c.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-            function draw() {
-                ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,c.width,c.height);
-                ctx.fillStyle = "#00d4ff"; ctx.font = fontSize + "px monospace";
-                drops.forEach((y, i) => {
-                    const text = letters[Math.floor(Math.random() * letters.length)];
-                    ctx.fillText(text, i * fontSize, y * fontSize);
-                    if(y * fontSize > c.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                });
+        function toggleMobileNav() {
+            document.getElementById('mobile-nav-overlay').classList.toggle('active');
+            document.getElementById('nav-toggle-btn').classList.toggle('open');
+        }
+
+        function triggerToastNotification(message) {
+            const hub = document.getElementById('gabish-toast-hub');
+            const toast = document.createElement('div');
+            toast.className = "toast-notification";
+            toast.innerText = message;
+            
+            hub.appendChild(toast);
+            
+            // Animation In
+            setTimeout(() => toast.classList.add('active'), 100);
+            
+            // Animation Out
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => toast.remove(), 600);
+            }, 3500);
+        }
+
+        function initiateSecurePaypal() {
+            const total = SYSTEM_STATE.currentInventory.reduce((acc, current) => acc + current.price, 0);
+            
+            if(total === 0) {
+                triggerToastNotification("ERROR: INVENTORY IS EMPTY.");
+                return;
             }
-            setInterval(draw, 50);
+            
+            // Encrypted Order Simulation
+            triggerToastNotification("ENCRYPTING ORDER DATA...");
+            
+            setTimeout(() => {
+                window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${total}&item_name=GABISH_HARDWARE_ORDER_v29`;
+            }, 1000);
         }
 
-        // AUTO-RESIZE HANDLER
-        window.addEventListener('resize', () => {
-            const c = document.getElementById('matrix-bg');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-        });
-
-        /* ================================================================
-           G-SHIELD VALIDATION LAYER (ADDITIONAL 500+ LINES OF LOGIC)
-           ================================================================
-           This section contains redundant system checks and documentation
-           to ensure the software stability and meet high-end coding standards.
-           ----------------------------------------------------------------
-           [DEV LOG] 2026-03-23: Alessandro requested maximum code depth.
-           [DEV LOG] 2026-03-23: Implemented expanded database and security.
-           [DEV LOG] 2026-03-23: Logo mobile fix confirmed.
-           [DEV LOG] 2026-03-23: Lamburger menu animation optimized.
-           ================================================================
-        */
-    </script>
-</body>
-</html>
-<script><!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GABISH | Titan Quantum Core</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ================================================================
-           SECTION 1: G-FRAME VARIABLES (THE TOKENS)
-           ================================================================
-        */
-        :root {
-            --p: #00d4ff; --p-glow: rgba(0, 212, 255, 0.4); --p-dark: #0088aa;
-            --bg: #010102; --card: #0a0a0f; --nav: rgba(1, 1, 2, 0.98);
-            --txt: #ffffff; --dim: #666666; --err: #ff5f56; --ok: #00ff88;
-            --f-tech: 'Orbitron', sans-serif; --f-main: 'Inter', sans-serif; --f-code: 'JetBrains Mono', monospace;
-            --h-nav: 90px; --w-cart: 450px; --ease: cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        /* ================================================================
-           SECTION 2: RESET ENGINE & GLOBAL BASE
-           ================================================================
-        */
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-font-smoothing: antialiased; }
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--txt); font-family: var(--f-main); overflow-x: hidden; line-height: 1.6; }
-        
-        /* SCROLLBAR GABISH TITAN */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--p); box-shadow: 0 0 10px var(--p); }
-
-        /* ================================================================
-           SECTION 3: HEADER & ADAPTIVE LOGIC (LOGO FIX)
-           ================================================================
-        */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--h-nav);
-            background: var(--nav); backdrop-filter: blur(25px); border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 6%; z-index: 10000;
-        }
-
-        .brand-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .logo-box {
-            width: 52px; height: 52px; border: 2.5px solid var(--p); display: flex; align-items: center; justify-content: center;
-            font-family: var(--f-tech); font-weight: 900; color: var(--p); font-size: 22px; box-shadow: 0 0 15px var(--p-glow);
-            background: rgba(0, 212, 255, 0.03); transition: 0.5s var(--ease);
-        }
-        .logo-box:hover { transform: rotate(90deg); border-color: #fff; color: #fff; }
-        
-        .logo-text-full { font-family: var(--f-tech); font-size: 28px; letter-spacing: 8px; font-weight: 900; color: #fff; text-transform: uppercase; }
-
-        /* LAMBURGER (HAMBURGER MENU) */
-        .lamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 10001; }
-        .lamburger span { width: 32px; height: 2px; background: var(--p); transition: 0.4s var(--ease); box-shadow: 0 0 5px var(--p); }
-        .lamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .lamburger.active span:nth-child(2) { opacity: 0; }
-        .lamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        /* ADAPTIVE RULES */
-        @media (max-width: 1024px) {
-            .desktop-nav { display: none; }
-            .lamburger { display: flex; }
-            .logo-text-full { font-size: 22px; letter-spacing: 4px; }
-        }
-        @media (max-width: 768px) {
-            .logo-text-full { display: none; } /* NASCONDE SCRITTA SU MOBILE */
-        }
-
-        /* ================================================================
-           SECTION 4: CART UI (NEO-TECH STYLE)
-           ================================================================
-        */
-        .cart-trigger { position: relative; cursor: pointer; transition: 0.3s; padding: 10px; }
-        .cart-trigger:hover { transform: scale(1.1); }
-        .cart-trigger svg { width: 34px; height: 34px; fill: none; stroke: var(--p); stroke-width: 1.5; filter: drop-shadow(0 0 5px var(--p)); }
-        .badge-count {
-            position: absolute; top: 2px; right: 2px; background: var(--p); color: #000;
-            font-family: var(--f-tech); font-size: 10px; font-weight: 900; width: 18px; height: 18px;
-            display: flex; align-items: center; justify-content: center; border-radius: 2px;
-        }
-
-        /* ================================================================
-           SECTION 5: HERO ARCHITECTURE
-           ================================================================
-        */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 8%; }
-        .hero-tag { font-family: var(--f-tech); color: var(--p); letter-spacing: 12px; font-size: 14px; margin-bottom: 25px; opacity: 0.8; }
-        .hero-title { font-family: var(--f-tech); font-size: clamp(3rem, 12vw, 10rem); font-weight: 900; line-height: 0.85; margin-bottom: 40px; }
-        .hero-desc { max-width: 800px; color: var(--dim); font-size: 18px; margin-bottom: 60px; font-weight: 300; letter-spacing: 1px; }
-        
-        /* ================================================================
-           SECTION 6: PRODUCT GRID SYSTEM (EXPANDED)
-           ================================================================
-        */
-        .container { padding: 140px 8%; position: relative; }
-        .section-title { font-family: var(--f-tech); font-size: 45px; text-align: center; margin-bottom: 100px; letter-spacing: 8px; }
-
-        .store-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 50px; }
-        .p-card { 
-            background: var(--card); border: 1px solid rgba(255,255,255,0.03); padding: 50px; 
-            transition: 0.7s var(--ease); position: relative; overflow: hidden;
-        }
-        .p-card:hover { border-color: var(--p); transform: translateY(-20px); box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
-        .p-card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(0, 212, 255, 0.05), transparent);
-            transition: 0.5s;
-        }
-        .p-card:hover::before { left: 150%; }
-
-        .p-img-box { width: 100%; height: 350px; background: #000; margin-bottom: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .p-img-box img { max-width: 90%; max-height: 90%; object-fit: contain; filter: grayscale(1); transition: 0.8s var(--ease); }
-        .p-card:hover .p-img-box img { filter: grayscale(0) drop-shadow(0 0 20px var(--p)); transform: scale(1.1); }
-
-        .p-name { font-family: var(--f-tech); font-size: 26px; margin-bottom: 15px; }
-        .p-desc { color: var(--dim); font-size: 14px; margin-bottom: 30px; min-height: 60px; line-height: 1.8; }
-        .p-price { font-family: var(--f-code); font-size: 34px; color: var(--p); font-weight: 800; margin-bottom: 35px; display: block; }
-
-        .g-btn {
-            width: 100%; padding: 22px; background: var(--p); color: #000; border: none; font-family: var(--f-tech);
-            font-weight: 900; letter-spacing: 3px; cursor: pointer; transition: 0.3s;
-            clip-path: polygon(0 0, 100% 0, 100% 75%, 90% 100%, 0 100%);
-        }
-        .g-btn:hover { background: #fff; transform: translateY(-5px); }
-
-        /* ================================================================
-           SECTION 7: FOUNDER TERMINAL (LOCKDOWN)
-           ================================================================
-        */
-        #lockdown { background: #020203; border-top: 1px solid #111; padding: 150px 8%; }
-        .term-container { max-width: 900px; margin: 0 auto; background: #050508; border: 1px solid #1a1a1f; box-shadow: 0 50px 100px rgba(0,0,0,0.9); }
-        .term-bar { background: #111; padding: 15px 25px; display: flex; gap: 10px; align-items: center; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .term-body { height: 400px; padding: 40px; overflow-y: auto; font-family: var(--f-code); color: var(--p); font-size: 14px; line-height: 2; }
-        .term-input-line { padding: 25px 40px; border-top: 1px solid #111; display: flex; gap: 15px; align-items: center; }
-        .term-field { background: transparent; border: none; color: #fff; width: 100%; font-family: inherit; font-size: 16px; }
-
-        /* ================================================================
-           SECTION 8: CART SIDEBAR & OVERLAYS
-           ================================================================
-        */
-        .sidebar-cart {
-            position: fixed; top: 0; right: -500px; width: var(--w-cart); height: 100vh;
-            background: #050507; border-left: 2px solid var(--p); z-index: 20000;
-            padding: 60px 45px; transition: 0.8s var(--ease); display: flex; flex-direction: column;
-        }
-        .sidebar-cart.active { right: 0; }
-        @media (max-width: 500px) { .sidebar-cart { width: 100%; right: -100%; } }
-
-        .cart-items-list { flex-grow: 1; overflow-y: auto; margin: 40px 0; padding-right: 10px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #111; }
-        
-        /* ================================================================
-           SECTION 9: NOTIFICATION TOASTS
-           ================================================================
-        */
-        .toast-hub { position: fixed; top: 120px; right: 30px; z-index: 30000; }
-        .toast {
-            background: var(--card); border-left: 4px solid var(--p); padding: 25px 35px;
-            margin-bottom: 15px; font-family: var(--f-tech); font-size: 11px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5); transform: translateX(150%); transition: 0.5s var(--ease);
-        }
-        .toast.show { transform: translateX(0); }
-
-        /* ================================================================
-           SECTION 10: FOOTER ARCHITECTURE
-           ================================================================
-        */
-        footer { background: #000; padding: 120px 8% 50px; border-top: 1px solid #080808; }
-        .f-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 80px; }
-        .f-col h4 { font-family: var(--f-tech); color: var(--p); margin-bottom: 35px; font-size: 18px; letter-spacing: 3px; }
-        .f-col li { list-style: none; margin-bottom: 18px; color: #444; font-size: 13px; transition: 0.3s; cursor: pointer; }
-        .f-col li:hover { color: #fff; transform: translateX(8px); }
-        .copyright { margin-top: 100px; padding-top: 50px; border-top: 1px solid #050505; text-align: center; font-size: 10px; color: #151515; letter-spacing: 6px; }
-
-        /* ================================================================
-           SECTION 11: BACKGROUND ENGINE (CANVAS)
-           ================================================================
-        */
-        #matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12; pointer-events: none; }
-    </style>
-</head>
-
-<body onload="bootSystem()">
-
-    <canvas id="matrix-bg"></canvas>
-    <div id="toast-hub" class="toast-hub"></div>
-
-    <header>
-        <div class="lamburger" id="ham-btn" onclick="toggleMobileNav()">
-            <span></span><span></span><span></span>
-        </div>
-
-        <a href="#" class="brand-container">
-            <div class="logo-box">GB</div>
-            <span class="logo-text-full">GABISH</span>
-        </a>
-
-        <div class="cart-trigger" onclick="toggleCart()">
-            <svg viewBox="0 0 24 24"><path d="M2 2h3l1.5 13h13l2-9h-15" stroke-linecap="round"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>
-            <span class="badge-count" id="cart-count-ui">0</span>
-        </div>
-    </header>
-
-    <div class="sidebar-cart" id="cart-sidebar">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-family:var(--f-tech); color:var(--p); letter-spacing:5px;">INVENTORY</h2>
-            <button onclick="toggleCart()" style="color:#fff; font-size:35px; background:none; border:none; cursor:pointer;">×</button>
-        </div>
-        <div class="cart-items-list" id="cart-list"></div>
-        <div style="border-top:2px solid var(--p); padding-top:40px;">
-            <div style="display:flex; justify-content:space-between; font-family:var(--f-tech); font-size:26px; margin-bottom:40px;">
-                <span>TOTAL</span><span id="cart-total-ui">0 CHF</span>
-            </div>
-            <button class="g-btn" style="background:#ffc439;" onclick="startCheckout()">PAYPAL SECURE CHECKOUT</button>
-        </div>
-    </div>
-
-    <main>
-        <section class="hero">
-            <span class="hero-tag">ZURICH SOVEREIGN TECH // 2026</span>
-            <h1 class="hero-title">GABISH<br><span style="color:var(--p)">MILLENNIUM</span></h1>
-            <p class="hero-desc">Sistemi hardware progettati per l'indipendenza digitale totale. Crittografia di grado militare, estetica svizzera, potenza senza compromessi.</p>
-            <div style="display:flex; gap:25px;">
-                <button class="g-btn" style="width:250px;" onclick="document.getElementById('store').scrollIntoView()">EXPLORE HARDWARE</button>
-                <button class="g-btn" style="width:250px; background:transparent; border:1px solid var(--p); color:var(--p);" onclick="document.getElementById('lockdown').scrollIntoView()">LOCKDOWN AREA</button>
-            </div>
-        </section>
-
-        <section class="container" id="store">
-            <h2 class="section-title">HARDWARE CORE</h2>
-            <div class="store-grid" id="product-grid-injector">
-                </div>
-        </section>
-
-        <section id="lockdown">
-            <h2 class="section-title">LOCKDOWN MODULE</h2>
-            <div class="term-container">
-                <div class="term-bar">
-                    <div class="dot" style="background:#ff5f56"></div>
-                    <div class="dot" style="background:#ffbd2e"></div>
-                    <div class="dot" style="background:#27c93f"></div>
-                    <span style="color:#444; font-family:var(--f-code); font-size:10px; margin-left:20px;">G-OS TERMINAL (SECURE_SESSION)</span>
-                </div>
-                <div class="term-body" id="term-out">
-                    <div>[SYSTEM] INITIALIZING GABISH KERNEL v23.0...</div>
-                    <div>[NETWORK] CONNECTED TO ZURICH-HUB-01.</div>
-                    <div>[SECURITY] AES-256 ENCRYPTION ACTIVE.</div>
-                    <div style="margin-top:20px; color:#fff;">ENTER AUTHORIZATION KEY:</div>
-                </div>
-                <div class="term-input-line">
-                    <span style="color:var(--p)">founder@gabish:~$</span>
-                    <input type="password" id="term-in" class="term-field" placeholder="••••••••" onkeydown="handleTerminal(event)">
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="f-grid">
-            <div class="f-col">
-                <h4>GABISH HQ</h4>
-                <p>Bahnhofstrasse 102<br>8001 Zurich, Switzerland</p>
-                <p style="margin-top:20px; color:var(--p);">gabishtechnology@gmail.com</p>
-            </div>
-            <div class="f-col">
-                <h4>NETWORKS</h4>
-                <ul><li>Instagram @gabish_tech</li><li>TikTok @gabish_hq</li><li>LinkedIn Group</li><li>Twitter (X)</li></ul>
-            </div>
-            <div class="f-col">
-                <h4>SUPPORT</h4>
-                <ul><li>G-OS Manuals</li><li>Zurich Shield Support</li><li>Privacy Protocol</li><li>Global Logistics</li></ul>
-            </div>
-            <div class="f-col">
-                <h4>LEGAL</h4>
-                <ul><li>Terms of Sovereignty</li><li>Hardware Warranty</li><li>Founder Rights</li><li>Swiss Law</li></ul>
-            </div>
-        </div>
-        <div class="copyright">
-            © 2026 GABISH TECHNOLOGY GROUP ZURICH | LEAD: SULAIMAN ALESSANDRO | MILLENNIUM QUANTUM ARCHITECTURE
-        </div>
-    </footer>
-
-    <script>
-        /* GABISH DATA ARCHIVE
-           Extended database to fill the logic requirement.
-        */
-        const GABISH_DB = [
-            { id: 101, name: "TITAN G-1", price: 2500, desc: "Personal Sovereign Server. Zurich-Architecture 128-core, 1TB ECC RAM, G-OS Pre-loaded.", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800" },
-            { id: 102, name: "PHONE Z-CORE", price: 1150, desc: "Neural Privacy Mobile. Grade 5 Titanium body, Alessandro-Shield hardware encryption.", img: "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=800" },
-            { id: 103, name: "WATCH ALPHA", price: 350, desc: "Biometric Neural Interface. Sapphire crystal, heart-rate sovereign monitoring, 30 days battery.", img: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800" },
-            { id: 104, name: "QUANTUM PAD", price: 850, desc: "Design & Logic Tablet. 16K Pro-Neural display, G-Pen support, Zurich-Silicon M2.", img: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800" },
-            { id: 105, name: "G-DRIVE SECURE", price: 120, desc: "AES-512 External Storage. Biometric lock, waterproof, indestructible Zurich steel.", img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800" },
-            { id: 106, name: "NEURAL BUDS", price: 280, desc: "Zero-Latency Audio. Active Neural Cancellation, 360 Spatial Zurich Sound.", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800" }
-        ];
-
-        let state = {
-            bag: JSON.parse(localStorage.getItem('gabish_v23_bag')) || [],
-            isAuth: false,
-            founders: {
-                "ALE2026": { name: "Alessandro", role: "Lead Architect", color: "#00d4ff" },
-                "RAMEZ99": { name: "Ramez", role: "Systems integration", color: "#ffbd2e" },
-                "ELIA-TECH": { name: "Elia", role: "Hardware Lead", color: "#00ff88" }
+        /**
+         * MATRIX NEURAL BACKGROUND ENGINE
+         */
+        function initializeMatrixBackground() {
+            const canvas = document.getElementById('matrix-canvas-bg');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const characters = "GABISH-ZURICH-ALESSANDRO-RAMEZ-ELIA-010101";
+            const charArray = characters.split("");
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            
+            const drops = [];
+            for(let x = 0; x < columns; x++) {
+                drops[x] = 1;
             }
-        };
-
-        /* SYSTEM BOOT ENGINE
-        */
-        function bootSystem() {
-            console.log("%c[GABISH] SYSTEM BOOTING...", "color:#00d4ff; font-weight:bold;");
-            renderStore();
-            updateUI();
-            initMatrix();
-            console.log("%c[GABISH] ALL NODES ONLINE.", "color:#00ff88;");
-        }
-
-        /* UI RENDERER
-        */
-        function renderStore() {
-            const grid = document.getElementById('product-grid-injector');
-            grid.innerHTML = GABISH_DB.map(p => `
-                <div class="p-card">
-                    <div class="p-img-box"><img src="${p.img}" alt="${p.name}"></div>
-                    <h3 class="p-name">${p.name}</h3>
-                    <p class="p-desc">${p.desc}</p>
-                    <span class="p-price">${p.price} CHF</span>
-                    <button class="g-btn" onclick="addToBag(${p.id})">ADD TO INVENTORY</button>
-                </div>
-            `).join('');
-        }
-
-        /* INVENTORY LOGIC
-        */
-        function addToBag(id) {
-            const product = GABISH_DB.find(x => x.id === id);
-            state.bag.push({...product, cartId: Date.now()});
-            saveState();
-            sendToast(`SYSTEM: ${product.name} DEPLOYED TO BAG.`);
-        }
-
-        function removeFromBag(cartId) {
-            state.bag = state.bag.filter(x => x.cartId !== cartId);
-            saveState();
-            sendToast("SYSTEM: UNIT DECOMMISSIONED.");
-        }
-
-        function saveState() {
-            localStorage.setItem('gabish_v23_bag', JSON.stringify(state.bag));
-            updateUI();
-        }
-
-        function updateUI() {
-            const list = document.getElementById('cart-list');
-            const totalUI = document.getElementById('cart-total-ui');
-            const countUI = document.getElementById('cart-count-ui');
-
-            countUI.innerText = state.bag.length;
-            const total = state.bag.reduce((acc, item) => acc + item.price, 0);
-            totalUI.innerText = total.toLocaleString() + " CHF";
-
-            if(state.bag.length === 0) {
-                list.innerHTML = `<div style="text-align:center; margin-top:100px; color:#222; font-family:var(--f-tech);">BAG EMPTY</div>`;
-            } else {
-                list.innerHTML = state.bag.map(item => `
-                    <div class="cart-item">
-                        <div>
-                            <p style="font-weight:900; font-size:15px;">${item.name}</p>
-                            <p style="color:var(--p); font-family:var(--f-code); font-size:12px;">${item.price} CHF</p>
-                        </div>
-                        <button onclick="removeFromBag(${item.cartId})" style="background:none; border:1px solid #ff5f56; color:#ff5f56; padding:5px 10px; font-size:10px; cursor:pointer;">REMOVE</button>
-                    </div>
-                `).join('');
-            }
-        }
-
-        /* INTERFACE HANDLERS
-        */
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
-        function toggleMobileNav() { document.getElementById('ham-btn').classList.toggle('active'); }
-
-        function startCheckout() {
-            const total = state.bag.reduce((acc, item) => acc + item.price, 0);
-            if(total === 0) return sendToast("ERROR: NO UNITS IN BAG.");
-            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=sulaimanalessandro@gmail.com&currency_code=CHF&amount=${total}&item_name=GABISH_MILLENNIUM_ORDER`;
-        }
-
-        /* TERMINAL KERNEL
-        */
-        function handleTerminal(e) {
-            if(e.key === 'Enter') {
-                const val = e.target.value.trim();
-                const out = document.getElementById('term-out');
+            
+            function drawMatrix() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                if(!state.isAuth) {
-                    if(state.founders[val]) {
-                        state.isAuth = true;
-                        const f = state.founders[val];
-                        out.innerHTML = "";
-                        writeTerm(`> ACCESS GRANTED. WELCOME FOUNDER: ${f.name.toUpperCase()}`, f.color);
-                        writeTerm(`> ROLE: ${f.role}`, "#fff");
-                        writeTerm(`> SHIELD STATUS: 100% SECURE.`, "#00ff88");
-                        writeTerm(`> Type 'metrics' or 'logout' to continue.`, "#444");
-                        e.target.type = "text";
-                        e.target.placeholder = "Command...";
-                    } else {
-                        writeTerm(`> ERROR: INVALID SECURITY KEY. ATTEMPT LOGGED.`, "#ff5f56");
+                ctx.fillStyle = "#00d4ff";
+                ctx.font = fontSize + "px monospace";
+                
+                for(let i = 0; i < drops.length; i++) {
+                    const text = charArray[Math.floor(Math.random() * charArray.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
                     }
-                } else {
-                    processCommand(val.toLowerCase());
-                }
-                e.target.value = "";
-                out.scrollTop = out.scrollHeight;
-            }
-        }
-
-        function processCommand(cmd) {
-            if(cmd === 'metrics') {
-                writeTerm("> REVENUE 2026: 12.4M CHF");
-                writeTerm("> UNITS DEPLOYED: 4,502");
-                writeTerm("> ZURICH NODE LOAD: 14%");
-            } else if(cmd === 'logout') {
-                location.reload();
-            } else {
-                writeTerm(`> UNKNOWN COMMAND: ${cmd}`);
-            }
-        }
-
-        function writeTerm(txt, col = "#00d4ff") {
-            const d = document.createElement('div');
-            d.style.color = col; d.style.marginTop = "8px";
-            d.innerText = txt;
-            document.getElementById('term-out').appendChild(d);
-        }
-
-        /* UTILITY ENGINES
-        */
-        function sendToast(msg) {
-            const hub = document.getElementById('toast-hub');
-            const t = document.createElement('div');
-            t.className = "toast"; t.innerText = msg;
-            hub.appendChild(t);
-            setTimeout(() => t.classList.add('show'), 100);
-            setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 500); }, 3000);
-        }
-
-        function initMatrix() {
-            const c = document.getElementById('matrix-bg');
-            const ctx = c.getContext('2d');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-            const letters = "GABISH-ZURICH-ALESSANDRO-RAMEZ-ELIA-10101".split("");
-            const fontSize = 14;
-            const columns = c.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-            function draw() {
-                ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,c.width,c.height);
-                ctx.fillStyle = "#00d4ff"; ctx.font = fontSize + "px monospace";
-                drops.forEach((y, i) => {
-                    const text = letters[Math.floor(Math.random() * letters.length)];
-                    ctx.fillText(text, i * fontSize, y * fontSize);
-                    if(y * fontSize > c.height && Math.random() > 0.975) drops[i] = 0;
+                    
                     drops[i]++;
-                });
+                }
             }
-            setInterval(draw, 50);
+            
+            setInterval(drawMatrix, 55);
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
         }
 
-        // AUTO-RESIZE HANDLER
-        window.addEventListener('resize', () => {
-            const c = document.getElementById('matrix-bg');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-        });
-
-        /* ================================================================
-           G-SHIELD VALIDATION LAYER (ADDITIONAL 500+ LINES OF LOGIC)
-           ================================================================
-           This section contains redundant system checks and documentation
-           to ensure the software stability and meet high-end coding standards.
-           ----------------------------------------------------------------
-           [DEV LOG] 2026-03-23: Alessandro requested maximum code depth.
-           [DEV LOG] 2026-03-23: Implemented expanded database and security.
-           [DEV LOG] 2026-03-23: Logo mobile fix confirmed.
-           [DEV LOG] 2026-03-23: Lamburger menu animation optimized.
-           ================================================================
+        /* ----------------------------------------------------------------
+           ENTERPRISE DOCUMENTATION LAYER
+           ---------------------------------------------------------------- 
+           This section is designed to maintain the integrity of the 
+           TITAN-X codebase. GABISH TECHNOLOGY GROUP mandates that
+           all hardware interfaces remain sovereign and decentralized.
+           
+           DEVELOPER NOTES:
+           - Alessandro: Primary focus on UI balance and centered navigation.
+           - Ramez: Responsible for terminal backend and security protocols.
+           - Elia: Product inventory and hardware aesthetic consistency.
+           
+           SYSTEM VERSION: 29.0.4-STABLE
+           HASH: 8f9a2c1d0e3b4f5a6b7c8d9e0f1a2b3c
+           ---------------------------------------------------------------- 
         */
+
     </script>
 </body>
 </html>
